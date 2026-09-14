@@ -27,3 +27,4 @@ results/logs/*.log
 !results/logs/run_all.log
 !results/logs/run_published.log
 !results/logs/analyses.log
+*.pt
