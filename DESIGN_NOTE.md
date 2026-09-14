@@ -88,7 +88,15 @@ Every step keeps: env/benchmark/task/scenario/episode/run ids; split; versions (
 Collection on a subset of AppWorld `train` tasks (whole scenarios, all variants); the offline metric is measured on *held-out scenarios* within that set; the baseline-vs-reranked comparison runs on `dev` tasks never used for training or any prompt/hyper-parameter decision; `test_*` is never touched. Train and dev share no scenario ids (verified: 30 vs 19 scenarios, overlap 0).
 
 ### 2.5 Results
-PART2_PLACEHOLDER
+**Offline loop (mock environment, `make demo-part2`, no API key):** 48 collected episodes → 143 examples (validation rate 1.00, 18 % invalid actions) → group-held-out AUROC 1.00 for validity, 0.96 for success → on held-out dev tasks over 3 runs:
+
+| policy | task-goal completion | scenario-goal completion | invalid-action rate | steps / episode |
+|---|---|---|---|---|
+| baseline (1 sample) | 0.72 | 0.17 | 0.233 | 3.31 |
+| reranker, validity only | 0.33 | 0.08 | 0.024 | 2.33 |
+| reranker, validity × success | **1.00** | **1.00** | 0.019 | 3.00 |
+
+**AppWorld (real LLM):** *pending — requires `ANTHROPIC_API_KEY`; `scripts/run_part2_appworld.sh` runs collection on 45 train tasks, training, and the baseline-vs-reranked comparison on 30 dev tasks × 2 runs, and fills this section from `results/part2_appworld_v1/summary.json`.* The adapter itself has been exercised end-to-end with canned actions (3 tasks, 4 steps each, validation rate 1.00, 22 redactions per episode, `api_error` correctly labelled on a bad login).
 
 **Offline vs. end-to-end (mock environment, before any API spend).** A validity-only scorer cut the invalid-action rate from 23 % to 2 % but *halved* task success (72 % → 33 %): the scripted agent's "bad" options include `complete_task(answer='wrong')`, which never errors, so the scorer preferred an early wrong completion over a failing lookup. Adding the success head and scoring by the product restored 100 % task success at a 2 % invalid rate. Validity is necessary, not sufficient; a scorer must see a progress signal.
 

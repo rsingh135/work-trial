@@ -1,0 +1,2 @@
+[ablation_incidents_gru_d256] gru_multihead seed=0 fit=60s  nll=0.765 acc=0.742 dtMAE=27.0h remMAE=278.6h DL=0.470 ece=0.029
+wrote results/ablations/incidents_gru_d256.json  (66s)

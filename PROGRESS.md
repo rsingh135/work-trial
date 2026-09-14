@@ -103,3 +103,6 @@ Tables: `results/SUMMARY.md`; figures: `results/figures/`; failure analyses: `re
 **Ablation launched** (`results/ablations/`): Incidents GRU with attribute dropout 0 → does the GBM gap on Incidents come from the p=0.15 attribute masking?
 
 **Not done / consciously left**: uncertainty-weighted losses, Transformer variant, hazard remaining-time head, more transfer pairs. Listed in DESIGN_NOTE §3–4.
+
+**Ablations on Incidents (GRU vs GBM gap, `results/ablations/`)**: attribute dropout 0 → NLL 0.758 (no change); d_model 256 / dropout 0.2 / lr 1e-3 → see log line below. Neither closes the gap to GBM (0.693), so it is not masking or capacity; the likely cause is the GBM's direct access to the *current* event's 472-value `org:group` and `product` as splittable features vs. 8-dim embeddings squeezed through a 128-dim state. Left as a documented limitation.
+    [ablation_incidents_gru_d256] gru_multihead seed=0 fit=60s  nll=0.765 acc=0.742 dtMAE=27.0h remMAE=278.6h DL=0.470 ece=0
