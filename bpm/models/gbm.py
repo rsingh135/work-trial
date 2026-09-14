@@ -87,6 +87,21 @@ class GBMModel(SequenceModel):
         rem = np.expm1(self.reg_rem.predict(X))
         return CasePreds(probs, dt, rem)
 
+    def predict_cases(self, cases):
+        """One predict call for all positions of all cases (sklearn per-call overhead dominates otherwise)."""
+        if not cases:
+            return []
+        X = np.concatenate([self._features(c) for c in cases])
+        probs = self._probs_full(X)
+        dt = np.expm1(self.reg_dt.predict(X))
+        rem = np.expm1(self.reg_rem.predict(X))
+        out, i = [], 0
+        for c in cases:
+            n = len(c)
+            out.append(CasePreds(probs[i:i + n], dt[i:i + n], rem[i:i + n]))
+            i += n
+        return out
+
     def rollout(self, enc, t, max_len, mode="greedy", n=1, seed=0):
         return self.rollout_many([(enc, t)], max_len, mode=mode, n=n, seed=seed)[0]
 

@@ -188,7 +188,7 @@ class RecurrentModel(SequenceModel):
             for idx in batches:
                 batch = _collate([train[i] for i in idx], self.device, self.cfg["p_attr_drop"], rng)
                 loss, parts = self._loss(self.net(batch), batch)
-                if not torch.isfinite(loss):
+                if not torch.isfinite(loss) or not loss.requires_grad:  # e.g. a batch of single-event incomplete cases
                     continue
                 opt.zero_grad(); loss.backward()
                 nn.utils.clip_grad_norm_(self.net.parameters(), 1.0)
@@ -251,6 +251,24 @@ class RecurrentModel(SequenceModel):
 
     def rollout(self, enc, t, max_len, mode="greedy", n=1, seed=0):
         return self.rollout_many([(enc, t)], max_len, mode=mode, n=n, seed=seed)[0]
+
+    @torch.no_grad()
+    def predict_cases(self, cases, chunk=256):
+        self.net.eval()
+        out = []
+        for i in range(0, len(cases), chunk):
+            block = cases[i:i + chunk]
+            batch = _collate(block, self.device)
+            y = self.net(batch)
+            probs = F.softmax(y["act_logits"], -1).cpu().numpy()
+            B, T = batch["act"].shape
+            q = mdn_quantiles(y["pi"].reshape(B * T, -1), y["mu"].reshape(B * T, -1), y["log_sig"].reshape(B * T, -1)).reshape(B, T, 3).cpu().numpy()
+            dt_q = np.expm1(q)
+            rem = np.expm1(y["rem_mu"].cpu().numpy())
+            for j, c in enumerate(block):
+                n = len(c)
+                out.append(CasePreds(probs[j, :n], dt_q[j, :n, 1], rem[j, :n], next_dt_q=dt_q[j, :n][:, [0, 2]]))
+        return out
 
     @torch.no_grad()
     def rollout_many(self, items, max_len, mode="greedy", n=1, seed=0, chunk=128):

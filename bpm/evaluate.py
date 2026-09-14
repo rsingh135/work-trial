@@ -46,8 +46,8 @@ def _collect(model: SequenceModel, cases: list[EncodedCase]):
     P, Y, G, K = [], [], [], []
     DT_P, DT_T, DT_Q, DT_G = [], [], [], []
     RM_P, RM_T, RM_G = [], [], []
-    for c in cases:
-        pr: CasePreds = model.predict_case(c)
+    preds = model.predict_cases(cases)
+    for c, pr in zip(cases, preds):
         m = c.next_act >= 0
         P.append(pr.next_probs[m]); Y.append(c.next_act[m]); G += [c.case_id] * int(m.sum()); K += (np.arange(len(c))[m] + 1).tolist()
         m = np.isfinite(c.next_dt)

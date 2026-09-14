@@ -38,6 +38,10 @@ class SequenceModel(ABC):
         """Continue the case from position t. Returns ``n`` activity-id suffixes; a suffix stops
         at (and excludes) EOS, or is truncated at ``max_len``. ``mode`` ∈ {greedy, sample}."""
 
+    def predict_cases(self, cases: list[EncodedCase]) -> list[CasePreds]:
+        """Batched version of ``predict_case``; default loops."""
+        return [self.predict_case(c) for c in cases]
+
     def rollout_many(self, items: list[tuple[EncodedCase, int]], max_len: int, mode: str = "greedy", n: int = 1, seed: int = 0) -> list[list[list[int]]]:
         """Batched version of ``rollout`` over many (case, position) pairs. Default: loop."""
         return [self.rollout(enc, t, max_len, mode=mode, n=n, seed=seed + i) for i, (enc, t) in enumerate(items)]

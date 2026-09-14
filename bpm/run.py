@@ -14,14 +14,24 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import platform
 import subprocess
 import time
 from pathlib import Path
 
+# Cap BLAS/OpenMP threads before numpy/torch/sklearn load. torch and sklearn each bring an OpenMP
+# runtime; with the default "all cores" setting and any other process on the box, sklearn's
+# HistGradientBoosting calls went from seconds to (effectively) hanging on macOS. 8 threads is
+# plenty for these model sizes.
+os.environ.setdefault("OMP_NUM_THREADS", "8")
+os.environ.setdefault("MKL_NUM_THREADS", "8")
+
 import numpy as np
 import torch
 import yaml
+
+torch.set_num_threads(int(os.environ["OMP_NUM_THREADS"]))
 
 from bpm.data.cases import Case, load_cases, split_chronological, split_random
 from bpm.data.encoding import Encoder, encoder_for
