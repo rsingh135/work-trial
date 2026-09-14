@@ -6,7 +6,9 @@ import yaml
 
 GRU = {"type": "gru", "d_model": 128, "n_layers": 2, "n_mix": 3, "dropout": 0.1, "p_attr_drop": 0.15, "w_dt": 0.5, "w_rem": 0.5,
        "lr": 0.002, "batch_size": 64, "epochs": 60, "patience": 8}
-ALL = [{"type": "markov", "order": 2}, {"type": "gbm"}, GRU]
+TF = {**GRU, "type": "transformer", "n_heads": 4}
+ALL = [{"type": "markov", "order": 2}, {"type": "gbm"}, GRU, TF]
+CS = {"type": "chronological", "fracs": [0.7, 0.15, 0.15], "strict": True}
 EV = {"n_suffix_prefixes": 1000, "max_suffix_len": 30, "n_samples": 5, "n_boot": 300}
 R = {"type": "random", "seed": 0, "fracs": [0.7, 0.15, 0.15]}
 C = {"type": "chronological", "fracs": [0.7, 0.15, 0.15]}
@@ -25,12 +27,15 @@ cfg("international_random", "bpi2020_international", R, ev={**EV, "max_suffix_le
 cfg("international_chrono", "bpi2020_international", C, ev={**EV, "max_suffix_len": 40})
 cfg("incidents_random", "bpi2013_incidents", R, extra={"max_len": 64}, ev={**EV, "max_suffix_len": 50})
 cfg("incidents_chrono", "bpi2013_incidents", C, extra={"max_len": 64}, ev={**EV, "max_suffix_len": 50})
+cfg("domestic_chrono_strict", "bpi2020_domestic", CS)
+cfg("international_chrono_strict", "bpi2020_international", CS, ev={**EV, "max_suffix_len": 40})
+cfg("incidents_chrono_strict", "bpi2013_incidents", CS, extra={"max_len": 64}, ev={**EV, "max_suffix_len": 50})
 cfg("closed_random", "bpi2013_closed_problems", R, ev={**EV, "max_suffix_len": 40})
 cfg("open_random", "bpi2013_open_problems", R, ev={**EV, "n_samples": 0})
 cfg("permit_random", "bpi2020_permit", R, seeds=(0,), extra={"max_len": 64}, ev={**EV, "n_suffix_prefixes": 500, "max_suffix_len": 50})
 cfg("prepaid_random", "bpi2020_prepaid", R, seeds=(0,), ev={**EV, "n_suffix_prefixes": 500})
-cfg("rfp_transfer_domestic", "bpi2020_rfp", R, models=[{"type": "markov", "order": 2}, GRU], seeds=(0,),
-    extra={"transfer": {"target_log": "bpi2020_domestic", "finetune_frac": 0.05, "finetune_epochs": 15}})
+cfg("rfp_transfer_domestic", "bpi2020_rfp", R, models=[{"type": "markov", "order": 2}, GRU, {**GRU, "factorised_output": True}], seeds=(0,),
+    extra={"transfer": {"target_log": "bpi2020_domestic", "finetune_frac": 0.05, "finetune_epochs": 60}})
 
 # Published-protocol reproduction (Rama-Maneiro et al. 2021, Table 5/7/9 columns for BPI2013): 5-fold CV over
 # cases, 80/20 train/val inside the training folds, EOS appended to every trace (assume_complete), no trace attrs.

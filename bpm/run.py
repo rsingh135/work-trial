@@ -33,7 +33,7 @@ import yaml
 
 torch.set_num_threads(int(os.environ["OMP_NUM_THREADS"]))
 
-from bpm.data.cases import Case, load_cases, split_chronological, split_cv, split_random
+from bpm.data.cases import Case, load_cases, split_chronological, split_cv, split_random, truncate_at_cutoff
 from bpm.data.encoding import Encoder, encoder_for
 from bpm.evaluate import evaluate
 from bpm.ingest.registry import get_schema
@@ -58,6 +58,8 @@ def build_model(spec: dict, seed: int):
         return GBMModel(seed=seed, **kw)
     if kind == "gru":
         return RecurrentModel(seed=seed, **kw)
+    if kind == "transformer":
+        return RecurrentModel(seed=seed, backbone="transformer", **kw)
     raise ValueError(kind)
 
 
@@ -65,7 +67,7 @@ def make_split(cases: list[Case], spec: dict):
     if spec["type"] == "random":
         return split_random(cases, seed=spec.get("seed", 0), fracs=tuple(spec.get("fracs", (0.7, 0.15, 0.15))))
     if spec["type"] == "chronological":
-        return split_chronological(cases, fracs=tuple(spec.get("fracs", (0.7, 0.15, 0.15))))
+        return split_chronological(cases, fracs=tuple(spec.get("fracs", (0.7, 0.15, 0.15))), strict=bool(spec.get("strict", False)))
     if spec["type"] == "cv":
         return split_cv(cases, fold=spec["fold"], n_folds=spec.get("n_folds", 5), seed=spec.get("seed", 0), val_frac=spec.get("val_frac", 0.2))
     raise ValueError(spec["type"])
@@ -97,6 +99,11 @@ def run(cfg: dict) -> dict:
     split = make_split(cases, cfg["split"])
     by_id = {c.case_id: c for c in cases}
     tr, va, te = [by_id[i] for i in split.train], [by_id[i] for i in split.val], [by_id[i] for i in split.test]
+    if split.meta.get("strict") and split.meta.get("cutoff_ts"):
+        n_tr0, n_va0 = len(tr), len(va)
+        tr, va = truncate_at_cutoff(tr, split.meta["cutoff_ts"]), truncate_at_cutoff(va, split.meta["cutoff_ts"])
+        split.meta["strict_dropped_train_cases"] = n_tr0 - len(tr)
+        split.meta["strict_truncated_train_cases"] = int(sum(1 for c in tr if not c.complete and by_id[c.case_id].complete))
     out_dir = Path(cfg.get("out", f"results/{cfg['name']}.json")).with_suffix("")
     out_dir.mkdir(parents=True, exist_ok=True)
     split.to_json(out_dir / "split.json")
@@ -125,7 +132,7 @@ def run(cfg: dict) -> dict:
     seeds = cfg.get("seeds", [0])
     for spec in cfg["models"]:
         runs = []
-        for seed in (seeds if spec["type"] in ("gru", "gbm") else [0]):
+        for seed in (seeds if spec["type"] in ("gru", "gbm", "transformer") else [0]):
             t0 = time.time()
             model = build_model(spec, seed)
             if hasattr(model, "set_encoder"):
@@ -134,9 +141,18 @@ def run(cfg: dict) -> dict:
             fit_s = time.time() - t0
             metrics = evaluate(model, enc_te, enc_va, encoder, terminal_ids, n_suffix_prefixes=ev.get("n_suffix_prefixes", 500),
                                max_suffix_len=ev.get("max_suffix_len", 50), n_samples=ev.get("n_samples", 5), seed=seed, n_boot=ev.get("n_boot", 300))
+            # robustness probe: the same trained model evaluated with every event attribute masked to UNK
+            if ev.get("attr_removal", True) and hasattr(model, "mask_attrs_at_test"):
+                model.mask_attrs_at_test = True
+                m2 = evaluate(model, enc_te, enc_va, encoder, terminal_ids, n_suffix_prefixes=0, n_samples=0, seed=seed, n_boot=50)
+                model.mask_attrs_at_test = False
+                metrics["attr_removed"] = {"nll": m2["next_activity"]["nll"], "accuracy": m2["next_activity"]["accuracy"], "dt_mae": m2["next_dt_hours"]["mae"]}
+            elif ev.get("attr_removal", True) and spec["type"] == "gbm":
+                m2 = evaluate(model, _mask_attrs(enc_te), enc_va, encoder, terminal_ids, n_suffix_prefixes=0, n_samples=0, seed=seed, n_boot=50)
+                metrics["attr_removed"] = {"nll": m2["next_activity"]["nll"], "accuracy": m2["next_activity"]["accuracy"], "dt_mae": m2["next_dt_hours"]["mae"]}
             runs.append({"seed": seed, "fit_seconds": fit_s, "params": model.param_count(), "train_log": train_log, "metrics": metrics})
-            if spec["type"] == "gru" and seed == seeds[0]:
-                model.save(out_dir / "gru_seed0.pt")  # for bpm.analyze_failures
+            if spec["type"] in ("gru", "transformer"):
+                model.save(out_dir / f"{model.name}_seed{seed}.pt")  # for bpm.analyze_failures / bpm.downstream
             print(f"[{cfg['name']}] {model.name} seed={seed} fit={fit_s:.0f}s  nll={metrics['next_activity']['nll']['mean']:.3f} "
                   f"acc={metrics['next_activity']['accuracy']['mean']:.3f} dtMAE={metrics['next_dt_hours']['mae']['mean']:.1f}h "
                   f"remMAE={metrics['remaining_hours'].get('mae', {}).get('mean', float('nan')):.1f}h "
@@ -147,13 +163,19 @@ def run(cfg: dict) -> dict:
         results["models"][model.name] = entry
 
         # optional: transfer evaluation of this trained model on the target log (zero-shot) + few-shot fine-tune
-        if transfer and spec["type"] == "gru":
+        if transfer and spec["type"] in ("gru", "transformer"):
             results.setdefault("transfer", {})[model.name] = _transfer_eval(model, spec, encoder, tgt_schema, tgt_cases, cfg, transfer, ev, seeds[0])
     results["total_seconds"] = time.time() - t_start
     out = Path(cfg.get("out", f"results/{cfg['name']}.json"))
     out.write_text(json.dumps(results, indent=1, default=float))
     print(f"wrote {out}  ({results['total_seconds']:.0f}s)")
     return results
+
+
+def _mask_attrs(cases):
+    from bpm.data.encoding import UNK, EncodedCase
+    return [EncodedCase(c.case_id, c.act, c.comps, np.full_like(c.cat, UNK), c.time, c.case_cat, c.case_num, c.next_act, c.next_dt, c.remaining,
+                        c.timestamps, c.activities, c.complete) for c in cases]
 
 
 def _seed_summary(runs: list[dict]) -> dict:
@@ -193,15 +215,13 @@ def _transfer_eval(model, spec, src_encoder: Encoder, tgt_schema, tgt_cases, cfg
     kw = dict(n_suffix_prefixes=ev.get("n_suffix_prefixes", 500) // 2, max_suffix_len=ev.get("max_suffix_len", 50), n_samples=0, seed=seed, n_boot=ev.get("n_boot", 300))
     out["zero_shot"] = evaluate(model, enc_te, enc_va, src_encoder, term, **kw)
     # few-shot fine-tune (continue training the same network on few target cases)
-    ft = RecurrentModel(seed=seed, **{k: v for k, v in spec.items() if k != "type"})
-    ft.cfg["epochs"] = transfer.get("finetune_epochs", 15)
-    ft.encoder, ft.net, ft._comp_table = model.encoder, model.net, model._comp_table
     import copy
+    ft = copy.copy(model)
+    ft.cfg = {**model.cfg, "epochs": transfer.get("finetune_epochs", 15)}
     ft.net = copy.deepcopy(model.net)
-    ft._fine = True
     _finetune(ft, enc_few, enc_va)
     out["few_shot_finetune"] = evaluate(ft, enc_te, enc_va, src_encoder, term, **kw)
-    scratch = RecurrentModel(seed=seed, **{k: v for k, v in spec.items() if k != "type"})
+    scratch = build_model(spec, seed)
     scratch.fit(enc_few, enc_va, src_encoder)
     out["few_shot_scratch"] = evaluate(scratch, enc_te, enc_va, src_encoder, term, **kw)
     return out

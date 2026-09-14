@@ -3,7 +3,7 @@
 set -u
 cd "$(dirname "$0")/.."
 mkdir -p results/logs
-for c in domestic_random domestic_chrono international_random international_chrono incidents_random incidents_chrono closed_random open_random permit_random prepaid_random rfp_transfer_domestic; do
+for c in domestic_random domestic_chrono domestic_chrono_strict international_random international_chrono international_chrono_strict incidents_random incidents_chrono incidents_chrono_strict closed_random open_random permit_random prepaid_random rfp_transfer_domestic; do
   echo "=== $c $(date)" | tee -a results/logs/run_all.log
   uv run python -m bpm.run configs/$c.yaml 2>&1 | tee results/logs/$c.log | grep -E "^\[|wrote|Error|Traceback" | tee -a results/logs/run_all.log
 done

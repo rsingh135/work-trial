@@ -18,39 +18,35 @@
   "Declaration FINAL_APPROVED by SUPERVISOR": 4,
   "Request Payment": 5,
   "Payment Handled": 6,
-  "Declaration APPROVED by ADMINISTRATION": 7,
-  "Declaration APPROVED by PRE_APPROVER": 8,
-  "Declaration APPROVED by BUDGET OWNER": 9,
-  "Declaration REJECTED by EMPLOYEE": 10,
-  "Declaration REJECTED by MISSING": 11,
-  "Declaration REJECTED by PRE_APPROVER": 12,
-  "Declaration REJECTED by SUPERVISOR": 13,
-  "Declaration REJECTED by ADMINISTRATION": 14,
-  "Declaration SAVED by EMPLOYEE": 15,
-  "Declaration REJECTED by BUDGET OWNER": 16,
-  "Declaration FOR_APPROVAL by PRE_APPROVER": 17,
-  "Declaration FOR_APPROVAL by SUPERVISOR": 18
+  "Declaration APPROVED by PRE_APPROVER": 7,
+  "Declaration REJECTED by EMPLOYEE": 8,
+  "Declaration REJECTED by MISSING": 9,
+  "Declaration REJECTED by PRE_APPROVER": 10,
+  "Declaration REJECTED by SUPERVISOR": 11,
+  "Declaration SAVED by EMPLOYEE": 12,
+  "Declaration APPROVED by ADMINISTRATION": 13,
+  "Declaration FOR_APPROVAL by SUPERVISOR": 14,
+  "Declaration REJECTED by ADMINISTRATION": 15
  },
  "comp_vocab": {
   "<PAD>": 0,
   "<UNK>": 1,
   "obj=Declaration": 2,
   "act=REJECTED": 3,
-  "act=APPROVED": 4,
-  "actor=EMPLOYEE": 5,
-  "actor=PRE_APPROVER": 6,
-  "actor=SUPERVISOR": 7,
-  "act=<none>": 8,
-  "act=FOR_APPROVAL": 9,
-  "actor=<none>": 10,
-  "actor=ADMINISTRATION": 11,
-  "actor=BUDGET OWNER": 12,
-  "act=FINAL_APPROVED": 13,
-  "act=SAVED": 14,
-  "act=SUBMITTED": 15,
-  "actor=MISSING": 16,
-  "obj=Payment Handled": 17,
-  "obj=Request Payment": 18
+  "actor=EMPLOYEE": 4,
+  "actor=SUPERVISOR": 5,
+  "act=<none>": 6,
+  "act=APPROVED": 7,
+  "actor=<none>": 8,
+  "actor=ADMINISTRATION": 9,
+  "actor=PRE_APPROVER": 10,
+  "act=FINAL_APPROVED": 11,
+  "act=FOR_APPROVAL": 12,
+  "act=SAVED": 13,
+  "act=SUBMITTED": 14,
+  "actor=MISSING": 15,
+  "obj=Payment Handled": 16,
+  "obj=Request Payment": 17
  },
  "n_comps": 3,
  "cat_vocabs": {
@@ -60,10 +56,8 @@
    "<MISSING>": 2,
    "EMPLOYEE": 3,
    "SUPERVISOR": 4,
-   "ADMINISTRATION": 5,
-   "PRE_APPROVER": 6,
-   "BUDGET OWNER": 7,
-   "MISSING": 8
+   "PRE_APPROVER": 5,
+   "MISSING": 6
   },
   "org:resource": {
    "<PAD>": 0,
@@ -75,21 +69,21 @@
  "case_cat_vocabs": {},
  "scalers": {
   "dt": {
-   "mean": 9.595051932981715,
-   "std": 4.0533617049586095
+   "mean": 9.59622511265688,
+   "std": 4.168347634830955
   },
   "elapsed": {
-   "mean": 8.232303324546415,
-   "std": 5.656695942555466
+   "mean": 8.07990295694559,
+   "std": 5.748128168967788
   },
   "pos": {
-   "mean": 0.9546145575879955,
-   "std": 0.6022539003755173
+   "mean": 0.9106492608470317,
+   "std": 0.5895902168105246
   },
   "case_num": {
    "Amount": {
-    "mean": 3.712282050317823,
-    "std": 1.3066037202108223
+    "mean": 3.753316749644256,
+    "std": 1.2566218294432245
    }
   }
  }

@@ -120,6 +120,7 @@ def evaluate(model: SequenceModel, test: list[EncodedCase], val: list[EncodedCas
     if cand:
         pick = rng.choice(len(cand), size=min(n_suffix_prefixes, len(cand)), replace=False)
         sims, exact, term, sims_s, any_exact, sims_by_k, post_term, lens_pred, lens_true, per_pos_err = [], [], [], [], [], {}, [], [], [], {}
+        medoid_sims, medoid_exact, medoid_term = [], [], []
         groups = []
         items = [(test[cand[j][0]], cand[j][1]) for j in pick]
         greedy = model.rollout_many(items, max_suffix_len, mode="greedy", n=1, seed=seed)
@@ -140,6 +141,10 @@ def evaluate(model: SequenceModel, test: list[EncodedCase], val: list[EncodedCas
                 ss = sampled[r]
                 sims_s.append(np.mean([M.dl_similarity(x, true) for x in ss]))
                 any_exact.append(float(any(x == true for x in ss)))
+                # medoid decoding: the sample most similar to the other samples (a consensus continuation)
+                med = max(range(len(ss)), key=lambda i: sum(M.dl_similarity(ss[i], ss[j]) for j in range(len(ss)) if j != i))
+                medoid_sims.append(M.dl_similarity(ss[med], true)); medoid_exact.append(float(ss[med] == true))
+                medoid_term.append(float(len(ss[med]) < max_suffix_len))
         groups = np.array(groups)
         res["suffix"] = {
             "n_prefixes": int(len(pick)), "max_len": max_suffix_len,
@@ -154,6 +159,9 @@ def evaluate(model: SequenceModel, test: list[EncodedCase], val: list[EncodedCas
         if n_samples > 0:
             res["suffix"]["sampled_mean_dl"] = float(np.mean(sims_s))
             res["suffix"][f"any_of_{n_samples}_exact"] = float(np.mean(any_exact))
+            res["suffix"]["medoid_dl"] = float(np.mean(medoid_sims))
+            res["suffix"]["medoid_exact"] = float(np.mean(medoid_exact))
+            res["suffix"]["medoid_valid_termination_rate"] = float(np.mean(medoid_term))
     else:
         res["suffix"] = {"n_prefixes": 0, "note": "no complete cases in test (censored log)"}
 

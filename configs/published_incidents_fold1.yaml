@@ -23,6 +23,19 @@ models:
   batch_size: 64
   epochs: 60
   patience: 8
+- type: transformer
+  d_model: 128
+  n_layers: 2
+  n_mix: 3
+  dropout: 0.1
+  p_attr_drop: 0.15
+  w_dt: 0.5
+  w_rem: 0.5
+  lr: 0.002
+  batch_size: 64
+  epochs: 60
+  patience: 8
+  n_heads: 4
 seeds:
 - 0
 eval:

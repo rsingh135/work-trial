@@ -23,6 +23,19 @@ models:
   batch_size: 64
   epochs: 60
   patience: 8
+- type: gru
+  d_model: 128
+  n_layers: 2
+  n_mix: 3
+  dropout: 0.1
+  p_attr_drop: 0.15
+  w_dt: 0.5
+  w_rem: 0.5
+  lr: 0.002
+  batch_size: 64
+  epochs: 60
+  patience: 8
+  factorised_output: true
 seeds:
 - 0
 eval:
@@ -34,4 +47,4 @@ out: results/rfp_transfer_domestic.json
 transfer:
   target_log: bpi2020_domestic
   finetune_frac: 0.05
-  finetune_epochs: 15
+  finetune_epochs: 60

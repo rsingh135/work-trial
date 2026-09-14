@@ -18,6 +18,7 @@ class CasePreds:
     next_dt_s: np.ndarray  # [T] point prediction, seconds to next event
     remaining_s: np.ndarray  # [T] point prediction, seconds to case end
     next_dt_q: np.ndarray | None = None  # [T, 2] optional (q10, q90) seconds — predictive interval
+    remaining_params: np.ndarray | None = None  # [T, 2] optional Laplace (mu, log_b) on log1p(seconds) — for P(remaining > T)
 
 
 class SequenceModel(ABC):

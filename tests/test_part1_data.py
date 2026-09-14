@@ -110,3 +110,26 @@ def test_real_log_smoke():
     cs = load_cases(get_schema("bpi2020_domestic"), max_cases=30)
     assert len(cs) == 30 and all(np.all(np.diff(c.timestamps) >= 0) for c in cs)
     assert all(c.timestamps[0] > 1.4e9 for c in cs)  # epoch seconds, not µs/1e9
+
+
+@pytest.mark.parametrize("backbone", ["gru", "transformer"])
+def test_streaming_state_matches_batch_forward(cases, backbone):
+    """Online update contract: feeding events one at a time through step() must give the same
+    predictions as the batched forward pass over the whole prefix."""
+    import numpy as np
+    from bpm.models.recurrent import RecurrentModel, _comp_table
+    train = cases[:40]
+    enc = Encoder("bpi2020", ["org:role"], ["unit"], ["Amount"], min_count_cat=1).fit(train)
+    etr = enc.transform_all(train)
+    m = RecurrentModel(d_model=32, n_layers=2, epochs=2, patience=2, batch_size=16, backbone=backbone)
+    m.fit(etr[:30], etr[30:], enc)
+    c = etr[0]
+    batch = m.predict_case(c)
+    st = m.init_stream(c)
+    tbl = _comp_table(enc)
+    for t in range(len(c)):
+        st, y = m.step(st, int(c.act[t]), tbl[c.act[t]], c.cat[t], c.time[t])
+        p = np.exp(y["act_logits"] - y["act_logits"].max()); p /= p.sum()
+        assert np.allclose(p, batch.next_probs[t], atol=1e-4), (backbone, t)
+    suf = m.rollout(c, 0, 10, mode="sample", n=3)
+    assert len(suf) == 3 and all(len(x) <= 10 for x in suf)

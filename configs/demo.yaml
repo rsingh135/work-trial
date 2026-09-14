@@ -8,6 +8,7 @@ models:
   - {type: markov, order: 2}
   - {type: gbm, max_iter: 100}
   - {type: gru, d_model: 64, n_layers: 1, epochs: 12, patience: 4, batch_size: 32}
+  - {type: transformer, d_model: 64, n_layers: 1, epochs: 12, patience: 4, batch_size: 32}
 seeds: [0]
 eval: {n_suffix_prefixes: 150, max_suffix_len: 30, n_samples: 3, n_boot: 100}
 out: results/demo.json
