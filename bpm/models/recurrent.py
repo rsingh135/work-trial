@@ -88,8 +88,9 @@ class _Net(nn.Module):
         dt = self.head_dt(h)
         logit_pi, mu, log_sig = dt.chunk(3, -1)
         rem = self.head_rem(h)
-        return {"act_logits": self.head_act(h), "pi": logit_pi, "mu": mu, "log_sig": log_sig.clamp(-6, 4),
-                "rem_mu": rem[..., 0], "rem_log_sig": rem[..., 1].clamp(-6, 4)}
+        # σ floor (log-space 0.05) keeps the Gaussian NLLs from exploding on outliers
+        return {"act_logits": self.head_act(h), "pi": logit_pi, "mu": mu, "log_sig": log_sig.clamp(-3, 4),
+                "rem_mu": rem[..., 0], "rem_log_sig": rem[..., 1].clamp(-3, 4)}
 
 
 def mdn_nll(pi_logits, mu, log_sig, y):
@@ -151,16 +152,19 @@ class RecurrentModel(SequenceModel):
 
     # ------------------------------------------------------------------ training
     def _loss(self, out, batch):
+        """Masked means with empty-mask guards: a length-sorted batch of single-event cases has no
+        next-activity / Δt targets at all, and an unguarded mean() there is NaN."""
+        zero = torch.zeros((), device=batch["y_act"].device)
         mask = batch["y_act"] >= 0
-        ce = F.cross_entropy(out["act_logits"][mask], batch["y_act"][mask])
+        ce = F.cross_entropy(out["act_logits"][mask], batch["y_act"][mask]) if mask.any() else zero
         dt_mask = torch.isfinite(batch["y_dt"])
-        nll_dt = mdn_nll(out["pi"][dt_mask], out["mu"][dt_mask], out["log_sig"][dt_mask], batch["y_dt"][dt_mask]).mean()
+        nll_dt = mdn_nll(out["pi"][dt_mask], out["mu"][dt_mask], out["log_sig"][dt_mask], batch["y_dt"][dt_mask]).mean() if dt_mask.any() else zero
         rm = batch["rem_mask"]
         if rm.any():
             mu, ls = out["rem_mu"][rm], out["rem_log_sig"][rm]
             nll_rem = (0.5 * (LOG2PI + 2 * ls + ((batch["y_rem"][rm] - mu) / ls.exp()) ** 2)).mean()
         else:
-            nll_rem = torch.zeros((), device=ce.device)
+            nll_rem = zero
         total = ce + self.cfg["w_dt"] * nll_dt + self.cfg["w_rem"] * nll_rem
         return total, {"ce": ce.item(), "nll_dt": nll_dt.item(), "nll_rem": nll_rem.item()}
 
@@ -170,6 +174,7 @@ class RecurrentModel(SequenceModel):
         self.net = _Net(encoder, self.cfg["d_model"], n_layers=self.cfg["n_layers"], dropout=self.cfg["dropout"], n_mix=self.cfg["n_mix"]).to(self.device)
         self._comp_table = torch.as_tensor(_comp_table(encoder), device=self.device)
         opt = torch.optim.AdamW(self.net.parameters(), lr=self.cfg["lr"], weight_decay=1e-4)
+        sched = torch.optim.lr_scheduler.ReduceLROnPlateau(opt, factor=0.5, patience=2)
         bs = self.cfg["batch_size"]
         best, best_state, bad, log = float("inf"), None, 0, []
         # sort-by-length bucketing reduces padding; shuffle buckets each epoch
@@ -183,12 +188,15 @@ class RecurrentModel(SequenceModel):
             for idx in batches:
                 batch = _collate([train[i] for i in idx], self.device, self.cfg["p_attr_drop"], rng)
                 loss, parts = self._loss(self.net(batch), batch)
+                if not torch.isfinite(loss):
+                    continue
                 opt.zero_grad(); loss.backward()
                 nn.utils.clip_grad_norm_(self.net.parameters(), 1.0)
                 opt.step()
                 tr_loss += loss.item(); n += 1
             v = self._eval_loss(val)
-            log.append({"epoch": ep, "train_loss": tr_loss / max(n, 1), **{f"val_{k}": x for k, x in v.items()}, "sec": _time.time() - t0})
+            sched.step(v["total"])
+            log.append({"epoch": ep, "train_loss": tr_loss / max(n, 1), **{f"val_{k}": x for k, x in v.items()}, "lr": opt.param_groups[0]["lr"], "sec": _time.time() - t0})
             if v["total"] < best - 1e-4:
                 best, bad = v["total"], 0
                 best_state = {k: x.detach().clone() for k, x in self.net.state_dict().items()}
@@ -227,55 +235,71 @@ class RecurrentModel(SequenceModel):
         rem = np.expm1(out["rem_mu"][0].cpu().numpy())
         return CasePreds(probs, dt_q[:, 1], rem, next_dt_q=dt_q[:, [0, 2]])
 
-    @torch.no_grad()
     def rollout(self, enc, t, max_len, mode="greedy", n=1, seed=0):
+        return self.rollout_many([(enc, t)], max_len, mode=mode, n=n, seed=seed)[0]
+
+    @torch.no_grad()
+    def rollout_many(self, items, max_len, mode="greedy", n=1, seed=0, chunk=128):
+        """Batched autoregressive continuation. Prefixes of different lengths are packed so the
+        GRU state is read at each item's true position t; every (item, sample) row then advances
+        in lock-step. One forward per step for the whole chunk instead of one per rollout."""
         self.net.eval()
         g = torch.Generator(device="cpu").manual_seed(seed)
-        prefix = EncodedCase(enc.case_id, enc.act[:t + 1], enc.comps[:t + 1], enc.cat[:t + 1], enc.time[:t + 1], enc.case_cat, enc.case_num,
-                             enc.next_act[:t + 1], enc.next_dt[:t + 1], enc.remaining[:t + 1], enc.timestamps[:t + 1], enc.activities[:t + 1], enc.complete)
-        batch = _collate([prefix] * n, self.device)
-        x = self.net.embed(batch["act"], batch["comps"], batch["cat"], batch["time"])
-        h0 = self.net.init_state(batch["case_cat"], batch["case_num"])
-        out, h = self.net.gru(x, h0)
-        y = self.net.heads(out[:, -1])
-        ts = torch.full((n,), float(enc.timestamps[t]), dtype=torch.float64)
-        start = float(enc.timestamps[0])
-        pos = t
-        suffixes = [[] for _ in range(n)]
-        alive = torch.ones(n, dtype=torch.bool)
         e = self.encoder
-        for _ in range(max_len):
-            logits = y["act_logits"]
-            if mode == "greedy":
-                a = logits.argmax(-1)
-            else:
-                a = torch.multinomial(F.softmax(logits, -1).cpu(), 1, generator=g).squeeze(1).to(self.device)
-            if mode == "greedy":
-                dt_log = mdn_quantiles(y["pi"], y["mu"], y["log_sig"], qs=(0.5,))[:, 0]
-            else:
-                k = torch.multinomial(F.softmax(y["pi"], -1).cpu(), 1, generator=g).squeeze(1)
-                mu, sig = y["mu"].cpu().gather(1, k[:, None]).squeeze(1), y["log_sig"].cpu().gather(1, k[:, None]).squeeze(1).exp()
-                dt_log = (mu + sig * torch.randn(n, generator=g)).to(self.device)
-            dt = torch.expm1(dt_log.clamp(min=0)).double().cpu()
-            a_cpu = a.cpu()
-            for i in range(n):
-                if alive[i]:
-                    if int(a_cpu[i]) == EOS:
-                        alive[i] = False
-                    else:
-                        suffixes[i].append(int(a_cpu[i]))
-            if not alive.any():
-                break
-            ts = ts + dt
-            pos += 1
-            # next input: chosen activity, its components, UNK attributes, synthetic time feats
-            comps = self._comp_table[a]
-            cat = torch.full((n, len(e.event_cat_fields)), UNK, dtype=torch.long, device=self.device)
-            tf = _time_feats(e, dt.numpy(), (ts - start).numpy(), ts.numpy(), pos)
-            x1 = self.net.embed(a[:, None], comps[:, None], cat[:, None], torch.as_tensor(tf, device=self.device)[:, None])
-            out, h = self.net.gru(x1, h)
-            y = self.net.heads(out[:, -1])
-        return suffixes
+        out_all: list[list[list[int]]] = []
+        for c0 in range(0, len(items), chunk):
+            block = items[c0:c0 + chunk]
+            rows = [(enc, t) for enc, t in block for _ in range(n)]
+            R = len(rows)
+            prefixes = [EncodedCase(enc.case_id, enc.act[:t + 1], enc.comps[:t + 1], enc.cat[:t + 1], enc.time[:t + 1], enc.case_cat, enc.case_num,
+                                    enc.next_act[:t + 1], enc.next_dt[:t + 1], enc.remaining[:t + 1], enc.timestamps[:t + 1], enc.activities[:t + 1], enc.complete)
+                        for enc, t in rows]
+            batch = _collate(prefixes, self.device)
+            lengths = torch.tensor([t + 1 for _, t in rows])
+            x = self.net.embed(batch["act"], batch["comps"], batch["cat"], batch["time"])
+            h0 = self.net.init_state(batch["case_cat"], batch["case_num"])
+            packed = nn.utils.rnn.pack_padded_sequence(x, lengths, batch_first=True, enforce_sorted=False)
+            out_p, h = self.net.gru(packed, h0)
+            out, _ = nn.utils.rnn.pad_packed_sequence(out_p, batch_first=True)
+            last = out[torch.arange(R), (lengths - 1).to(out.device)]
+            y = self.net.heads(last)
+            ts = torch.tensor([float(enc.timestamps[t]) for enc, t in rows], dtype=torch.float64)
+            start = torch.tensor([float(enc.timestamps[0]) for enc, _ in rows], dtype=torch.float64)
+            pos = torch.tensor([t for _, t in rows], dtype=torch.float64)
+            suffixes = [[] for _ in range(R)]
+            alive = torch.ones(R, dtype=torch.bool)
+            for _ in range(max_len):
+                logits = y["act_logits"]
+                if mode == "greedy":
+                    a = logits.argmax(-1)
+                    dt_log = mdn_quantiles(y["pi"], y["mu"], y["log_sig"], qs=(0.5,))[:, 0]
+                else:
+                    a = torch.multinomial(F.softmax(logits, -1).cpu(), 1, generator=g).squeeze(1).to(self.device)
+                    k = torch.multinomial(F.softmax(y["pi"], -1).cpu(), 1, generator=g)
+                    mu = y["mu"].cpu().gather(1, k).squeeze(1)
+                    sig = y["log_sig"].cpu().gather(1, k).squeeze(1).exp()
+                    dt_log = (mu + sig * torch.randn(R, generator=g)).to(self.device)
+                dt = torch.expm1(dt_log.clamp(min=0)).double().cpu()
+                a_cpu = a.cpu()
+                for i in range(R):
+                    if alive[i]:
+                        if int(a_cpu[i]) == EOS:
+                            alive[i] = False
+                        else:
+                            suffixes[i].append(int(a_cpu[i]))
+                if not alive.any():
+                    break
+                ts = ts + dt
+                pos = pos + 1
+                comps = self._comp_table[a]
+                cat = torch.full((R, len(e.event_cat_fields)), UNK, dtype=torch.long, device=self.device)
+                tf = _time_feats_vec(e, dt.numpy(), (ts - start).numpy(), ts.numpy(), pos.numpy())
+                x1 = self.net.embed(a[:, None], comps[:, None], cat[:, None], torch.as_tensor(tf, device=self.device)[:, None])
+                o1, h = self.net.gru(x1, h)
+                y = self.net.heads(o1[:, -1])
+            for j in range(len(block)):
+                out_all.append(suffixes[j * n:(j + 1) * n])
+        return out_all
 
     # single-event online update (demonstrates the O(1) state update used in the design note)
     @torch.no_grad()
@@ -297,6 +321,17 @@ def _comp_table(enc: Encoder) -> np.ndarray:
         for j, comp in enumerate(decompose_activity(lbl, enc.family)[: enc.n_comps]):
             tbl[i, j] = enc.comp_vocab.get(comp, UNK)
     return tbl
+
+
+def _time_feats_vec(enc: Encoder, dt: np.ndarray, elapsed: np.ndarray, ts: np.ndarray, pos: np.ndarray) -> np.ndarray:
+    hour = ((ts + 3600) / 3600) % 24
+    wd = ((ts + 3600) // 86400 + 3) % 7
+    return np.stack([
+        enc.dt_scaler(np.log1p(np.maximum(dt, 0))), enc.elapsed_scaler(np.log1p(np.maximum(elapsed, 0))),
+        np.sin(2 * math.pi * hour / 24), np.cos(2 * math.pi * hour / 24),
+        np.sin(2 * math.pi * wd / 7), np.cos(2 * math.pi * wd / 7),
+        enc.pos_scaler(np.log1p(pos)),
+    ], 1).astype(np.float32)
 
 
 def _time_feats(enc: Encoder, dt: np.ndarray, elapsed: np.ndarray, ts: np.ndarray, pos: int) -> np.ndarray:
