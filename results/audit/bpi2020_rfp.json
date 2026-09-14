@@ -1,0 +1,407 @@
+{
+ "log": "bpi2020_rfp",
+ "file": "RequestForPayment.xes.gz",
+ "family": "bpi2020",
+ "n_cases": 6886,
+ "n_events": 36796,
+ "log_attrs": {
+  "concept:name": "RequestForPayment"
+ },
+ "classifiers": {},
+ "event_globals": [],
+ "trace_globals": [],
+ "activity_vocab_size": 19,
+ "activity_counts": {
+  "Request For Payment SUBMITTED by EMPLOYEE": 7504,
+  "Request For Payment FINAL_APPROVED by SUPERVISOR": 6343,
+  "Payment Handled": 6307,
+  "Request Payment": 6303,
+  "Request For Payment APPROVED by ADMINISTRATION": 5489,
+  "Request For Payment APPROVED by BUDGET OWNER": 2014,
+  "Request For Payment REJECTED by EMPLOYEE": 1085,
+  "Request For Payment REJECTED by ADMINISTRATION": 836,
+  "Request For Payment APPROVED by PRE_APPROVER": 413,
+  "Request For Payment REJECTED by SUPERVISOR": 179,
+  "Request For Payment SAVED by EMPLOYEE": 74,
+  "Request For Payment REJECTED by MISSING": 66,
+  "Request For Payment REJECTED by PRE_APPROVER": 51,
+  "Request For Payment REJECTED by BUDGET OWNER": 47,
+  "Request For Payment APPROVED by SUPERVISOR": 41,
+  "Request For Payment FINAL_APPROVED by DIRECTOR": 41,
+  "Request For Payment FOR_APPROVAL by ADMINISTRATION": 1,
+  "Request For Payment FINAL_APPROVED by BUDGET OWNER": 1,
+  "Request For Payment FOR_APPROVAL by SUPERVISOR": 1
+ },
+ "activity_keys": [
+  "concept:name"
+ ],
+ "case_length": {
+  "p00": 1.0,
+  "p05": 3.0,
+  "p25": 5.0,
+  "p50": 5.0,
+  "p75": 6.0,
+  "p95": 8.0,
+  "p99": 11.0,
+  "p100": 20.0
+ },
+ "case_length_mean": 5.343595701423178,
+ "case_duration_hours": {
+  "p00": 0.0,
+  "p05": 45.53611111111111,
+  "p25": 144.66520833333334,
+  "p50": 195.6576388888889,
+  "p75": 320.0439583333333,
+  "p95": 750.5032638888889,
+  "p99": 1708.4525416666452,
+  "p100": 9743.833611111111
+ },
+ "case_duration_hours_mean": 288.18687151063347,
+ "log_time_span": {
+  "start": "2017-01-09 08:17:18+00:00",
+  "end": "2019-08-08 12:57:18+00:00"
+ },
+ "last_activity_counts": {
+  "Payment Handled": 6305,
+  "Request For Payment REJECTED by EMPLOYEE": 448,
+  "Request For Payment SAVED by EMPLOYEE": 74,
+  "Request For Payment REJECTED by MISSING": 41,
+  "Request For Payment FINAL_APPROVED by SUPERVISOR": 11,
+  "Request For Payment REJECTED by ADMINISTRATION": 2,
+  "Request Payment": 2,
+  "Request For Payment FINAL_APPROVED by DIRECTOR": 1,
+  "Request For Payment FOR_APPROVAL by SUPERVISOR": 1,
+  "Request For Payment REJECTED by SUPERVISOR": 1
+ },
+ "first_activity_counts": {
+  "Request For Payment SUBMITTED by EMPLOYEE": 6814,
+  "Request For Payment SAVED by EMPLOYEE": 72
+ },
+ "frac_cases_ending_in_terminal": 0.9866395585245425,
+ "cases_ending_within_7d_of_log_end": 1,
+ "cases_ending_within_30d_of_log_end": 1,
+ "declared_censored": false,
+ "delta_t_seconds": {
+  "p00": 0.0,
+  "p05": 5.0,
+  "p25": 762.0,
+  "p50": 95522.0,
+  "p75": 318176.75,
+  "p95": 696584.5,
+  "p99": 2072313.0999999999,
+  "p100": 34382664.0
+ },
+ "frac_zero_delta_t": 0.0006686726847208291,
+ "frac_negative_delta_t_raw_order": 0.0,
+ "frac_missing_timestamp": 0.0,
+ "frac_midnight_timestamps_local": 0.0,
+ "events_per_weekday_local": {
+  "0": 8625,
+  "1": 6917,
+  "2": 5352,
+  "3": 10592,
+  "4": 4206,
+  "5": 463,
+  "6": 641
+ },
+ "events_per_hour_local": {
+  "0": 56,
+  "1": 24,
+  "2": 14,
+  "3": 28,
+  "4": 24,
+  "5": 487,
+  "6": 99,
+  "7": 459,
+  "8": 2225,
+  "9": 3581,
+  "10": 3607,
+  "11": 3772,
+  "12": 2369,
+  "13": 2726,
+  "14": 3071,
+  "15": 2863,
+  "16": 2120,
+  "17": 7331,
+  "18": 465,
+  "19": 346,
+  "20": 344,
+  "21": 330,
+  "22": 304,
+  "23": 151
+ },
+ "midnight_share_by_activity": {},
+ "columns": {
+  "case_id": {
+   "missing_frac": 0.0,
+   "cardinality": 6886,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6886,
+   "top_values": {
+    "request for payment 171883": 20,
+    "request for payment 158073": 16,
+    "request for payment 165493": 16,
+    "request for payment 166425": 16,
+    "request for payment 151276": 15
+   },
+   "frac_events_with_rare_value_lt5": 0.10452223067724753
+  },
+  "case_Rfp_id": {
+   "missing_frac": 0.0,
+   "cardinality": 6886,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6886,
+   "top_values": {
+    "request for payment 171883": 20,
+    "request for payment 158073": 16,
+    "request for payment 165493": 16,
+    "request for payment 166425": 16,
+    "request for payment 151276": 15
+   },
+   "frac_events_with_rare_value_lt5": 0.10452223067724753
+  },
+  "case_Project": {
+   "missing_frac": 0.039216219154255896,
+   "cardinality": 79,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6390,
+   "top_values": {
+    "project 503": 5651,
+    "project 147546": 5566,
+    "project 147556": 5200,
+    "project 147620": 1671,
+    "project 148052": 1606
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Task": {
+   "missing_frac": 0.7207305141863246,
+   "cardinality": 597,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1868,
+   "top_values": {
+    "UNKNOWN": 26520,
+    "task 48624": 191,
+    "task 726": 174,
+    "task 6280": 168,
+    "task 152704": 110
+   },
+   "frac_events_with_rare_value_lt5": 0.0032068703119904336
+  },
+  "case_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 6886,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6886,
+   "top_values": {
+    "request for payment 171883": 20,
+    "request for payment 158073": 16,
+    "request for payment 165493": 16,
+    "request for payment 166425": 16,
+    "request for payment 151276": 15
+   },
+   "frac_events_with_rare_value_lt5": 0.10452223067724753
+  },
+  "case_OrganizationalEntity": {
+   "missing_frac": 0.0,
+   "cardinality": 36,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6886,
+   "top_values": {
+    "organizational unit 65458": 5502,
+    "organizational unit 65463": 5010,
+    "organizational unit 65461": 3793,
+    "organizational unit 65469": 3042,
+    "organizational unit 65454": 2870
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Cost Type": {
+   "missing_frac": 0.0,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6886,
+   "top_values": {
+    "0": 36796
+   }
+  },
+  "case_RequestedAmount": {
+   "missing_frac": 0.0,
+   "cardinality": 6449,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6886,
+   "top_values": {
+    "1470.2029505303478": 62,
+    "315.2344829696984": 61,
+    "429.2112416021002": 60,
+    "272.5798911216093": 48,
+    "460.89001284125504": 43
+   },
+   "frac_events_with_rare_value_lt5": 0.09003696053918904
+  },
+  "case_Activity": {
+   "missing_frac": 0.7240732688335688,
+   "cardinality": 6,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1846,
+   "top_values": {
+    "UNKNOWN": 26643,
+    "activity 505": 10112,
+    "activity 13776": 22,
+    "activity 21016": 8,
+    "activity 181118": 6,
+    "activity 167406": 5
+   }
+  },
+  "case_RfpNumber": {
+   "missing_frac": 0.04739645613653658,
+   "cardinality": 6322,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6321,
+   "top_values": {
+    "UNKNOWN": 1744,
+    "request for payment number 171884": 20,
+    "request for payment number 158074": 16,
+    "request for payment number 165494": 16,
+    "request for payment number 166426": 16
+   },
+   "frac_events_with_rare_value_lt5": 0.06432764430916404
+  },
+  "ev_id": {
+   "missing_frac": 0.0,
+   "cardinality": 36796,
+   "constant_within_case_frac": 0.01045599767644496,
+   "top_values": {
+    "st_step 147532_0": 1,
+    "st_step 147533_0": 1,
+    "rp_request for payment 147529_15": 1,
+    "rp_request for payment 147529_16": 1,
+    "st_step 147536_0": 1
+   },
+   "frac_events_with_rare_value_lt5": 1.0
+  },
+  "ev_org:resource": {
+   "missing_frac": 0.0,
+   "cardinality": 2,
+   "constant_within_case_frac": 0.08393842579146094,
+   "top_values": {
+    "STAFF MEMBER": 24186,
+    "SYSTEM": 12610
+   }
+  },
+  "ev_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 19,
+   "constant_within_case_frac": 0.01045599767644496,
+   "top_values": {
+    "Request For Payment SUBMITTED by EMPLOYEE": 7504,
+    "Request For Payment FINAL_APPROVED by SUPERVISOR": 6343,
+    "Payment Handled": 6307,
+    "Request Payment": 6303,
+    "Request For Payment APPROVED by ADMINISTRATION": 5489,
+    "Request For Payment APPROVED by BUDGET OWNER": 2014,
+    "Request For Payment REJECTED by EMPLOYEE": 1085,
+    "Request For Payment REJECTED by ADMINISTRATION": 836,
+    "Request For Payment APPROVED by PRE_APPROVER": 413,
+    "Request For Payment REJECTED by SUPERVISOR": 179,
+    "Request For Payment SAVED by EMPLOYEE": 74,
+    "Request For Payment REJECTED by MISSING": 66,
+    "Request For Payment REJECTED by PRE_APPROVER": 51,
+    "Request For Payment REJECTED by BUDGET OWNER": 47,
+    "Request For Payment APPROVED by SUPERVISOR": 41,
+    "Request For Payment FINAL_APPROVED by DIRECTOR": 41,
+    "Request For Payment FOR_APPROVAL by ADMINISTRATION": 1,
+    "Request For Payment FINAL_APPROVED by BUDGET OWNER": 1,
+    "Request For Payment FOR_APPROVAL by SUPERVISOR": 1
+   }
+  },
+  "ev_time:timestamp": {
+   "missing_frac": 0.0,
+   "cardinality": 30141,
+   "constant_within_case_frac": 0.01045599767644496,
+   "top_values": {
+    "2018-12-20T17:31:30.000+01:00": 133,
+    "2019-01-03T11:59:16.000+01:00": 107,
+    "2018-04-05T17:30:53.000+02:00": 92,
+    "2018-09-20T17:31:17.000+02:00": 84,
+    "2018-12-13T17:31:08.000+01:00": 83
+   },
+   "frac_events_with_rare_value_lt5": 0.8261767583432982
+  },
+  "ev_org:role": {
+   "missing_frac": 0.3427002935101641,
+   "cardinality": 8,
+   "constant_within_case_frac": 0.01045599767644496,
+   "top_values": {
+    "UNDEFINED": 12610,
+    "EMPLOYEE": 8663,
+    "SUPERVISOR": 6564,
+    "ADMINISTRATION": 6326,
+    "BUDGET OWNER": 2062,
+    "PRE_APPROVER": 464,
+    "MISSING": 66,
+    "DIRECTOR": 41
+   }
+  }
+ },
+ "case_attr_vs_terminal_nmi": {
+  "case_Project": {
+   "nmi_with_last_activity": 0.7107949116679734
+  },
+  "case_OrganizationalEntity": {
+   "nmi_with_last_activity": 0.058518755844761475
+  },
+  "case_Activity": {
+   "nmi_with_last_activity": 0.004224132777630358
+  }
+ },
+ "n_variants": 89,
+ "top_variant_share": 0.8769968051118211,
+ "top_variants": [
+  {
+   "variant": "Request For Payment SUBMITTED by EMPLOYEE > Request For Payment APPROVED by ADMINISTRATION > Request For Payment FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 3011
+  },
+  {
+   "variant": "Request For Payment SUBMITTED by EMPLOYEE > Request For Payment APPROVED by ADMINISTRATION > Request For Payment APPROVED by BUDGET OWNER > Request For Payment FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 1762
+  },
+  {
+   "variant": "Request For Payment SUBMITTED by EMPLOYEE > Request For Payment FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 583
+  },
+  {
+   "variant": "Request For Payment SUBMITTED by EMPLOYEE > Request For Payment REJECTED by ADMINISTRATION > Request For Payment REJECTED by EMPLOYEE",
+   "count": 343
+  },
+  {
+   "variant": "Request For Payment SUBMITTED by EMPLOYEE > Request For Payment APPROVED by PRE_APPROVER > Request For Payment FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 340
+  }
+ ],
+ "registry": {
+  "event_cat": [
+   "org:role"
+  ],
+  "event_highcard": [
+   "org:resource"
+  ],
+  "case_cat": [
+   "OrganizationalEntity",
+   "Cost Type"
+  ],
+  "case_num": [
+   "RequestedAmount"
+  ],
+  "excluded": {
+   "id": "event identifier; encodes sub-process origin (st_step/dd_/rv_) and ordering \u2192 leakage",
+   "Rfp_id/RfpNumber/Task/Activity/Project": "identifiers"
+  },
+  "terminal": [
+   "Payment Handled",
+   "Request For Payment REJECTED by EMPLOYEE",
+   "Request For Payment REJECTED by MISSING"
+  ],
+  "notes": "Requests for payment not tied to a trip. Audit: case_Project has NMI 0.71 with terminal activity but 79 values over 6886 cases (small-sample inflation); excluded as identifier-like anyway."
+ }
+}

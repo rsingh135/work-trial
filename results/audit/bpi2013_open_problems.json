@@ -1,0 +1,383 @@
+{
+ "log": "bpi2013_open_problems",
+ "file": "bpi_challenge_2013_open_problems.xes.gz",
+ "family": "bpi2013",
+ "n_cases": 819,
+ "n_events": 2351,
+ "log_attrs": {
+  "concept:name": "BPI Challenge 2013, open problems"
+ },
+ "classifiers": {
+  "Activity classifier": [
+   "concept:name",
+   "lifecycle:transition"
+  ],
+  "Resource classifier": [
+   "org:resource"
+  ]
+ },
+ "event_globals": [
+  "concept:name",
+  "impact",
+  "lifecycle:transition",
+  "org:group",
+  "org:resource",
+  "org:role",
+  "organization country",
+  "organization involved",
+  "product",
+  "resource country",
+  "time:timestamp"
+ ],
+ "trace_globals": [
+  "concept:name"
+ ],
+ "activity_vocab_size": 5,
+ "activity_counts": {
+  "Accepted|In Progress": 1154,
+  "Completed|Closed": 387,
+  "Queued|Awaiting Assignment": 383,
+  "Accepted|Assigned": 215,
+  "Accepted|Wait": 212
+ },
+ "activity_keys": [
+  "concept:name",
+  "lifecycle:transition"
+ ],
+ "case_length": {
+  "p00": 1.0,
+  "p05": 1.0,
+  "p25": 2.0,
+  "p50": 2.0,
+  "p75": 3.0,
+  "p95": 7.0,
+  "p99": 9.0,
+  "p100": 22.0
+ },
+ "case_length_mean": 2.8705738705738706,
+ "case_duration_hours": {
+  "p00": 0.0,
+  "p05": 0.0,
+  "p25": 0.02333333333333333,
+  "p50": 41.538333333333334,
+  "p75": 838.0520833333333,
+  "p95": 7779.307027777775,
+  "p99": 16440.923666666546,
+  "p100": 42260.1425
+ },
+ "case_duration_hours_mean": 1408.810863858364,
+ "log_time_span": {
+  "start": "2006-11-07 09:00:36+00:00",
+  "end": "2012-06-15 10:19:56+00:00"
+ },
+ "last_activity_counts": {
+  "Completed|Closed": 356,
+  "Accepted|In Progress": 205,
+  "Queued|Awaiting Assignment": 93,
+  "Accepted|Assigned": 87,
+  "Accepted|Wait": 78
+ },
+ "first_activity_counts": {
+  "Accepted|In Progress": 725,
+  "Queued|Awaiting Assignment": 59,
+  "Accepted|Wait": 18,
+  "Accepted|Assigned": 16,
+  "Completed|Closed": 1
+ },
+ "frac_cases_ending_in_terminal": 0.4346764346764347,
+ "cases_ending_within_7d_of_log_end": 89,
+ "cases_ending_within_30d_of_log_end": 314,
+ "declared_censored": true,
+ "delta_t_seconds": {
+  "p00": 1.0,
+  "p05": 21.549999999999997,
+  "p25": 210.75,
+  "p50": 8698.5,
+  "p75": 1252751.5,
+  "p95": 12943549.050000016,
+  "p99": 46694394.26000009,
+  "p100": 96859128.0
+ },
+ "frac_zero_delta_t": 0.0,
+ "frac_negative_delta_t_raw_order": 0.0,
+ "frac_missing_timestamp": 0.0,
+ "frac_midnight_timestamps_local": 0.0,
+ "events_per_weekday_local": {
+  "0": 427,
+  "1": 458,
+  "2": 547,
+  "3": 458,
+  "4": 379,
+  "5": 51,
+  "6": 31
+ },
+ "events_per_hour_local": {
+  "0": 14,
+  "1": 9,
+  "2": 7,
+  "3": 11,
+  "4": 22,
+  "5": 18,
+  "6": 21,
+  "7": 36,
+  "8": 86,
+  "9": 163,
+  "10": 233,
+  "11": 227,
+  "12": 214,
+  "13": 229,
+  "14": 274,
+  "15": 215,
+  "16": 192,
+  "17": 136,
+  "18": 63,
+  "19": 41,
+  "20": 36,
+  "21": 43,
+  "22": 31,
+  "23": 30
+ },
+ "midnight_share_by_activity": {},
+ "columns": {
+  "case_id": {
+   "missing_frac": 0.0,
+   "cardinality": 819,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 819,
+   "top_values": {
+    "1-738300041": 22,
+    "1-636931254": 19,
+    "1-703540157": 15,
+    "1-707300171": 11,
+    "1-739695919": 11
+   },
+   "frac_events_with_rare_value_lt5": 0.6567418119948958
+  },
+  "case_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 819,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 819,
+   "top_values": {
+    "1-738300041": 22,
+    "1-636931254": 19,
+    "1-703540157": 15,
+    "1-707300171": 11,
+    "1-739695919": 11
+   },
+   "frac_events_with_rare_value_lt5": 0.6567418119948958
+  },
+  "ev_org:group": {
+   "missing_frac": 0.0,
+   "cardinality": 11,
+   "constant_within_case_frac": 0.9682539682539683,
+   "top_values": {
+    "Org line C": 1126,
+    "Org line A2": 612,
+    "Org line G4": 332,
+    "Org line G3": 124,
+    "Org line B": 96,
+    "Org line F": 18,
+    "Org line V2": 17,
+    "Org line D": 16,
+    "Org line G1": 7,
+    "Org line V11": 2,
+    "Org line V5": 1
+   }
+  },
+  "ev_resource country": {
+   "missing_frac": 0.0,
+   "cardinality": 14,
+   "constant_within_case_frac": 0.9108669108669109,
+   "top_values": {
+    "Sweden": 1317,
+    "POLAND": 244,
+    "INDIA": 238,
+    "United Kingdom": 169,
+    "Belgium": 134,
+    "USA": 120,
+    "France": 65,
+    "Brazil": 28,
+    "China": 13,
+    "Japan": 9,
+    "0": 6,
+    "Australia": 6,
+    "Denmark": 1,
+    "Canada": 1
+   }
+  },
+  "ev_org:resource": {
+   "missing_frac": 0.008507018290089324,
+   "cardinality": 240,
+   "constant_within_case_frac": 0.8168498168498168,
+   "top_values": {
+    "Ewa": 134,
+    "Ian": 134,
+    "Peter": 112,
+    "Tomas": 82,
+    "Robert": 64
+   },
+   "frac_events_with_rare_value_lt5": 0.10506167588260315
+  },
+  "ev_oranization country": {
+   "missing_frac": 0.0,
+   "cardinality": 14,
+   "constant_within_case_frac": 1.0,
+   "top_values": {
+    "se": 1068,
+    "us": 362,
+    "in": 324,
+    "gb": 176,
+    "be": 134,
+    "pl": 86,
+    "cn": 78,
+    "fr": 73,
+    "br": 28,
+    "jp": 9,
+    "au": 6,
+    "0": 5,
+    "dk": 1,
+    "ca": 1
+   }
+  },
+  "ev_org:role": {
+   "missing_frac": 0.2152275627392599,
+   "cardinality": 25,
+   "constant_within_case_frac": 0.9230769230769231,
+   "top_values": {
+    "E_10": 332,
+    "A2_1": 289,
+    "C_6": 227,
+    "E_4": 164,
+    "A2_2": 142,
+    "E_7": 125,
+    "A2_4": 83,
+    "E_1": 80,
+    "E_6": 78,
+    "A2_3": 68,
+    "E_8": 34,
+    "V3_3": 30,
+    "E_5": 29,
+    "D_1": 23,
+    "E_2": 20,
+    "V3_2": 20,
+    "D_2": 16,
+    "C_1": 15,
+    "A2_5": 15,
+    "C_3": 14,
+    "C_2": 13,
+    "E_3": 12,
+    "C_4": 7,
+    "C_5": 7,
+    "V3_1": 2
+   }
+  },
+  "ev_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 3,
+   "constant_within_case_frac": 0.3785103785103785,
+   "top_values": {
+    "Accepted": 1581,
+    "Completed": 387,
+    "Queued": 383
+   }
+  },
+  "ev_impact": {
+   "missing_frac": 0.0,
+   "cardinality": 4,
+   "constant_within_case_frac": 1.0,
+   "top_values": {
+    "Medium": 1248,
+    "High": 644,
+    "Low": 294,
+    "Major": 165
+   }
+  },
+  "ev_product": {
+   "missing_frac": 0.0,
+   "cardinality": 139,
+   "constant_within_case_frac": 1.0,
+   "top_values": {
+    "PROD802": 273,
+    "PROD236": 150,
+    "PROD98": 138,
+    "PROD374": 125,
+    "PROD412": 97
+   },
+   "frac_events_with_rare_value_lt5": 0.049766056997022544
+  },
+  "ev_time:timestamp": {
+   "missing_frac": 0.0,
+   "cardinality": 2349,
+   "constant_within_case_frac": 0.19047619047619047,
+   "top_values": {
+    "2009-12-02T14:24:32+01:00": 2,
+    "2009-12-02T14:24:34+01:00": 2,
+    "2006-11-07T10:00:36+01:00": 1,
+    "2006-11-07T13:05:44+01:00": 1,
+    "2011-09-03T07:09:09+02:00": 1
+   },
+   "frac_events_with_rare_value_lt5": 1.0
+  },
+  "ev_lifecycle:transition": {
+   "missing_frac": 0.0,
+   "cardinality": 5,
+   "constant_within_case_frac": 0.2087912087912088,
+   "top_values": {
+    "In Progress": 1154,
+    "Closed": 387,
+    "Awaiting Assignment": 383,
+    "Assigned": 215,
+    "Wait": 212
+   }
+  }
+ },
+ "case_attr_vs_terminal_nmi": {},
+ "n_variants": 182,
+ "top_variant_share": 0.5238095238095238,
+ "top_variants": [
+  {
+   "variant": "Accepted|In Progress > Completed|Closed",
+   "count": 176
+  },
+  {
+   "variant": "Accepted|In Progress",
+   "count": 123
+  },
+  {
+   "variant": "Accepted|In Progress > Accepted|Assigned",
+   "count": 55
+  },
+  {
+   "variant": "Accepted|In Progress > Accepted|Wait",
+   "count": 38
+  },
+  {
+   "variant": "Accepted|In Progress > Queued|Awaiting Assignment",
+   "count": 37
+  }
+ ],
+ "registry": {
+  "event_cat": [
+   "org:group",
+   "org:role",
+   "impact"
+  ],
+  "event_highcard": [
+   "org:resource",
+   "product"
+  ],
+  "case_cat": [],
+  "case_num": [],
+  "excluded": {
+   "oranization country": "misspelled key (sic) in this log only; excluded like its sibling",
+   "resource country": "near-duplicate of org:group/organization line; keep org:group instead",
+   "organization country": "same reason; also key is misspelled in open_problems ('oranization country') \u2014 treated as the same field via alias",
+   "organization involved": "redundant with org:group (function line) in Incidents"
+  },
+  "terminal": [
+   "Completed|Closed"
+  ],
+  "notes": "Open problems at extraction time: right-censored. Remaining-time/suffix/outcome targets are masked; next-event targets on observed prefixes remain valid."
+ }
+}

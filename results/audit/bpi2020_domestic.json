@@ -1,0 +1,316 @@
+{
+ "log": "bpi2020_domestic",
+ "file": "DomesticDeclarations.xes.gz",
+ "family": "bpi2020",
+ "n_cases": 10500,
+ "n_events": 56437,
+ "log_attrs": {
+  "concept:name": "Domestic Declarations"
+ },
+ "classifiers": {},
+ "event_globals": [],
+ "trace_globals": [],
+ "activity_vocab_size": 17,
+ "activity_counts": {
+  "Declaration SUBMITTED by EMPLOYEE": 11531,
+  "Declaration FINAL_APPROVED by SUPERVISOR": 10131,
+  "Payment Handled": 10044,
+  "Request Payment": 10040,
+  "Declaration APPROVED by ADMINISTRATION": 8202,
+  "Declaration APPROVED by BUDGET OWNER": 2820,
+  "Declaration REJECTED by EMPLOYEE": 1365,
+  "Declaration REJECTED by ADMINISTRATION": 952,
+  "Declaration APPROVED by PRE_APPROVER": 685,
+  "Declaration REJECTED by SUPERVISOR": 293,
+  "Declaration SAVED by EMPLOYEE": 135,
+  "Declaration REJECTED by MISSING": 91,
+  "Declaration REJECTED by PRE_APPROVER": 86,
+  "Declaration REJECTED by BUDGET OWNER": 59,
+  "Declaration FOR_APPROVAL by ADMINISTRATION": 1,
+  "Declaration FOR_APPROVAL by SUPERVISOR": 1,
+  "Declaration FOR_APPROVAL by PRE_APPROVER": 1
+ },
+ "activity_keys": [
+  "concept:name"
+ ],
+ "case_length": {
+  "p00": 1.0,
+  "p05": 4.0,
+  "p25": 5.0,
+  "p50": 5.0,
+  "p75": 6.0,
+  "p95": 8.0,
+  "p99": 11.0,
+  "p100": 24.0
+ },
+ "case_length_mean": 5.374952380952381,
+ "case_duration_hours": {
+  "p00": 0.0,
+  "p05": 56.49061111111111,
+  "p25": 139.60854166666667,
+  "p50": 175.92694444444444,
+  "p75": 293.7992361111111,
+  "p95": 700.9284861111108,
+  "p99": 1831.0700277777812,
+  "p100": 11261.671666666667
+ },
+ "case_duration_hours_mean": 276.6173275132275,
+ "log_time_span": {
+  "start": "2017-01-09 08:49:50+00:00",
+  "end": "2019-06-17 15:30:58+00:00"
+ },
+ "last_activity_counts": {
+  "Payment Handled": 10043,
+  "Declaration REJECTED by EMPLOYEE": 284,
+  "Declaration SAVED by EMPLOYEE": 134,
+  "Declaration REJECTED by MISSING": 30,
+  "Declaration REJECTED by ADMINISTRATION": 5,
+  "Declaration REJECTED by SUPERVISOR": 4
+ },
+ "first_activity_counts": {
+  "Declaration SUBMITTED by EMPLOYEE": 10365,
+  "Declaration SAVED by EMPLOYEE": 135
+ },
+ "frac_cases_ending_in_terminal": 0.9863809523809524,
+ "cases_ending_within_7d_of_log_end": 1,
+ "cases_ending_within_30d_of_log_end": 1,
+ "declared_censored": false,
+ "delta_t_seconds": {
+  "p00": 0.0,
+  "p05": 4.0,
+  "p25": 1217.0,
+  "p50": 87844.0,
+  "p75": 283247.0,
+  "p95": 614785.7999999996,
+  "p99": 2056892.3599999994,
+  "p100": 40542018.0
+ },
+ "frac_zero_delta_t": 0.00021768944423884885,
+ "frac_negative_delta_t_raw_order": 0.0,
+ "frac_missing_timestamp": 0.0,
+ "frac_midnight_timestamps_local": 0.0,
+ "events_per_weekday_local": {
+  "0": 14092,
+  "1": 10803,
+  "2": 7445,
+  "3": 16038,
+  "4": 6261,
+  "5": 777,
+  "6": 1021
+ },
+ "events_per_hour_local": {
+  "0": 119,
+  "1": 18,
+  "2": 20,
+  "3": 7,
+  "4": 10,
+  "5": 623,
+  "6": 107,
+  "7": 1071,
+  "8": 4157,
+  "9": 5477,
+  "10": 5825,
+  "11": 5232,
+  "12": 3418,
+  "13": 4133,
+  "14": 4422,
+  "15": 3846,
+  "16": 2963,
+  "17": 11521,
+  "18": 801,
+  "19": 679,
+  "20": 620,
+  "21": 609,
+  "22": 492,
+  "23": 267
+ },
+ "midnight_share_by_activity": {},
+ "columns": {
+  "case_id": {
+   "missing_frac": 0.0,
+   "cardinality": 10500,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 10500,
+   "top_values": {
+    "declaration 113462": 24,
+    "declaration 108210": 18,
+    "declaration 142449": 18,
+    "declaration 100971": 17,
+    "declaration 111577": 17
+   },
+   "frac_events_with_rare_value_lt5": 0.11690911990360933
+  },
+  "case_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 10500,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 10500,
+   "top_values": {
+    "declaration 113462": 24,
+    "declaration 108210": 18,
+    "declaration 142449": 18,
+    "declaration 100971": 17,
+    "declaration 111577": 17
+   },
+   "frac_events_with_rare_value_lt5": 0.11690911990360933
+  },
+  "case_BudgetNumber": {
+   "missing_frac": 0.0,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 10500,
+   "top_values": {
+    "budget 86566": 56437
+   }
+  },
+  "case_DeclarationNumber": {
+   "missing_frac": 0.022857345358541382,
+   "cardinality": 10049,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 10048,
+   "top_values": {
+    "UNKNOWN": 1290,
+    "declaration number 113463": 24,
+    "declaration number 108211": 18,
+    "declaration number 142450": 18,
+    "declaration number 100972": 17
+   },
+   "frac_events_with_rare_value_lt5": 0.09919024753264702
+  },
+  "case_Amount": {
+   "missing_frac": 0.0,
+   "cardinality": 8326,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 10500,
+   "top_values": {
+    "0.0": 1265,
+    "50.92840910996156": 160,
+    "6.360309608164841": 136,
+    "52.499349198822365": 110,
+    "43.97772966892201": 95
+   },
+   "frac_events_with_rare_value_lt5": 0.06860747382036607
+  },
+  "ev_id": {
+   "missing_frac": 0.0,
+   "cardinality": 56437,
+   "constant_within_case_frac": 0.012761904761904763,
+   "top_values": {
+    "st_step 100004_0": 1,
+    "st_step 100003_0": 1,
+    "st_step 100002_0": 1,
+    "dd_declaration 100000_19": 1,
+    "dd_declaration 100000_20": 1
+   },
+   "frac_events_with_rare_value_lt5": 1.0
+  },
+  "ev_org:resource": {
+   "missing_frac": 0.0,
+   "cardinality": 2,
+   "constant_within_case_frac": 0.04314285714285714,
+   "top_values": {
+    "STAFF MEMBER": 36353,
+    "SYSTEM": 20084
+   }
+  },
+  "ev_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 17,
+   "constant_within_case_frac": 0.012761904761904763,
+   "top_values": {
+    "Declaration SUBMITTED by EMPLOYEE": 11531,
+    "Declaration FINAL_APPROVED by SUPERVISOR": 10131,
+    "Payment Handled": 10044,
+    "Request Payment": 10040,
+    "Declaration APPROVED by ADMINISTRATION": 8202,
+    "Declaration APPROVED by BUDGET OWNER": 2820,
+    "Declaration REJECTED by EMPLOYEE": 1365,
+    "Declaration REJECTED by ADMINISTRATION": 952,
+    "Declaration APPROVED by PRE_APPROVER": 685,
+    "Declaration REJECTED by SUPERVISOR": 293,
+    "Declaration SAVED by EMPLOYEE": 135,
+    "Declaration REJECTED by MISSING": 91,
+    "Declaration REJECTED by PRE_APPROVER": 86,
+    "Declaration REJECTED by BUDGET OWNER": 59,
+    "Declaration FOR_APPROVAL by ADMINISTRATION": 1,
+    "Declaration FOR_APPROVAL by SUPERVISOR": 1,
+    "Declaration FOR_APPROVAL by PRE_APPROVER": 1
+   }
+  },
+  "ev_time:timestamp": {
+   "missing_frac": 0.0,
+   "cardinality": 45403,
+   "constant_within_case_frac": 0.012761904761904763,
+   "top_values": {
+    "2018-12-20T17:31:28.000+01:00": 177,
+    "2018-12-13T17:31:07.000+01:00": 148,
+    "2018-06-07T17:31:35.000+02:00": 146,
+    "2018-07-12T17:31:18.000+02:00": 144,
+    "2018-06-21T17:31:07.000+02:00": 142
+   },
+   "frac_events_with_rare_value_lt5": 0.8158477594485887
+  },
+  "ev_org:role": {
+   "missing_frac": 0.35586583269840705,
+   "cardinality": 7,
+   "constant_within_case_frac": 0.012761904761904763,
+   "top_values": {
+    "UNDEFINED": 20084,
+    "EMPLOYEE": 13031,
+    "SUPERVISOR": 10425,
+    "ADMINISTRATION": 9155,
+    "BUDGET OWNER": 2879,
+    "PRE_APPROVER": 772,
+    "MISSING": 91
+   }
+  }
+ },
+ "case_attr_vs_terminal_nmi": {},
+ "n_variants": 99,
+ "top_variant_share": 0.8955238095238095,
+ "top_variants": [
+  {
+   "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 4618
+  },
+  {
+   "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 2473
+  },
+  {
+   "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 1392
+  },
+  {
+   "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 575
+  },
+  {
+   "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 345
+  }
+ ],
+ "registry": {
+  "event_cat": [
+   "org:role"
+  ],
+  "event_highcard": [
+   "org:resource"
+  ],
+  "case_cat": [],
+  "case_num": [
+   "Amount"
+  ],
+  "excluded": {
+   "id": "event identifier; encodes sub-process origin (st_step/dd_/rv_) and ordering \u2192 leakage",
+   "BudgetNumber": "identifier-like, high-card",
+   "DeclarationNumber": "identifier"
+  },
+  "terminal": [
+   "Payment Handled",
+   "Declaration REJECTED by EMPLOYEE",
+   "Declaration REJECTED by MISSING"
+  ],
+  "notes": "Simplest BPI2020 log: submit \u2192 approvals \u2192 payment. Audit: 98% end in Payment Handled; 134 cases end in SAVED by EMPLOYEE (never submitted \u2192 incomplete)."
+ }
+}

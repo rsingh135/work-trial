@@ -1,0 +1,416 @@
+{
+ "log": "bpi2013_closed_problems",
+ "file": "bpi_challenge_2013_closed_problems.xes.gz",
+ "family": "bpi2013",
+ "n_cases": 1487,
+ "n_events": 6660,
+ "log_attrs": {
+  "concept:name": "BPI Challenge 2013, closed problems"
+ },
+ "classifiers": {
+  "Activity classifier": [
+   "concept:name",
+   "lifecycle:transition"
+  ],
+  "Resource classifier": [
+   "org:resource"
+  ]
+ },
+ "event_globals": [
+  "concept:name",
+  "impact",
+  "lifecycle:transition",
+  "org:group",
+  "org:resource",
+  "org:role",
+  "organization country",
+  "organization involved",
+  "product",
+  "resource country",
+  "time:timestamp"
+ ],
+ "trace_globals": [
+  "concept:name"
+ ],
+ "activity_vocab_size": 7,
+ "activity_counts": {
+  "Accepted|In Progress": 3066,
+  "Completed|Closed": 1565,
+  "Queued|Awaiting Assignment": 875,
+  "Accepted|Assigned": 614,
+  "Accepted|Wait": 527,
+  "Unmatched|Unmatched": 10,
+  "Completed|Cancelled": 3
+ },
+ "activity_keys": [
+  "concept:name",
+  "lifecycle:transition"
+ ],
+ "case_length": {
+  "p00": 1.0,
+  "p05": 2.0,
+  "p25": 2.0,
+  "p50": 3.0,
+  "p75": 6.0,
+  "p95": 11.0,
+  "p99": 16.0,
+  "p100": 35.0
+ },
+ "case_length_mean": 4.478816408876933,
+ "case_duration_hours": {
+  "p00": 0.0,
+  "p05": 0.1491111111111111,
+  "p25": 573.1740277777778,
+  "p50": 1968.5327777777777,
+  "p75": 5955.993472222222,
+  "p95": 15836.455833333337,
+  "p99": 21820.440050000037,
+  "p100": 54116.364166666666
+ },
+ "case_duration_hours_mean": 4293.23703728611,
+ "log_time_span": {
+  "start": "2006-01-11 14:49:42+00:00",
+  "end": "2012-05-31 21:49:06+00:00"
+ },
+ "last_activity_counts": {
+  "Completed|Closed": 1487
+ },
+ "first_activity_counts": {
+  "Accepted|In Progress": 1396,
+  "Queued|Awaiting Assignment": 53,
+  "Accepted|Wait": 24,
+  "Accepted|Assigned": 12,
+  "Unmatched|Unmatched": 1,
+  "Completed|Closed": 1
+ },
+ "frac_cases_ending_in_terminal": 1.0,
+ "cases_ending_within_7d_of_log_end": 52,
+ "cases_ending_within_30d_of_log_end": 248,
+ "declared_censored": false,
+ "delta_t_seconds": {
+  "p00": 1.0,
+  "p05": 9.0,
+  "p25": 177.0,
+  "p50": 28973.0,
+  "p75": 3090909.0,
+  "p95": 27041019.599999994,
+  "p99": 55266306.4,
+  "p100": 194817850.0
+ },
+ "frac_zero_delta_t": 0.0,
+ "frac_negative_delta_t_raw_order": 0.0,
+ "frac_missing_timestamp": 0.0,
+ "frac_midnight_timestamps_local": 0.0,
+ "events_per_weekday_local": {
+  "0": 1348,
+  "1": 1276,
+  "2": 1596,
+  "3": 1194,
+  "4": 1069,
+  "5": 113,
+  "6": 64
+ },
+ "events_per_hour_local": {
+  "0": 38,
+  "1": 31,
+  "2": 21,
+  "3": 40,
+  "4": 53,
+  "5": 54,
+  "6": 65,
+  "7": 127,
+  "8": 319,
+  "9": 537,
+  "10": 610,
+  "11": 596,
+  "12": 625,
+  "13": 695,
+  "14": 703,
+  "15": 650,
+  "16": 539,
+  "17": 355,
+  "18": 157,
+  "19": 102,
+  "20": 94,
+  "21": 107,
+  "22": 91,
+  "23": 51
+ },
+ "midnight_share_by_activity": {},
+ "columns": {
+  "case_id": {
+   "missing_frac": 0.0,
+   "cardinality": 1487,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1487,
+   "top_values": {
+    "1-618350811": 35,
+    "1-475885658": 29,
+    "1-682262974": 28,
+    "1-423751353": 22,
+    "1-519167681": 19
+   },
+   "frac_events_with_rare_value_lt5": 0.3704204204204204
+  },
+  "case_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 1487,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1487,
+   "top_values": {
+    "1-618350811": 35,
+    "1-475885658": 29,
+    "1-682262974": 28,
+    "1-423751353": 22,
+    "1-519167681": 19
+   },
+   "frac_events_with_rare_value_lt5": 0.3704204204204204
+  },
+  "ev_org:group": {
+   "missing_frac": 0.0,
+   "cardinality": 15,
+   "constant_within_case_frac": 0.9172831203765972,
+   "top_values": {
+    "Org line C": 2702,
+    "Org line A2": 1766,
+    "Org line G3": 1164,
+    "Org line G4": 608,
+    "Org line B": 174,
+    "Org line V2": 92,
+    "Org line F": 50,
+    "Org line V11": 33,
+    "Org line V7n": 27,
+    "Org line D": 16,
+    "Org line G1": 11,
+    "Org line V5": 9,
+    "Other": 5,
+    "Org line V4": 2,
+    "Org line A1": 1
+   }
+  },
+  "ev_resource country": {
+   "missing_frac": 0.0,
+   "cardinality": 21,
+   "constant_within_case_frac": 0.7592468056489576,
+   "top_values": {
+    "Sweden": 3452,
+    "POLAND": 833,
+    "USA": 810,
+    "INDIA": 702,
+    "France": 252,
+    "Belgium": 178,
+    "United Kingdom": 168,
+    "Brazil": 93,
+    "China": 73,
+    "Netherlands": 27,
+    "Japan": 24,
+    "THAILAND": 15,
+    "Korea": 12,
+    "0": 5,
+    "Canada": 4,
+    "Australia": 3,
+    "Germany": 2,
+    "Mexico": 2,
+    "Czech Republic": 2,
+    "MALAYSIA": 2,
+    "Denmark": 1
+   }
+  },
+  "ev_organization country": {
+   "missing_frac": 0.0,
+   "cardinality": 17,
+   "constant_within_case_frac": 1.0,
+   "top_values": {
+    "se": 2681,
+    "us": 1836,
+    "in": 954,
+    "pl": 247,
+    "fr": 237,
+    "be": 209,
+    "gb": 171,
+    "cn": 147,
+    "br": 81,
+    "nl": 29,
+    "jp": 24,
+    "kr": 18,
+    "0": 13,
+    "au": 5,
+    "ca": 4,
+    "de": 2,
+    "mx": 2
+   }
+  },
+  "ev_org:resource": {
+   "missing_frac": 0.003903903903903904,
+   "cardinality": 585,
+   "constant_within_case_frac": 0.6153328850033625,
+   "top_values": {
+    "Carolyn": 532,
+    "Ewa": 469,
+    "Peter": 148,
+    "Tomas": 111,
+    "Robert": 94
+   },
+   "frac_events_with_rare_value_lt5": 0.10225225225225225
+  },
+  "ev_organization involved": {
+   "missing_frac": 0.0,
+   "cardinality": 324,
+   "constant_within_case_frac": 0.8117014122394082,
+   "top_values": {
+    "G199 3rd": 1164,
+    "G88 2nd": 294,
+    "S33 2nd": 254,
+    "S30 2nd": 168,
+    "G21 2nd": 129
+   },
+   "frac_events_with_rare_value_lt5": 0.04489489489489489
+  },
+  "ev_org:role": {
+   "missing_frac": 0.312012012012012,
+   "cardinality": 28,
+   "constant_within_case_frac": 0.9031607262945528,
+   "top_values": {
+    "C_6": 532,
+    "A2_2": 496,
+    "E_10": 446,
+    "A2_3": 416,
+    "E_4": 402,
+    "A2_1": 400,
+    "E_8": 268,
+    "E_1": 236,
+    "A2_4": 204,
+    "E_7": 196,
+    "E_6": 156,
+    "D_1": 149,
+    "A2_5": 121,
+    "C_1": 80,
+    "E_5": 77,
+    "V3_3": 75,
+    "E_3": 60,
+    "V3_2": 55,
+    "C_5": 52,
+    "C_3": 47,
+    "E_2": 35,
+    "C_4": 19,
+    "C_2": 19,
+    "E_9": 18,
+    "D_2": 16,
+    "C_7": 4,
+    "V3_1": 2,
+    "V8_1": 1
+   }
+  },
+  "ev_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 4,
+   "constant_within_case_frac": 0.0006724949562878278,
+   "top_values": {
+    "Accepted": 4207,
+    "Completed": 1568,
+    "Queued": 875,
+    "Unmatched": 10
+   }
+  },
+  "ev_impact": {
+   "missing_frac": 0.0,
+   "cardinality": 4,
+   "constant_within_case_frac": 1.0,
+   "top_values": {
+    "Medium": 3817,
+    "High": 1363,
+    "Low": 905,
+    "Major": 575
+   }
+  },
+  "ev_product": {
+   "missing_frac": 0.0,
+   "cardinality": 337,
+   "constant_within_case_frac": 1.0,
+   "top_values": {
+    "PROD97": 612,
+    "PROD98": 383,
+    "PROD802": 299,
+    "PROD96": 289,
+    "PROD374": 169
+   },
+   "frac_events_with_rare_value_lt5": 0.044294294294294295
+  },
+  "ev_lifecycle:transition": {
+   "missing_frac": 0.0,
+   "cardinality": 7,
+   "constant_within_case_frac": 0.0006724949562878278,
+   "top_values": {
+    "In Progress": 3066,
+    "Closed": 1565,
+    "Awaiting Assignment": 875,
+    "Assigned": 614,
+    "Wait": 527,
+    "Unmatched": 10,
+    "Cancelled": 3
+   }
+  },
+  "ev_time:timestamp": {
+   "missing_frac": 0.0,
+   "cardinality": 6658,
+   "constant_within_case_frac": 0.0006724949562878278,
+   "top_values": {
+    "2009-12-02T14:24:32+01:00": 2,
+    "2009-12-02T14:24:34+01:00": 2,
+    "2006-01-11T15:49:42+01:00": 1,
+    "2012-03-15T11:53:52+01:00": 1,
+    "2012-03-15T11:56:17+01:00": 1
+   },
+   "frac_events_with_rare_value_lt5": 1.0
+  }
+ },
+ "case_attr_vs_terminal_nmi": {},
+ "n_variants": 327,
+ "top_variant_share": 0.5958305312710155,
+ "top_variants": [
+  {
+   "variant": "Accepted|In Progress > Completed|Closed",
+   "count": 485
+  },
+  {
+   "variant": "Accepted|In Progress > Queued|Awaiting Assignment > Accepted|In Progress > Accepted|Assigned > Accepted|In Progress > Completed|Closed",
+   "count": 129
+  },
+  {
+   "variant": "Accepted|In Progress > Accepted|Wait > Completed|Closed",
+   "count": 110
+  },
+  {
+   "variant": "Accepted|In Progress > Accepted|In Progress > Completed|Closed",
+   "count": 95
+  },
+  {
+   "variant": "Accepted|In Progress > Queued|Awaiting Assignment > Accepted|In Progress > Completed|Closed",
+   "count": 67
+  }
+ ],
+ "registry": {
+  "event_cat": [
+   "org:group",
+   "org:role",
+   "impact",
+   "organization involved"
+  ],
+  "event_highcard": [
+   "org:resource",
+   "product"
+  ],
+  "case_cat": [],
+  "case_num": [],
+  "excluded": {
+   "resource country": "near-duplicate of org:group/organization line; keep org:group instead",
+   "organization country": "same reason; also key is misspelled in open_problems ('oranization country') \u2014 treated as the same field via alias",
+   "organization involved": "redundant with org:group (function line) in Incidents"
+  },
+  "terminal": [
+   "Completed|Closed",
+   "Completed|Cancelled"
+  ],
+  "notes": "Problem management, closed problems only. Audit: 100% of cases end in Completed|Closed."
+ }
+}

@@ -13,3 +13,4 @@ appworld_data/
 experiments/
 # local secrets
 .env
+.DS_Store

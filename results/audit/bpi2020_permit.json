@@ -1,0 +1,2590 @@
+{
+ "log": "bpi2020_permit",
+ "file": "PermitLog.xes.gz",
+ "family": "bpi2020",
+ "n_cases": 7065,
+ "n_events": 86581,
+ "log_attrs": {
+  "concept:name": "Travel Permits"
+ },
+ "classifiers": {},
+ "event_globals": [],
+ "trace_globals": [],
+ "activity_vocab_size": 51,
+ "activity_counts": {
+  "Declaration SUBMITTED by EMPLOYEE": 7574,
+  "Payment Handled": 7544,
+  "Request Payment": 7541,
+  "Permit SUBMITTED by EMPLOYEE": 7331,
+  "Start trip": 7065,
+  "End trip": 7065,
+  "Permit FINAL_APPROVED by SUPERVISOR": 6300,
+  "Permit APPROVED by ADMINISTRATION": 5715,
+  "Declaration FINAL_APPROVED by SUPERVISOR": 5641,
+  "Declaration APPROVED by ADMINISTRATION": 4782,
+  "Send Reminder": 2303,
+  "Permit APPROVED by BUDGET OWNER": 2048,
+  "Request For Payment SUBMITTED by EMPLOYEE": 2033,
+  "Request For Payment FINAL_APPROVED by SUPERVISOR": 1753,
+  "Declaration APPROVED by BUDGET OWNER": 1717,
+  "Declaration REJECTED by EMPLOYEE": 1688,
+  "Request For Payment APPROVED by ADMINISTRATION": 1531,
+  "Declaration REJECTED by ADMINISTRATION": 1476,
+  "Permit APPROVED by SUPERVISOR": 683,
+  "Permit FINAL_APPROVED by DIRECTOR": 681,
+  "Request For Payment APPROVED by BUDGET OWNER": 605,
+  "Permit APPROVED by PRE_APPROVER": 584,
+  "Declaration APPROVED by PRE_APPROVER": 561,
+  "Permit REJECTED by EMPLOYEE": 345,
+  "Request For Payment REJECTED by EMPLOYEE": 236,
+  "Declaration APPROVED by SUPERVISOR": 221,
+  "Declaration FINAL_APPROVED by DIRECTOR": 217,
+  "Request For Payment REJECTED by ADMINISTRATION": 199,
+  "Request For Payment APPROVED by PRE_APPROVER": 156,
+  "Permit REJECTED by ADMINISTRATION": 133,
+  "Permit REJECTED by SUPERVISOR": 125,
+  "Declaration REJECTED by SUPERVISOR": 115,
+  "Declaration REJECTED by MISSING": 96,
+  "Permit REJECTED by MISSING": 83,
+  "Declaration REJECTED by PRE_APPROVER": 77,
+  "Declaration SAVED by EMPLOYEE": 65,
+  "Permit REJECTED by BUDGET OWNER": 54,
+  "Declaration REJECTED by BUDGET OWNER": 39,
+  "Request For Payment APPROVED by SUPERVISOR": 37,
+  "Request For Payment FINAL_APPROVED by DIRECTOR": 37,
+  "Permit REJECTED by PRE_APPROVER": 33,
+  "Request For Payment REJECTED by SUPERVISOR": 20,
+  "Permit SAVED by EMPLOYEE": 17,
+  "Request For Payment SAVED by EMPLOYEE": 17,
+  "Request For Payment REJECTED by PRE_APPROVER": 17,
+  "Request For Payment REJECTED by MISSING": 7,
+  "Request For Payment REJECTED by BUDGET OWNER": 6,
+  "Declaration REJECTED by DIRECTOR": 4,
+  "Permit REJECTED by DIRECTOR": 2,
+  "Permit FOR_APPROVAL by SUPERVISOR": 1,
+  "Permit FOR_APPROVAL by ADMINISTRATION": 1
+ },
+ "activity_keys": [
+  "concept:name"
+ ],
+ "case_length": {
+  "p00": 3.0,
+  "p05": 6.0,
+  "p25": 9.0,
+  "p50": 11.0,
+  "p75": 15.0,
+  "p95": 22.0,
+  "p99": 32.0,
+  "p100": 90.0
+ },
+ "case_length_mean": 12.254918612880397,
+ "case_duration_hours": {
+  "p00": 12.608888888888888,
+  "p05": 425.5167222222222,
+  "p25": 982.2622222222222,
+  "p50": 1721.5202777777777,
+  "p75": 2813.0138888888887,
+  "p95": 5024.614,
+  "p99": 7909.067722222215,
+  "p100": 28567.889166666668
+ },
+ "case_duration_hours_mean": 2097.3609007234413,
+ "log_time_span": {
+  "start": "2016-10-04 22:00:00+00:00",
+  "end": "2021-08-31 22:00:00+00:00"
+ },
+ "last_activity_counts": {
+  "Payment Handled": 5474,
+  "Send Reminder": 991,
+  "End trip": 453,
+  "Permit REJECTED by MISSING": 38,
+  "Permit REJECTED by EMPLOYEE": 31,
+  "Declaration SAVED by EMPLOYEE": 28,
+  "Declaration REJECTED by EMPLOYEE": 28,
+  "Permit FINAL_APPROVED by SUPERVISOR": 14,
+  "Permit SAVED by EMPLOYEE": 4,
+  "Declaration REJECTED by MISSING": 2,
+  "Request Payment": 1,
+  "Declaration REJECTED by SUPERVISOR": 1
+ },
+ "first_activity_counts": {
+  "Permit SUBMITTED by EMPLOYEE": 6319,
+  "Start trip": 734,
+  "Permit SAVED by EMPLOYEE": 12
+ },
+ "frac_cases_ending_in_terminal": 0.7885350318471338,
+ "cases_ending_within_7d_of_log_end": 1,
+ "cases_ending_within_30d_of_log_end": 1,
+ "declared_censored": false,
+ "delta_t_seconds": {
+  "p00": 0.0,
+  "p05": 3.0,
+  "p25": 2833.5,
+  "p50": 150112.5,
+  "p75": 432000.0,
+  "p95": 3753558.5,
+  "p99": 7994373.050000029,
+  "p100": 95212800.0
+ },
+ "frac_zero_delta_t": 0.014148095980683133,
+ "frac_negative_delta_t_raw_order": 0.0,
+ "frac_missing_timestamp": 0.0,
+ "frac_midnight_timestamps_local": 0.16321132812048833,
+ "events_per_weekday_local": {
+  "0": 18849,
+  "1": 16458,
+  "2": 13244,
+  "3": 19553,
+  "4": 10876,
+  "5": 3552,
+  "6": 4049
+ },
+ "events_per_hour_local": {
+  "0": 14305,
+  "1": 82,
+  "2": 66,
+  "3": 54,
+  "4": 42,
+  "5": 1148,
+  "6": 2087,
+  "7": 1062,
+  "8": 4366,
+  "9": 6399,
+  "10": 7385,
+  "11": 7536,
+  "12": 4781,
+  "13": 5685,
+  "14": 6306,
+  "15": 6236,
+  "16": 4524,
+  "17": 9696,
+  "18": 1195,
+  "19": 795,
+  "20": 797,
+  "21": 855,
+  "22": 778,
+  "23": 401
+ },
+ "midnight_share_by_activity": {
+  "Start trip": 1.0,
+  "End trip": 1.0,
+  "Permit SUBMITTED by EMPLOYEE": 0.00013640703860319192
+ },
+ "columns": {
+  "case_id": {
+   "missing_frac": 0.0,
+   "cardinality": 7065,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 7065,
+   "top_values": {
+    "travel permit 73562": 90,
+    "travel permit 22776": 81,
+    "travel permit 24054": 78,
+    "travel permit 53343": 75,
+    "travel permit 32577": 61
+   },
+   "frac_events_with_rare_value_lt5": 0.0005312943948441344
+  },
+  "case_OrganizationalEntity": {
+   "missing_frac": 0.0,
+   "cardinality": 29,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 7065,
+   "top_values": {
+    "organizational unit 65458": 18624,
+    "organizational unit 65455": 14193,
+    "organizational unit 65456": 13454,
+    "organizational unit 65454": 7884,
+    "organizational unit 65459": 7456,
+    "organizational unit 65460": 7304,
+    "organizational unit 65464": 4617,
+    "organizational unit 65457": 4605,
+    "organizational unit 65466": 3965,
+    "organizational unit 65461": 1136,
+    "organizational unit 65469": 787,
+    "organizational unit 65470": 678,
+    "organizational unit 65472": 308,
+    "organizational unit 65467": 253,
+    "organizational unit 65475": 243,
+    "organizational unit 65477": 200,
+    "organizational unit 65473": 161,
+    "organizational unit 65480": 159,
+    "organizational unit 65465": 124,
+    "organizational unit 65468": 110,
+    "organizational unit 65482": 98,
+    "organizational unit 65471": 93,
+    "organizational unit 65484": 38,
+    "organizational unit 65474": 28,
+    "organizational unit 65462": 27,
+    "organizational unit 65486": 13,
+    "organizational unit 65478": 10,
+    "organizational unit 65488": 10,
+    "organizational unit 65483": 3
+   }
+  },
+  "case_ProjectNumber": {
+   "missing_frac": 0.4070870052320948,
+   "cardinality": 885,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4112,
+   "top_values": {
+    "UNKNOWN": 35246,
+    "project 3442": 739,
+    "project 647": 480,
+    "project 1623": 435,
+    "project 8761": 435
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_TaskNumber": {
+   "missing_frac": 0.4082766426814197,
+   "cardinality": 6,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4104,
+   "top_values": {
+    "task 427": 50731,
+    "UNKNOWN": 35349,
+    "task 13772": 192,
+    "task 648": 133,
+    "task 7355": 128,
+    "task 26077": 48
+   }
+  },
+  "case_dec_id_0": {
+   "missing_frac": 0.3935274482854206,
+   "cardinality": 4451,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4451,
+   "top_values": {
+    "declaration 73564": 90,
+    "declaration 53346": 75,
+    "declaration 32579": 61,
+    "declaration 45620": 53,
+    "declaration 64234": 48
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_ActivityNumber": {
+   "missing_frac": 0.928806551090886,
+   "cardinality": 167,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 469,
+   "top_values": {
+    "UNKNOWN": 80417,
+    "activity 2169": 421,
+    "activity 2401": 338,
+    "activity 5818": 296,
+    "activity 7905": 217
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_TotalDeclared": {
+   "missing_frac": 0.0,
+   "cardinality": 5680,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 7065,
+   "top_values": {
+    "0.0": 9143,
+    "3375.0841578919008": 90,
+    "12231.892049064641": 81,
+    "9246.303403256401": 78,
+    "4810.613072143068": 75
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 7065,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 7065,
+   "top_values": {
+    "travel permit 73562": 90,
+    "travel permit 22776": 81,
+    "travel permit 24054": 78,
+    "travel permit 53343": 75,
+    "travel permit 32577": 61
+   },
+   "frac_events_with_rare_value_lt5": 0.0005312943948441344
+  },
+  "case_RequestedAmount_0": {
+   "missing_frac": 0.10843025606079856,
+   "cardinality": 3181,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 5703,
+   "top_values": {
+    "": 769,
+    "44": 174,
+    "57": 160,
+    "71": 147,
+    "0": 146
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Overspent": {
+   "missing_frac": 0.0,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 7065,
+   "top_values": {
+    "false": 59055,
+    "true": 27526
+   }
+  },
+  "case_travel permit number": {
+   "missing_frac": 0.012000323396588165,
+   "cardinality": 6903,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6902,
+   "top_values": {
+    "UNKNOWN": 1039,
+    "travel permit number 73563": 90,
+    "travel permit number 22777": 81,
+    "travel permit number 24055": 78,
+    "travel permit number 53344": 75
+   },
+   "frac_events_with_rare_value_lt5": 4.619951259514212e-05
+  },
+  "case_DeclarationNumber_0": {
+   "missing_frac": 0.4025363532414733,
+   "cardinality": 4378,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4377,
+   "top_values": {
+    "UNKNOWN": 780,
+    "declaration number 73565": 90,
+    "declaration number 53347": 75,
+    "declaration number 32580": 61,
+    "declaration number 45621": 53
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_RequestedBudget": {
+   "missing_frac": 0.0,
+   "cardinality": 6256,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 7065,
+   "top_values": {
+    "0.0": 2391,
+    "6020.792330592076": 90,
+    "2683.621721813341": 82,
+    "1325.1198574471014": 81,
+    "13451.80237714168": 81
+   },
+   "frac_events_with_rare_value_lt5": 0.00035804622261235145
+  },
+  "case_BudgetNumber": {
+   "missing_frac": 0.0,
+   "cardinality": 226,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 7065,
+   "top_values": {
+    "budget 922": 3476,
+    "budget 698": 3061,
+    "budget 635": 3054,
+    "budget 6198": 2419,
+    "budget 475": 2377
+   },
+   "frac_events_with_rare_value_lt5": 3.464963444635659e-05
+  },
+  "case_OverspentAmount": {
+   "missing_frac": 0.0,
+   "cardinality": 6622,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 7065,
+   "top_values": {
+    "0.0": 3293,
+    "-2645.708172700175": 90,
+    "-10416.807638287843": 81,
+    "3720.6158346169286": 78,
+    "1370.1603118047387": 75
+   },
+   "frac_events_with_rare_value_lt5": 0.0004619951259514212
+  },
+  "ev_id": {
+   "missing_frac": 0.0,
+   "cardinality": 86581,
+   "constant_within_case_frac": 0.0,
+   "top_values": {
+    "st_step 10031_0": 1,
+    "st_step 10030_0": 1,
+    "st_step 10029_0": 1,
+    "st_step 10028_0": 1,
+    "rv_travel permit 10022_6": 1
+   },
+   "frac_events_with_rare_value_lt5": 1.0
+  },
+  "ev_org:resource": {
+   "missing_frac": 0.0,
+   "cardinality": 2,
+   "constant_within_case_frac": 0.0627034677990092,
+   "top_values": {
+    "STAFF MEMBER": 69193,
+    "SYSTEM": 17388
+   }
+  },
+  "ev_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 51,
+   "constant_within_case_frac": 0.0,
+   "top_values": {
+    "Declaration SUBMITTED by EMPLOYEE": 7574,
+    "Payment Handled": 7544,
+    "Request Payment": 7541,
+    "Permit SUBMITTED by EMPLOYEE": 7331,
+    "Start trip": 7065
+   },
+   "frac_events_with_rare_value_lt5": 9.239902519028425e-05
+  },
+  "ev_time:timestamp": {
+   "missing_frac": 0.0,
+   "cardinality": 62741,
+   "constant_within_case_frac": 0.0,
+   "top_values": {
+    "2018-07-12T17:31:20.000+02:00": 117,
+    "2018-09-13T17:31:15.000+02:00": 102,
+    "2018-12-20T17:31:29.000+01:00": 100,
+    "2018-06-15T00:00:00.000+02:00": 94,
+    "2018-10-22T17:31:25.000+02:00": 85
+   },
+   "frac_events_with_rare_value_lt5": 0.740266340190111
+  },
+  "ev_org:role": {
+   "missing_frac": 0.2008292812510828,
+   "cardinality": 8,
+   "constant_within_case_frac": 0.001981599433828733,
+   "top_values": {
+    "EMPLOYEE": 33436,
+    "UNDEFINED": 17388,
+    "SUPERVISOR": 14896,
+    "ADMINISTRATION": 13837,
+    "BUDGET OWNER": 4469,
+    "PRE_APPROVER": 1428,
+    "DIRECTOR": 941,
+    "MISSING": 186
+   }
+  },
+  "case_dec_id_5": {
+   "missing_frac": 0.9863249442718379,
+   "cardinality": 26,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 26,
+   "top_values": {
+    "declaration 73574": 90,
+    "declaration 53356": 75,
+    "declaration 32589": 61,
+    "declaration 67429": 54,
+    "declaration 45630": 53,
+    "declaration 2514": 49,
+    "declaration 64574": 49,
+    "declaration 63690": 48,
+    "declaration 64244": 48,
+    "declaration 4548": 46,
+    "declaration 47329": 44,
+    "declaration 42544": 43,
+    "declaration 12740": 42,
+    "declaration 33332": 42,
+    "declaration 66022": 41,
+    "declaration 13806": 39,
+    "declaration 20341": 39,
+    "declaration 56150": 39,
+    "declaration 66607": 37,
+    "declaration 25693": 36,
+    "declaration 62160": 36,
+    "declaration 65277": 36,
+    "declaration 7659": 36,
+    "declaration 69276": 35,
+    "declaration 32187": 33,
+    "declaration 80550": 33
+   }
+  },
+  "case_dec_id_6": {
+   "missing_frac": 0.9914992896824939,
+   "cardinality": 14,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 14,
+   "top_values": {
+    "declaration 73576": 90,
+    "declaration 53358": 75,
+    "declaration 32591": 61,
+    "declaration 67431": 54,
+    "declaration 45631": 53,
+    "declaration 57195": 53,
+    "declaration 2516": 49,
+    "declaration 64576": 49,
+    "declaration 28772": 48,
+    "declaration 64246": 48,
+    "declaration 4550": 46,
+    "declaration 56151": 39,
+    "declaration 25695": 36,
+    "declaration 69277": 35
+   }
+  },
+  "case_dec_id_3": {
+   "missing_frac": 0.9572885506057911,
+   "cardinality": 121,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 121,
+   "top_values": {
+    "declaration 73570": 90,
+    "declaration 53352": 75,
+    "declaration 32585": 61,
+    "declaration 45626": 53,
+    "declaration 2510": 49
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_dec_id_4": {
+   "missing_frac": 0.9771312412654046,
+   "cardinality": 51,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 51,
+   "top_values": {
+    "declaration 73572": 90,
+    "declaration 53354": 75,
+    "declaration 32587": 61,
+    "declaration 67427": 54,
+    "declaration 45628": 53
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_dec_id_1": {
+   "missing_frac": 0.7959598526235548,
+   "cardinality": 999,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 999,
+   "top_values": {
+    "declaration 73566": 90,
+    "declaration 53348": 75,
+    "declaration 32581": 61,
+    "declaration 45622": 53,
+    "declaration 64236": 48
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_dec_id_2": {
+   "missing_frac": 0.9143114540141601,
+   "cardinality": 309,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 309,
+   "top_values": {
+    "declaration 73568": 90,
+    "declaration 53350": 75,
+    "declaration 32583": 61,
+    "declaration 45624": 53,
+    "declaration 63684": 48
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_DeclarationNumber_10": {
+   "missing_frac": 0.9980942701054504,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "declaration number 73585": 90,
+    "declaration number 53367": 75
+   }
+  },
+  "case_RequestedAmount_16": {
+   "missing_frac": 0.9989605109666093,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "18": 90
+   }
+  },
+  "case_RequestedAmount_14": {
+   "missing_frac": 0.9980249708365577,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "191": 90,
+    "2765.1861261511863": 81
+   }
+  },
+  "case_RequestedAmount_15": {
+   "missing_frac": 0.9989605109666093,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "153": 90
+   }
+  },
+  "case_dec_id_9": {
+   "missing_frac": 0.9963733382612814,
+   "cardinality": 5,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 5,
+   "top_values": {
+    "declaration 73582": 90,
+    "declaration 53364": 75,
+    "declaration 32597": 61,
+    "declaration 45637": 53,
+    "declaration 69282": 35
+   }
+  },
+  "case_RequestedAmount_12": {
+   "missing_frac": 0.9971587299753988,
+   "cardinality": 3,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 3,
+   "top_values": {
+    "219": 90,
+    "1999.274128302682": 81,
+    "140": 75
+   }
+  },
+  "case_DeclarationNumber_14": {
+   "missing_frac": 0.9989605109666093,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "declaration number 73593": 90
+   }
+  },
+  "case_DeclarationNumber_13": {
+   "missing_frac": 0.9980942701054504,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "declaration number 73591": 90,
+    "declaration number 53373": 75
+   }
+  },
+  "case_RequestedAmount_13": {
+   "missing_frac": 0.9971587299753988,
+   "cardinality": 3,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 3,
+   "top_values": {
+    "297": 90,
+    "175.71416855141317": 81,
+    "409": 75
+   }
+  },
+  "case_dec_id_7": {
+   "missing_frac": 0.9951375012993613,
+   "cardinality": 7,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 7,
+   "top_values": {
+    "declaration 73578": 90,
+    "declaration 53360": 75,
+    "declaration 32593": 61,
+    "declaration 67433": 54,
+    "declaration 45633": 53,
+    "declaration 57197": 53,
+    "declaration 69278": 35
+   }
+  },
+  "case_RequestedAmount_10": {
+   "missing_frac": 0.9962578394797935,
+   "cardinality": 4,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "242": 90,
+    "2866.074643979749": 81,
+    "2036.5653624275842": 78,
+    "604": 75
+   }
+  },
+  "case_DeclarationNumber_12": {
+   "missing_frac": 0.9980942701054504,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "declaration number 73589": 90,
+    "declaration number 53371": 75
+   }
+  },
+  "case_dec_id_8": {
+   "missing_frac": 0.9957611947193957,
+   "cardinality": 6,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6,
+   "top_values": {
+    "declaration 73580": 90,
+    "declaration 53362": 75,
+    "declaration 32595": 61,
+    "declaration 45635": 53,
+    "declaration 57199": 53,
+    "declaration 69280": 35
+   }
+  },
+  "case_DeclarationNumber_11": {
+   "missing_frac": 0.9971933796098451,
+   "cardinality": 3,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 3,
+   "top_values": {
+    "declaration number 73587": 90,
+    "declaration number 24079": 78,
+    "declaration number 53369": 75
+   }
+  },
+  "case_RequestedAmount_11": {
+   "missing_frac": 0.9962578394797935,
+   "cardinality": 4,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "309": 90,
+    "211.86588743998144": 81,
+    "459": 78,
+    "560": 75
+   }
+  },
+  "case_DeclarationNumber_16": {
+   "missing_frac": 0.9989605109666093,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "declaration number 73597": 90
+   }
+  },
+  "case_DeclarationNumber_15": {
+   "missing_frac": 0.9989605109666093,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "declaration number 73595": 90
+   }
+  },
+  "case_DeclarationNumber_8": {
+   "missing_frac": 0.9957611947193957,
+   "cardinality": 6,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6,
+   "top_values": {
+    "declaration number 73581": 90,
+    "declaration number 53363": 75,
+    "declaration number 32596": 61,
+    "declaration number 45636": 53,
+    "declaration number 57200": 53,
+    "declaration number 69281": 35
+   }
+  },
+  "case_DeclarationNumber_9": {
+   "missing_frac": 0.9967775839964889,
+   "cardinality": 5,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "declaration number 73583": 90,
+    "declaration number 53365": 75,
+    "declaration number 32598": 61,
+    "declaration number 45638": 53,
+    "UNKNOWN": 35
+   }
+  },
+  "case_DeclarationNumber_4": {
+   "missing_frac": 0.9804576061722549,
+   "cardinality": 43,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 42,
+   "top_values": {
+    "UNKNOWN": 288,
+    "declaration number 73573": 90,
+    "declaration number 53355": 75,
+    "declaration number 32588": 61,
+    "declaration number 67428": 54
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_DeclarationNumber_5": {
+   "missing_frac": 0.9895127106409027,
+   "cardinality": 20,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 19,
+   "top_values": {
+    "UNKNOWN": 276,
+    "declaration number 73575": 90,
+    "declaration number 53357": 75,
+    "declaration number 32590": 61,
+    "declaration number 67430": 54,
+    "declaration number 2515": 49,
+    "declaration number 64575": 49,
+    "declaration number 63691": 48,
+    "declaration number 64245": 48,
+    "declaration number 4549": 46,
+    "declaration number 47330": 44,
+    "declaration number 42545": 43,
+    "declaration number 12741": 42,
+    "declaration number 33333": 42,
+    "declaration number 13807": 39,
+    "declaration number 66608": 37,
+    "declaration number 25694": 36,
+    "declaration number 62161": 36,
+    "declaration number 7660": 36,
+    "declaration number 80551": 33
+   }
+  },
+  "case_DeclarationNumber_6": {
+   "missing_frac": 0.9928852750603481,
+   "cardinality": 12,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 11,
+   "top_values": {
+    "UNKNOWN": 120,
+    "declaration number 73577": 90,
+    "declaration number 53359": 75,
+    "declaration number 32592": 61,
+    "declaration number 67432": 54,
+    "declaration number 45632": 53,
+    "declaration number 57196": 53,
+    "declaration number 64577": 49,
+    "declaration number 28773": 48,
+    "declaration number 64247": 48,
+    "declaration number 4551": 46,
+    "declaration number 56152": 39
+   }
+  },
+  "case_DeclarationNumber_7": {
+   "missing_frac": 0.9957611947193957,
+   "cardinality": 7,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6,
+   "top_values": {
+    "declaration number 73579": 90,
+    "declaration number 53361": 75,
+    "declaration number 32594": 61,
+    "UNKNOWN": 54,
+    "declaration number 45634": 53,
+    "declaration number 57198": 53,
+    "declaration number 69279": 35
+   }
+  },
+  "case_RequestedAmount_4": {
+   "missing_frac": 0.9741167230685717,
+   "cardinality": 52,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 53,
+   "top_values": {
+    "": 288,
+    "612": 90,
+    "42.8776200771391": 81,
+    "1222.2111220443246": 78,
+    "497": 75
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_DeclarationNumber_1": {
+   "missing_frac": 0.8124646284981694,
+   "cardinality": 912,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 911,
+   "top_values": {
+    "UNKNOWN": 1429,
+    "declaration number 73567": 90,
+    "declaration number 53349": 75,
+    "declaration number 32582": 61,
+    "declaration number 45623": 53
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_RequestedAmount_3": {
+   "missing_frac": 0.9475404534482161,
+   "cardinality": 130,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 136,
+   "top_values": {
+    "": 537,
+    "284": 94,
+    "37": 90,
+    "68.09974953427975": 81,
+    "324.9259823899817": 78
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_DeclarationNumber_2": {
+   "missing_frac": 0.9228583638442615,
+   "cardinality": 275,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 274,
+   "top_values": {
+    "UNKNOWN": 740,
+    "declaration number 73569": 90,
+    "declaration number 53351": 75,
+    "declaration number 32584": 61,
+    "declaration number 45625": 53
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_RequestedAmount_2": {
+   "missing_frac": 0.8809554059204675,
+   "cardinality": 360,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 386,
+   "top_values": {
+    "": 716,
+    "319": 98,
+    "355": 90,
+    "1384.6949071970216": 81,
+    "2031.1272706721034": 78
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_RequestedAmount_1": {
+   "missing_frac": 0.7045425670759173,
+   "cardinality": 1055,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1274,
+   "top_values": {
+    "": 1388,
+    "40": 119,
+    "251": 108,
+    "44": 91,
+    "37": 90
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_DeclarationNumber_3": {
+   "missing_frac": 0.963756482369111,
+   "cardinality": 102,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 101,
+   "top_values": {
+    "UNKNOWN": 560,
+    "declaration number 73571": 90,
+    "declaration number 53353": 75,
+    "declaration number 32586": 61,
+    "declaration number 45627": 53
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_RequestedAmount_8": {
+   "missing_frac": 0.9939247640937389,
+   "cardinality": 8,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 8,
+   "top_values": {
+    "17": 90,
+    "73.98491307427923": 81,
+    "149.5475232757238": 78,
+    "419": 75,
+    "44": 61,
+    "104": 53,
+    "211": 53,
+    "576": 35
+   }
+  },
+  "case_RequestedAmount_7": {
+   "missing_frac": 0.9939247640937389,
+   "cardinality": 9,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 8,
+   "top_values": {
+    "170": 90,
+    "1386.3763824941643": 81,
+    "585.9543866530632": 78,
+    "298": 75,
+    "44": 61,
+    "": 54,
+    "104": 53,
+    "33": 53,
+    "34": 35
+   }
+  },
+  "case_RequestedAmount_6": {
+   "missing_frac": 0.9910488444346912,
+   "cardinality": 14,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 13,
+   "top_values": {
+    "": 120,
+    "341": 90,
+    "154.6957273371293": 81,
+    "76.13328457673211": 78,
+    "566": 75,
+    "50": 61,
+    "79": 54,
+    "120": 53,
+    "1,239": 53,
+    "250": 49,
+    "494": 48,
+    "294": 48,
+    "77": 46,
+    "163": 39
+   }
+  },
+  "case_RequestedAmount_5": {
+   "missing_frac": 0.9865097423222186,
+   "cardinality": 24,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 23,
+   "top_values": {
+    "": 276,
+    "623": 90,
+    "43.718357725710455": 81,
+    "62.53805518802995": 78,
+    "253": 75,
+    "133": 61,
+    "48": 54,
+    "436.0253663597584": 53,
+    "465": 49,
+    "800": 49,
+    "101.8227827477335": 48,
+    "23": 48,
+    "366": 48,
+    "70": 46,
+    "651": 44,
+    "277": 43,
+    "143": 42,
+    "790": 42,
+    "838": 39,
+    "130": 37,
+    "296": 36,
+    "399": 36,
+    "348": 36,
+    "169": 33
+   }
+  },
+  "case_RequestedAmount_9": {
+   "missing_frac": 0.9949411533708319,
+   "cardinality": 7,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 6,
+   "top_values": {
+    "232": 90,
+    "981.9815735313425": 81,
+    "338.5212117786839": 78,
+    "567": 75,
+    "46": 61,
+    "118": 53,
+    "": 35
+   }
+  },
+  "case_dec_id_16": {
+   "missing_frac": 0.9989605109666093,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "declaration 73596": 90
+   }
+  },
+  "case_dec_id_13": {
+   "missing_frac": 0.9980942701054504,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "declaration 73590": 90,
+    "declaration 53372": 75
+   }
+  },
+  "case_dec_id_12": {
+   "missing_frac": 0.9980942701054504,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "declaration 73588": 90,
+    "declaration 53370": 75
+   }
+  },
+  "case_dec_id_15": {
+   "missing_frac": 0.9989605109666093,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "declaration 73594": 90
+   }
+  },
+  "case_dec_id_14": {
+   "missing_frac": 0.9989605109666093,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "declaration 73592": 90
+   }
+  },
+  "case_dec_id_11": {
+   "missing_frac": 0.9971933796098451,
+   "cardinality": 3,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 3,
+   "top_values": {
+    "declaration 73586": 90,
+    "declaration 24078": 78,
+    "declaration 53368": 75
+   }
+  },
+  "case_dec_id_10": {
+   "missing_frac": 0.9980942701054504,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "declaration 73584": 90,
+    "declaration 53366": 75
+   }
+  },
+  "case_Activity_1": {
+   "missing_frac": 0.926219378385558,
+   "cardinality": 3,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 244,
+   "top_values": {
+    "activity 505": 6350,
+    "UNKNOWN": 2915,
+    "activity 13776": 38
+   }
+  },
+  "case_Activity_0": {
+   "missing_frac": 0.8126032270359548,
+   "cardinality": 5,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 828,
+   "top_values": {
+    "activity 505": 16128,
+    "UNKNOWN": 9228,
+    "activity 13776": 64,
+    "activity 22452": 18,
+    "activity 21016": 15
+   }
+  },
+  "case_RfpNumber_0": {
+   "missing_frac": 0.7162887931532322,
+   "cardinality": 1277,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1276,
+   "top_values": {
+    "UNKNOWN": 889,
+    "request for payment number 22779": 81,
+    "request for payment number 24057": 78,
+    "request for payment number 67420": 54,
+    "request for payment number 57184": 53
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_OrganizationalEntity_0": {
+   "missing_frac": 0.7060209514789619,
+   "cardinality": 24,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1325,
+   "top_values": {
+    "organizational unit 65461": 4436,
+    "organizational unit 65458": 3880,
+    "organizational unit 65463": 3653,
+    "organizational unit 65454": 3266,
+    "organizational unit 65469": 2508,
+    "organizational unit 65462": 1843,
+    "organizational unit 65456": 1432,
+    "organizational unit 65465": 1284,
+    "organizational unit 65468": 1009,
+    "organizational unit 65457": 738,
+    "organizational unit 65475": 513,
+    "organizational unit 65476": 362,
+    "organizational unit 65478": 94,
+    "organizational unit 65481": 84,
+    "organizational unit 65466": 84,
+    "organizational unit 65472": 83,
+    "organizational unit 65487": 49,
+    "organizational unit 65488": 27,
+    "organizational unit 65482": 21,
+    "organizational unit 65480": 21,
+    "organizational unit 65471": 21,
+    "organizational unit 65485": 16,
+    "organizational unit 65455": 15,
+    "organizational unit 65479": 14
+   }
+  },
+  "case_Rfp_id_0": {
+   "missing_frac": 0.7060209514789619,
+   "cardinality": 1325,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1325,
+   "top_values": {
+    "request for payment 22778": 81,
+    "request for payment 24056": 78,
+    "request for payment 67419": 54,
+    "request for payment 57183": 53,
+    "request for payment 2504": 49
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_RfpNumber_1": {
+   "missing_frac": 0.8957969993416569,
+   "cardinality": 348,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 347,
+   "top_values": {
+    "UNKNOWN": 281,
+    "request for payment number 22782": 81,
+    "request for payment number 24059": 78,
+    "request for payment number 67422": 54,
+    "request for payment number 57186": 53
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_OrganizationalEntity_1": {
+   "missing_frac": 0.8925514835818482,
+   "cardinality": 15,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 360,
+   "top_values": {
+    "organizational unit 65461": 1813,
+    "organizational unit 65454": 1532,
+    "organizational unit 65463": 1386,
+    "organizational unit 65458": 960,
+    "organizational unit 65469": 810,
+    "organizational unit 65456": 764,
+    "organizational unit 65462": 655,
+    "organizational unit 65465": 484,
+    "organizational unit 65468": 290,
+    "organizational unit 65457": 254,
+    "organizational unit 65476": 142,
+    "organizational unit 65475": 136,
+    "organizational unit 65487": 29,
+    "organizational unit 65472": 27,
+    "organizational unit 65480": 21
+   }
+  },
+  "case_Cost Type_1": {
+   "missing_frac": 0.8925514835818482,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 360,
+   "top_values": {
+    "0": 9303
+   }
+  },
+  "case_Cost Type_0": {
+   "missing_frac": 0.7060209514789619,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1325,
+   "top_values": {
+    "0": 25453
+   }
+  },
+  "case_Task_1": {
+   "missing_frac": 0.926219378385558,
+   "cardinality": 163,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 244,
+   "top_values": {
+    "UNKNOWN": 2915,
+    "task 14416": 193,
+    "task 19315": 183,
+    "task 10542": 178,
+    "task 6489": 170
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Task_0": {
+   "missing_frac": 0.8123837793511278,
+   "cardinality": 410,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 829,
+   "top_values": {
+    "UNKNOWN": 9209,
+    "task 25860": 289,
+    "task 19315": 223,
+    "task 10542": 214,
+    "task 1403": 214
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Project_0": {
+   "missing_frac": 0.7060209514789619,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1325,
+   "top_values": {
+    "project 503": 25453
+   }
+  },
+  "case_Rfp_id_1": {
+   "missing_frac": 0.8925514835818482,
+   "cardinality": 360,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 360,
+   "top_values": {
+    "request for payment 22781": 81,
+    "request for payment 24058": 78,
+    "request for payment 67421": 54,
+    "request for payment 57185": 53,
+    "request for payment 2506": 49
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Project_1": {
+   "missing_frac": 0.8925514835818482,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 360,
+   "top_values": {
+    "project 503": 9303
+   }
+  },
+  "case_Activity_3": {
+   "missing_frac": 0.9885309709982559,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 23,
+   "top_values": {
+    "activity 505": 993,
+    "UNKNOWN": 388
+   }
+  },
+  "case_Activity_2": {
+   "missing_frac": 0.9707788082835727,
+   "cardinality": 3,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 76,
+   "top_values": {
+    "activity 505": 2512,
+    "UNKNOWN": 1074,
+    "activity 13776": 18
+   }
+  },
+  "case_Cost Type_3": {
+   "missing_frac": 0.9840496182765271,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 34,
+   "top_values": {
+    "0": 1381
+   }
+  },
+  "case_Cost Type_2": {
+   "missing_frac": 0.958374239151777,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 111,
+   "top_values": {
+    "0": 3604
+   }
+  },
+  "case_RfpNumber_2": {
+   "missing_frac": 0.9600720712396484,
+   "cardinality": 107,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 106,
+   "top_values": {
+    "UNKNOWN": 147,
+    "request for payment number 22784": 81,
+    "request for payment number 24061": 78,
+    "request for payment number 67424": 54,
+    "request for payment number 57188": 53
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_RfpNumber_3": {
+   "missing_frac": 0.9844307642554371,
+   "cardinality": 34,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 33,
+   "top_values": {
+    "request for payment number 22786": 81,
+    "request for payment number 24063": 78,
+    "request for payment number 67426": 54,
+    "request for payment number 57190": 53,
+    "request for payment number 64571": 49
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_OrganizationalEntity_2": {
+   "missing_frac": 0.958374239151777,
+   "cardinality": 13,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 111,
+   "top_values": {
+    "organizational unit 65461": 740,
+    "organizational unit 65454": 728,
+    "organizational unit 65456": 342,
+    "organizational unit 65465": 329,
+    "organizational unit 65462": 323,
+    "organizational unit 65463": 317,
+    "organizational unit 65469": 256,
+    "organizational unit 65458": 235,
+    "organizational unit 65457": 104,
+    "organizational unit 65476": 96,
+    "organizational unit 65468": 82,
+    "organizational unit 65472": 27,
+    "organizational unit 65475": 25
+   }
+  },
+  "case_OrganizationalEntity_3": {
+   "missing_frac": 0.9840496182765271,
+   "cardinality": 10,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 34,
+   "top_values": {
+    "organizational unit 65454": 278,
+    "organizational unit 65461": 246,
+    "organizational unit 65469": 200,
+    "organizational unit 65465": 199,
+    "organizational unit 65456": 133,
+    "organizational unit 65463": 102,
+    "organizational unit 65457": 74,
+    "organizational unit 65476": 71,
+    "organizational unit 65458": 46,
+    "organizational unit 65462": 32
+   }
+  },
+  "case_Project_2": {
+   "missing_frac": 0.958374239151777,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 111,
+   "top_values": {
+    "project 503": 3604
+   }
+  },
+  "case_Project_3": {
+   "missing_frac": 0.9840496182765271,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 34,
+   "top_values": {
+    "project 503": 1381
+   }
+  },
+  "case_Rfp_id_3": {
+   "missing_frac": 0.9840496182765271,
+   "cardinality": 34,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 34,
+   "top_values": {
+    "request for payment 22785": 81,
+    "request for payment 24062": 78,
+    "request for payment 67425": 54,
+    "request for payment 57189": 53,
+    "request for payment 64570": 49
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Rfp_id_2": {
+   "missing_frac": 0.958374239151777,
+   "cardinality": 111,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 111,
+   "top_values": {
+    "request for payment 22783": 81,
+    "request for payment 24060": 78,
+    "request for payment 67423": 54,
+    "request for payment 57187": 53,
+    "request for payment 2508": 49
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Task_3": {
+   "missing_frac": 0.9885309709982559,
+   "cardinality": 23,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 23,
+   "top_values": {
+    "UNKNOWN": 388,
+    "task 22780": 81,
+    "task 14416": 78,
+    "task 10387": 75,
+    "task 10542": 54,
+    "task 26863": 53,
+    "task 64565": 49,
+    "task 28761": 48,
+    "task 20119": 44,
+    "task 33323": 42,
+    "task 44510": 42,
+    "task 6280": 42,
+    "task 71439": 41,
+    "task 56141": 39,
+    "task 9988": 38,
+    "task 19315": 36,
+    "task 62151": 36,
+    "task 3102": 35,
+    "task 28811": 34,
+    "task 75336": 33,
+    "task 80121": 32,
+    "task 6489": 31,
+    "task 72083": 30
+   }
+  },
+  "case_Task_2": {
+   "missing_frac": 0.9707788082835727,
+   "cardinality": 59,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 76,
+   "top_values": {
+    "UNKNOWN": 1074,
+    "task 14416": 169,
+    "task 6489": 147,
+    "task 19315": 99,
+    "task 22780": 81
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Rfp_id_10": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "request for payment 22798": 81,
+    "request for payment 24076": 78
+   }
+  },
+  "case_Rfp_id_11": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "request for payment 22800": 81
+   }
+  },
+  "case_Rfp_id_12": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "request for payment 22802": 81
+   }
+  },
+  "case_Rfp_id_13": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "request for payment 22804": 81
+   }
+  },
+  "case_Rfp_id_14": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "request for payment 22806": 81
+   }
+  },
+  "case_Project_11": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "project 503": 81
+   }
+  },
+  "case_Project_12": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "project 503": 81
+   }
+  },
+  "case_Project_10": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "project 503": 159
+   }
+  },
+  "case_Project_13": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "project 503": 81
+   }
+  },
+  "case_Project_14": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "project 503": 81
+   }
+  },
+  "case_Cost Type_7": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "0": 159
+   }
+  },
+  "case_Cost Type_6": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "0": 159
+   }
+  },
+  "case_Cost Type_9": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "0": 159
+   }
+  },
+  "case_Cost Type_8": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "0": 159
+   }
+  },
+  "case_Cost Type_5": {
+   "missing_frac": 0.9969970316813158,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "0": 260
+   }
+  },
+  "case_Cost Type_4": {
+   "missing_frac": 0.9936591168963167,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 11,
+   "top_values": {
+    "0": 549
+   }
+  },
+  "case_OrganizationalEntity_8": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "organizational unit 65465": 81,
+    "organizational unit 65454": 78
+   }
+  },
+  "case_OrganizationalEntity_9": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "organizational unit 65465": 81,
+    "organizational unit 65454": 78
+   }
+  },
+  "case_Task_10": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "task 22780": 81,
+    "task 14416": 78
+   }
+  },
+  "case_OrganizationalEntity_6": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "organizational unit 65465": 81,
+    "organizational unit 65454": 78
+   }
+  },
+  "case_Task_11": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "task 22780": 81
+   }
+  },
+  "case_OrganizationalEntity_7": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "organizational unit 65465": 81,
+    "organizational unit 65454": 78
+   }
+  },
+  "case_Task_12": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "task 22780": 81
+   }
+  },
+  "case_Task_13": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "task 22780": 81
+   }
+  },
+  "case_Task_14": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "task 22780": 81
+   }
+  },
+  "case_RfpNumber_10": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "request for payment number 22799": 81,
+    "request for payment number 24077": 78
+   }
+  },
+  "case_RfpNumber_12": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "request for payment number 22803": 81
+   }
+  },
+  "case_RfpNumber_11": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "request for payment number 22801": 81
+   }
+  },
+  "case_OrganizationalEntity_4": {
+   "missing_frac": 0.9936591168963167,
+   "cardinality": 5,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 11,
+   "top_values": {
+    "organizational unit 65465": 166,
+    "organizational unit 65461": 139,
+    "organizational unit 65454": 114,
+    "organizational unit 65469": 87,
+    "organizational unit 65456": 43
+   }
+  },
+  "case_Project_6": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "project 503": 159
+   }
+  },
+  "case_RfpNumber_14": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "request for payment number 22807": 81
+   }
+  },
+  "case_OrganizationalEntity_5": {
+   "missing_frac": 0.9969970316813158,
+   "cardinality": 4,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "organizational unit 65465": 81,
+    "organizational unit 65454": 78,
+    "organizational unit 65461": 53,
+    "organizational unit 65469": 48
+   }
+  },
+  "case_Project_7": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "project 503": 159
+   }
+  },
+  "case_RfpNumber_13": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "request for payment number 22805": 81
+   }
+  },
+  "case_Project_8": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "project 503": 159
+   }
+  },
+  "case_Project_9": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "project 503": 159
+   }
+  },
+  "case_Project_4": {
+   "missing_frac": 0.9936591168963167,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 11,
+   "top_values": {
+    "project 503": 549
+   }
+  },
+  "case_Project_5": {
+   "missing_frac": 0.9969970316813158,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "project 503": 260
+   }
+  },
+  "case_Activity_12": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "activity 505": 81
+   }
+  },
+  "case_Activity_11": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "activity 505": 81
+   }
+  },
+  "case_Activity_14": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "activity 505": 81
+   }
+  },
+  "case_Activity_13": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "activity 505": 81
+   }
+  },
+  "case_Activity_10": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "activity 505": 159
+   }
+  },
+  "case_OrganizationalEntity_14": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "organizational unit 65465": 81
+   }
+  },
+  "case_OrganizationalEntity_13": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "organizational unit 65465": 81
+   }
+  },
+  "case_RfpNumber_8": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "request for payment number 22795": 81,
+    "request for payment number 24073": 78
+   }
+  },
+  "case_RfpNumber_9": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "request for payment number 22797": 81,
+    "request for payment number 24075": 78
+   }
+  },
+  "case_RfpNumber_6": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "request for payment number 22792": 81,
+    "request for payment number 24069": 78
+   }
+  },
+  "case_RfpNumber_7": {
+   "missing_frac": 0.9990991095043947,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "UNKNOWN": 81,
+    "request for payment number 24071": 78
+   }
+  },
+  "case_RfpNumber_4": {
+   "missing_frac": 0.9936591168963167,
+   "cardinality": 11,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 11,
+   "top_values": {
+    "request for payment number 22788": 81,
+    "request for payment number 24065": 78,
+    "request for payment number 57192": 53,
+    "request for payment number 64573": 49,
+    "request for payment number 28769": 48,
+    "request for payment number 47328": 44,
+    "request for payment number 42543": 43,
+    "request for payment number 33331": 42,
+    "request for payment number 20340": 39,
+    "request for payment number 25692": 36,
+    "request for payment number 62159": 36
+   }
+  },
+  "case_RfpNumber_5": {
+   "missing_frac": 0.9969970316813158,
+   "cardinality": 4,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "request for payment number 22790": 81,
+    "request for payment number 24067": 78,
+    "request for payment number 57194": 53,
+    "request for payment number 28771": 48
+   }
+  },
+  "case_OrganizationalEntity_12": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "organizational unit 65465": 81
+   }
+  },
+  "case_OrganizationalEntity_11": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "organizational unit 65465": 81
+   }
+  },
+  "case_OrganizationalEntity_10": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "organizational unit 65465": 81,
+    "organizational unit 65454": 78
+   }
+  },
+  "case_Rfp_id_7": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "request for payment 22793": 81,
+    "request for payment 24070": 78
+   }
+  },
+  "case_Rfp_id_8": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "request for payment 22794": 81,
+    "request for payment 24072": 78
+   }
+  },
+  "case_Rfp_id_5": {
+   "missing_frac": 0.9969970316813158,
+   "cardinality": 4,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "request for payment 22789": 81,
+    "request for payment 24066": 78,
+    "request for payment 57193": 53,
+    "request for payment 28770": 48
+   }
+  },
+  "case_Rfp_id_6": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "request for payment 22791": 81,
+    "request for payment 24068": 78
+   }
+  },
+  "case_Rfp_id_4": {
+   "missing_frac": 0.9936591168963167,
+   "cardinality": 11,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 11,
+   "top_values": {
+    "request for payment 22787": 81,
+    "request for payment 24064": 78,
+    "request for payment 57191": 53,
+    "request for payment 64572": 49,
+    "request for payment 28768": 48,
+    "request for payment 47327": 44,
+    "request for payment 42542": 43,
+    "request for payment 33330": 42,
+    "request for payment 20339": 39,
+    "request for payment 25691": 36,
+    "request for payment 62158": 36
+   }
+  },
+  "case_Rfp_id_9": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "request for payment 22796": 81,
+    "request for payment 24074": 78
+   }
+  },
+  "case_Activity_9": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "activity 505": 159
+   }
+  },
+  "case_Activity_8": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "activity 505": 159
+   }
+  },
+  "case_Activity_5": {
+   "missing_frac": 0.9969970316813158,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "activity 505": 260
+   }
+  },
+  "case_Activity_4": {
+   "missing_frac": 0.9945715572700708,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 9,
+   "top_values": {
+    "activity 505": 470,
+    "UNKNOWN": 79
+   }
+  },
+  "case_Activity_7": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "activity 505": 159
+   }
+  },
+  "case_Activity_6": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "activity 505": 159
+   }
+  },
+  "case_Cost Type_13": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "0": 81
+   }
+  },
+  "case_Cost Type_14": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "0": 81
+   }
+  },
+  "case_Cost Type_10": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "0": 159
+   }
+  },
+  "case_Cost Type_11": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "0": 81
+   }
+  },
+  "case_Cost Type_12": {
+   "missing_frac": 0.9990644598699484,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1,
+   "top_values": {
+    "0": 81
+   }
+  },
+  "case_Task_5": {
+   "missing_frac": 0.9969970316813158,
+   "cardinality": 4,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 4,
+   "top_values": {
+    "task 22780": 81,
+    "task 14416": 78,
+    "task 26863": 53,
+    "task 28761": 48
+   }
+  },
+  "case_Task_4": {
+   "missing_frac": 0.9945715572700708,
+   "cardinality": 10,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 9,
+   "top_values": {
+    "task 22780": 81,
+    "UNKNOWN": 79,
+    "task 14416": 78,
+    "task 26863": 53,
+    "task 64565": 49,
+    "task 28761": 48,
+    "task 20119": 44,
+    "task 33323": 42,
+    "task 10387": 39,
+    "task 62151": 36
+   }
+  },
+  "case_Task_9": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "task 22780": 81,
+    "task 14416": 78
+   }
+  },
+  "case_Task_8": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "task 22780": 81,
+    "task 14416": 78
+   }
+  },
+  "case_Task_7": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "task 22780": 81,
+    "task 14416": 78
+   }
+  },
+  "case_Task_6": {
+   "missing_frac": 0.9981635693743431,
+   "cardinality": 2,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2,
+   "top_values": {
+    "task 22780": 81,
+    "task 14416": 78
+   }
+  }
+ },
+ "case_attr_vs_terminal_nmi": {
+  "case_dec_id_3": {
+   "nmi_with_last_activity": 1.0000000000000004
+  },
+  "case_DeclarationNumber_6": {
+   "nmi_with_last_activity": 1.0000000000000004
+  },
+  "case_dec_id_6": {
+   "nmi_with_last_activity": 1.0000000000000002
+  },
+  "case_dec_id_9": {
+   "nmi_with_last_activity": 1.0000000000000002
+  },
+  "case_DeclarationNumber_9": {
+   "nmi_with_last_activity": 1.0000000000000002
+  },
+  "case_Rfp_id_3": {
+   "nmi_with_last_activity": 1.0000000000000002
+  },
+  "case_RfpNumber_4": {
+   "nmi_with_last_activity": 1.0000000000000002
+  },
+  "case_Rfp_id_4": {
+   "nmi_with_last_activity": 1.0000000000000002
+  },
+  "case_Task_4": {
+   "nmi_with_last_activity": 1.0000000000000002
+  },
+  "case_dec_id_5": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_DeclarationNumber_10": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RequestedAmount_14": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RequestedAmount_12": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_DeclarationNumber_13": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RequestedAmount_13": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_dec_id_7": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RequestedAmount_10": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_DeclarationNumber_12": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_dec_id_8": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_DeclarationNumber_11": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RequestedAmount_11": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_DeclarationNumber_8": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_DeclarationNumber_7": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RequestedAmount_8": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RequestedAmount_6": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_dec_id_13": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_dec_id_12": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_dec_id_11": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_dec_id_10": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Rfp_id_10": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_OrganizationalEntity_8": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_OrganizationalEntity_9": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Task_10": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_OrganizationalEntity_6": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_OrganizationalEntity_7": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RfpNumber_10": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_OrganizationalEntity_5": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RfpNumber_8": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RfpNumber_9": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RfpNumber_6": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RfpNumber_7": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RfpNumber_5": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_OrganizationalEntity_10": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Rfp_id_7": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Rfp_id_8": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Rfp_id_5": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Rfp_id_6": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Rfp_id_9": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Task_5": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Task_9": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Task_8": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Task_7": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_Task_6": {
+   "nmi_with_last_activity": 1.0
+  },
+  "case_RequestedAmount_9": {
+   "nmi_with_last_activity": 0.9999999999999999
+  },
+  "case_RfpNumber_3": {
+   "nmi_with_last_activity": 0.9999999999999999
+  },
+  "case_RequestedAmount_7": {
+   "nmi_with_last_activity": 0.9999999999999998
+  },
+  "case_dec_id_4": {
+   "nmi_with_last_activity": 0.9999999999999996
+  },
+  "case_Rfp_id_2": {
+   "nmi_with_last_activity": 0.9999999999999994
+  },
+  "case_RfpNumber_2": {
+   "nmi_with_last_activity": 0.9230475373139413
+  },
+  "case_RequestedAmount_5": {
+   "nmi_with_last_activity": 0.808766298684151
+  },
+  "case_RequestedAmount_4": {
+   "nmi_with_last_activity": 0.7864897090521353
+  },
+  "case_DeclarationNumber_5": {
+   "nmi_with_last_activity": 0.7744551021348399
+  },
+  "case_RequestedAmount_3": {
+   "nmi_with_last_activity": 0.7402293979375646
+  },
+  "case_DeclarationNumber_4": {
+   "nmi_with_last_activity": 0.7355339726565635
+  },
+  "case_DeclarationNumber_3": {
+   "nmi_with_last_activity": 0.6402193798510997
+  },
+  "case_OrganizationalEntity_3": {
+   "nmi_with_last_activity": 0.5535962538499135
+  },
+  "case_Task_1": {
+   "nmi_with_last_activity": 0.5315246338718896
+  },
+  "case_Task_3": {
+   "nmi_with_last_activity": 0.5216551074528202
+  },
+  "case_Task_2": {
+   "nmi_with_last_activity": 0.4673382692380563
+  },
+  "case_OrganizationalEntity_4": {
+   "nmi_with_last_activity": 0.36807278995536097
+  },
+  "case_OrganizationalEntity_2": {
+   "nmi_with_last_activity": 0.35978391911147467
+  },
+  "case_OrganizationalEntity_1": {
+   "nmi_with_last_activity": 0.16748853758773827
+  },
+  "case_Activity_2": {
+   "nmi_with_last_activity": 0.14208560214782817
+  },
+  "case_Activity_4": {
+   "nmi_with_last_activity": 0.08593114067657062
+  },
+  "case_Activity_3": {
+   "nmi_with_last_activity": 0.07136679507837616
+  },
+  "case_Overspent": {
+   "nmi_with_last_activity": 0.06593732076573477
+  },
+  "case_OrganizationalEntity_0": {
+   "nmi_with_last_activity": 0.050512398839502634
+  },
+  "case_ActivityNumber": {
+   "nmi_with_last_activity": 0.0449867687094544
+  },
+  "case_Activity_1": {
+   "nmi_with_last_activity": 0.042320423713867315
+  },
+  "case_OrganizationalEntity": {
+   "nmi_with_last_activity": 0.033235770479771415
+  },
+  "case_TaskNumber": {
+   "nmi_with_last_activity": 0.013390132186991408
+  },
+  "case_Activity_0": {
+   "nmi_with_last_activity": 0.013146622299799963
+  }
+ },
+ "n_variants": 1478,
+ "top_variant_share": 0.3214437367303609,
+ "top_variants": [
+  {
+   "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > Start trip > End trip > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 956
+  },
+  {
+   "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit APPROVED by BUDGET OWNER > Permit FINAL_APPROVED by SUPERVISOR > Start trip > End trip > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 427
+  },
+  {
+   "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > Start trip > End trip > Send Reminder > Send Reminder",
+   "count": 343
+  },
+  {
+   "variant": "Permit SUBMITTED by EMPLOYEE > Permit FINAL_APPROVED by SUPERVISOR > Start trip > End trip > Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 302
+  },
+  {
+   "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > Start trip > End trip > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 243
+  }
+ ],
+ "registry": {
+  "event_cat": [
+   "org:role"
+  ],
+  "event_highcard": [
+   "org:resource"
+  ],
+  "case_cat": [
+   "OrganizationalEntity"
+  ],
+  "case_num": [
+   "RequestedBudget"
+  ],
+  "excluded": {
+   "id": "event identifier; encodes sub-process origin (st_step/dd_/rv_) and ordering \u2192 leakage",
+   "TotalDeclared/Overspent/OverspentAmount": "computed at case end \u2192 outcome leakage",
+   "dec_id_*/DeclarationNumber_*/RequestedAmount_*": "per-declaration expansions (170+ sparse columns), known only after declarations exist \u2192 leakage + sparsity",
+   "ProjectNumber/TaskNumber/ActivityNumber/BudgetNumber/travel permit number/id": "identifiers"
+  },
+  "terminal": [
+   "Payment Handled",
+   "Permit REJECTED by EMPLOYEE",
+   "Permit REJECTED by MISSING",
+   "Declaration REJECTED by EMPLOYEE",
+   "Request For Payment REJECTED by EMPLOYEE"
+  ],
+  "notes": "Permit-centric log; a permit can spawn many declarations. Widest schema (176 raw columns). Audit: dec_id_*/DeclarationNumber_* have NMI=1.0 with terminal activity \u2192 confirmed leakage, excluded. 991 cases end in Send Reminder, 453 in End trip \u2192 incomplete."
+ }
+}

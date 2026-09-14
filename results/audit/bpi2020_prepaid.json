@@ -1,0 +1,610 @@
+{
+ "log": "bpi2020_prepaid",
+ "file": "PrepaidTravelCost.xes.gz",
+ "family": "bpi2020",
+ "n_cases": 2099,
+ "n_events": 18246,
+ "log_attrs": {
+  "concept:name": "Prepaid Travel Costs"
+ },
+ "classifiers": {},
+ "event_globals": [],
+ "trace_globals": [],
+ "activity_vocab_size": 29,
+ "activity_counts": {
+  "Request For Payment SUBMITTED by EMPLOYEE": 2279,
+  "Request Payment": 1990,
+  "Payment Handled": 1990,
+  "Request For Payment FINAL_APPROVED by SUPERVISOR": 1958,
+  "Permit SUBMITTED by EMPLOYEE": 1952,
+  "Request For Payment APPROVED by ADMINISTRATION": 1726,
+  "Permit APPROVED by ADMINISTRATION": 1603,
+  "Permit FINAL_APPROVED by SUPERVISOR": 1478,
+  "Request For Payment APPROVED by BUDGET OWNER": 705,
+  "Permit APPROVED by BUDGET OWNER": 612,
+  "Permit APPROVED by SUPERVISOR": 390,
+  "Permit FINAL_APPROVED by DIRECTOR": 390,
+  "Request For Payment REJECTED by EMPLOYEE": 271,
+  "Request For Payment REJECTED by ADMINISTRATION": 230,
+  "Request For Payment APPROVED by PRE_APPROVER": 160,
+  "Permit APPROVED by PRE_APPROVER": 158,
+  "Permit REJECTED by EMPLOYEE": 84,
+  "Request For Payment APPROVED by SUPERVISOR": 41,
+  "Request For Payment FINAL_APPROVED by DIRECTOR": 41,
+  "Permit REJECTED by SUPERVISOR": 36,
+  "Request For Payment SAVED by EMPLOYEE": 24,
+  "Request For Payment REJECTED by SUPERVISOR": 24,
+  "Permit REJECTED by MISSING": 22,
+  "Request For Payment REJECTED by PRE_APPROVER": 18,
+  "Permit REJECTED by BUDGET OWNER": 17,
+  "Permit REJECTED by PRE_APPROVER": 16,
+  "Permit REJECTED by ADMINISTRATION": 15,
+  "Request For Payment REJECTED by MISSING": 9,
+  "Request For Payment REJECTED by BUDGET OWNER": 7
+ },
+ "activity_keys": [
+  "concept:name"
+ ],
+ "case_length": {
+  "p00": 1.0,
+  "p05": 5.0,
+  "p25": 8.0,
+  "p50": 8.0,
+  "p75": 10.0,
+  "p95": 13.0,
+  "p99": 15.0,
+  "p100": 21.0
+ },
+ "case_length_mean": 8.692710814673655,
+ "case_duration_hours": {
+  "p00": 0.0,
+  "p05": 120.47416666666666,
+  "p25": 311.91083333333336,
+  "p50": 576.9586111111112,
+  "p75": 1131.7480555555558,
+  "p95": 2672.5903055555536,
+  "p99": 4519.1016666666665,
+  "p100": 7799.4238888888885
+ },
+ "case_duration_hours_mean": 882.988172013128,
+ "log_time_span": {
+  "start": "2017-01-09 13:48:43+00:00",
+  "end": "2019-02-21 10:11:10+00:00"
+ },
+ "last_activity_counts": {
+  "Payment Handled": 1970,
+  "Request For Payment REJECTED by EMPLOYEE": 72,
+  "Request For Payment SAVED by EMPLOYEE": 20,
+  "Permit FINAL_APPROVED by SUPERVISOR": 12,
+  "Permit REJECTED by MISSING": 10,
+  "Request For Payment REJECTED by MISSING": 7,
+  "Permit FINAL_APPROVED by DIRECTOR": 6,
+  "Request For Payment REJECTED by ADMINISTRATION": 1,
+  "Request Payment": 1
+ },
+ "first_activity_counts": {
+  "Permit SUBMITTED by EMPLOYEE": 1859,
+  "Request For Payment SUBMITTED by EMPLOYEE": 233,
+  "Request For Payment SAVED by EMPLOYEE": 7
+ },
+ "frac_cases_ending_in_terminal": 0.9809433063363506,
+ "cases_ending_within_7d_of_log_end": 1,
+ "cases_ending_within_30d_of_log_end": 3,
+ "declared_censored": false,
+ "delta_t_seconds": {
+  "p00": 0.0,
+  "p05": 3.0,
+  "p25": 266.5,
+  "p50": 80851.0,
+  "p75": 341437.5,
+  "p95": 1738082.0999999985,
+  "p99": 6430775.719999974,
+  "p100": 27376881.0
+ },
+ "frac_zero_delta_t": 0.004273239611073265,
+ "frac_negative_delta_t_raw_order": 0.0,
+ "frac_missing_timestamp": 0.0,
+ "frac_midnight_timestamps_local": 0.0,
+ "events_per_weekday_local": {
+  "0": 4410,
+  "1": 3791,
+  "2": 2770,
+  "3": 4598,
+  "4": 2068,
+  "5": 269,
+  "6": 340
+ },
+ "events_per_hour_local": {
+  "0": 45,
+  "1": 28,
+  "2": 17,
+  "3": 13,
+  "4": 9,
+  "5": 377,
+  "6": 39,
+  "7": 325,
+  "8": 1223,
+  "9": 1702,
+  "10": 1980,
+  "11": 1933,
+  "12": 1199,
+  "13": 1432,
+  "14": 1601,
+  "15": 1493,
+  "16": 1109,
+  "17": 2493,
+  "18": 318,
+  "19": 228,
+  "20": 190,
+  "21": 215,
+  "22": 196,
+  "23": 81
+ },
+ "midnight_share_by_activity": {},
+ "columns": {
+  "case_id": {
+   "missing_frac": 0.0,
+   "cardinality": 2099,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2099,
+   "top_values": {
+    "request for payment 5457": 21,
+    "request for payment 27213": 18,
+    "request for payment 45032": 18,
+    "request for payment 598": 18,
+    "request for payment 11490": 17
+   },
+   "frac_events_with_rare_value_lt5": 0.008988271401951112
+  },
+  "case_Rfp_id": {
+   "missing_frac": 0.0,
+   "cardinality": 2099,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2099,
+   "top_values": {
+    "request for payment 5457": 21,
+    "request for payment 27213": 18,
+    "request for payment 45032": 18,
+    "request for payment 598": 18,
+    "request for payment 11490": 17
+   },
+   "frac_events_with_rare_value_lt5": 0.008988271401951112
+  },
+  "case_Permit travel permit number": {
+   "missing_frac": 0.04861339471665022,
+   "cardinality": 1318,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1931,
+   "top_values": {
+    "UNKNOWN": 887,
+    "travel permit number 424": 483,
+    "travel permit number 22777": 135,
+    "travel permit number 24055": 110,
+    "travel permit number 28757": 60
+   },
+   "frac_events_with_rare_value_lt5": 0.0010961306587745259
+  },
+  "case_Task": {
+   "missing_frac": 0.37504110489970405,
+   "cardinality": 435,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1284,
+   "top_values": {
+    "UNKNOWN": 6843,
+    "task 14416": 219,
+    "task 25860": 205,
+    "task 19315": 187,
+    "task 6489": 169
+   },
+   "frac_events_with_rare_value_lt5": 0.0006028718623259893
+  },
+  "case_OrganizationalEntity": {
+   "missing_frac": 0.0,
+   "cardinality": 26,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2099,
+   "top_values": {
+    "organizational unit 65461": 3130,
+    "organizational unit 65458": 2532,
+    "organizational unit 65454": 2435,
+    "organizational unit 65463": 2429,
+    "organizational unit 65469": 1889,
+    "organizational unit 65462": 1372,
+    "organizational unit 65456": 1066,
+    "organizational unit 65465": 1001,
+    "organizational unit 65468": 798,
+    "organizational unit 65457": 544,
+    "organizational unit 65475": 371,
+    "organizational unit 65476": 265,
+    "organizational unit 65482": 71,
+    "organizational unit 65472": 57,
+    "organizational unit 65466": 53,
+    "organizational unit 65478": 51,
+    "organizational unit 65481": 44,
+    "organizational unit 65487": 43,
+    "organizational unit 65488": 17,
+    "organizational unit 65479": 16,
+    "organizational unit 65480": 16,
+    "organizational unit 65455": 13,
+    "organizational unit 65477": 12,
+    "organizational unit 65471": 10,
+    "organizational unit 65485": 8,
+    "organizational unit 65473": 3
+   }
+  },
+  "case_RequestedAmount": {
+   "missing_frac": 0.0,
+   "cardinality": 2049,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2099,
+   "top_values": {
+    "73.12203258639514": 28,
+    "552.393394041649": 27,
+    "624.444706307951": 26,
+    "198.40216421155634": 26,
+    "534.6474446105626": 22
+   },
+   "frac_events_with_rare_value_lt5": 0.006028718623259892
+  },
+  "case_Activity": {
+   "missing_frac": 0.37580839636084623,
+   "cardinality": 5,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1282,
+   "top_values": {
+    "activity 505": 11281,
+    "UNKNOWN": 6857,
+    "activity 13776": 49,
+    "activity 21016": 49,
+    "activity 22452": 10
+   }
+  },
+  "case_Permit TaskNumber": {
+   "missing_frac": 0.386057218020388,
+   "cardinality": 5,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1259,
+   "top_values": {
+    "task 427": 11135,
+    "UNKNOWN": 7044,
+    "task 13772": 49,
+    "task 648": 10,
+    "task 7355": 8
+   }
+  },
+  "case_Permit BudgetNumber": {
+   "missing_frac": 0.04214622382988052,
+   "cardinality": 139,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1944,
+   "top_values": {
+    "UNKNOWN": 769,
+    "budget 1469": 757,
+    "budget 922": 680,
+    "budget 522": 651,
+    "budget 829": 618
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_Permit ProjectNumber": {
+   "missing_frac": 0.3855639592239395,
+   "cardinality": 403,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1260,
+   "top_values": {
+    "UNKNOWN": 7035,
+    "project 426": 483,
+    "project 14413": 219,
+    "project 19841": 205,
+    "project 19312": 187
+   },
+   "frac_events_with_rare_value_lt5": 0.00043845226350981036
+  },
+  "case_Project": {
+   "missing_frac": 0.004329716102159377,
+   "cardinality": 29,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2070,
+   "top_values": {
+    "project 503": 17535,
+    "project 147556": 90,
+    "UNKNOWN": 79,
+    "project 148052": 67,
+    "project 147620": 60,
+    "project 147546": 58,
+    "project 147531": 48,
+    "project 147649": 39,
+    "project 151278": 33,
+    "project 147860": 28,
+    "project 147582": 26,
+    "project 150197": 20,
+    "project 147551": 19,
+    "project 147701": 15,
+    "project 148681": 15,
+    "project 155217": 15,
+    "project 152803": 15,
+    "project 147843": 13,
+    "project 150968": 11,
+    "project 147572": 11,
+    "project 148216": 7,
+    "project 156832": 6,
+    "project 147908": 6,
+    "project 148309": 5,
+    "project 155098": 5,
+    "project 164433": 5,
+    "project 149147": 5,
+    "project 151211": 5,
+    "project 148982": 5
+   }
+  },
+  "case_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 2099,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2099,
+   "top_values": {
+    "request for payment 5457": 21,
+    "request for payment 27213": 18,
+    "request for payment 45032": 18,
+    "request for payment 598": 18,
+    "request for payment 11490": 17
+   },
+   "frac_events_with_rare_value_lt5": 0.008988271401951112
+  },
+  "case_Permit OrganizationalEntity": {
+   "missing_frac": 0.04214622382988052,
+   "cardinality": 22,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1944,
+   "top_values": {
+    "organizational unit 65456": 3218,
+    "organizational unit 65455": 2762,
+    "organizational unit 65458": 2438,
+    "organizational unit 65460": 2338,
+    "organizational unit 65454": 2115,
+    "organizational unit 65459": 1317,
+    "organizational unit 65457": 1139,
+    "organizational unit 65464": 970,
+    "UNKNOWN": 769,
+    "organizational unit 65466": 690,
+    "organizational unit 65470": 145,
+    "organizational unit 65461": 97,
+    "organizational unit 65469": 72,
+    "organizational unit 65480": 44,
+    "organizational unit 65472": 33,
+    "organizational unit 65475": 32,
+    "organizational unit 65468": 16,
+    "organizational unit 65477": 13,
+    "organizational unit 65462": 12,
+    "organizational unit 65465": 10,
+    "organizational unit 65471": 8,
+    "organizational unit 65484": 8
+   }
+  },
+  "case_Permit RequestedBudget": {
+   "missing_frac": 0.0,
+   "cardinality": 1296,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2099,
+   "top_values": {
+    "0.0": 797,
+    "923.0813153823278": 483,
+    "13451.80237714168": 135,
+    "7613.328457673211": 110,
+    "2683.621721813341": 87
+   },
+   "frac_events_with_rare_value_lt5": 0.0010961306587745259
+  },
+  "case_Cost Type": {
+   "missing_frac": 0.0,
+   "cardinality": 1,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 2099,
+   "top_values": {
+    "0": 18246
+   }
+  },
+  "case_Permit id": {
+   "missing_frac": 0.04214622382988052,
+   "cardinality": 1327,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1944,
+   "top_values": {
+    "UNKNOWN": 769,
+    "travel permit 423": 483,
+    "travel permit 22776": 135,
+    "travel permit 24054": 110,
+    "travel permit 28756": 60
+   },
+   "frac_events_with_rare_value_lt5": 0.0010961306587745259
+  },
+  "case_Permit ActivityNumber": {
+   "missing_frac": 0.91910555738244,
+   "cardinality": 58,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 156,
+   "top_values": {
+    "UNKNOWN": 16770,
+    "activity 2169": 99,
+    "activity 16720": 96,
+    "activity 7905": 95,
+    "activity 995": 54
+   },
+   "frac_events_with_rare_value_lt5": 0.0
+  },
+  "case_RfpNumber": {
+   "missing_frac": 0.030910884577441632,
+   "cardinality": 2000,
+   "varies_within_case_frac": 0.0,
+   "cases_with_value": 1999,
+   "top_values": {
+    "UNKNOWN": 564,
+    "request for payment number 5458": 21,
+    "request for payment number 27214": 18,
+    "request for payment number 45033": 18,
+    "request for payment number 599": 18
+   },
+   "frac_events_with_rare_value_lt5": 0.0033980050422010304
+  },
+  "ev_id": {
+   "missing_frac": 0.0,
+   "cardinality": 16205,
+   "constant_within_case_frac": 0.0033349213911386373,
+   "top_values": {
+    "st_step 22809_0": 15,
+    "st_step 22810_0": 15,
+    "st_step 22811_0": 15,
+    "st_step 22808_0": 15,
+    "st_step 24082_0": 11
+   },
+   "frac_events_with_rare_value_lt5": 0.9837772662501371
+  },
+  "ev_org:resource": {
+   "missing_frac": 0.0,
+   "cardinality": 2,
+   "constant_within_case_frac": 0.05145307289185326,
+   "top_values": {
+    "STAFF MEMBER": 14266,
+    "SYSTEM": 3980
+   }
+  },
+  "ev_concept:name": {
+   "missing_frac": 0.0,
+   "cardinality": 29,
+   "constant_within_case_frac": 0.0033349213911386373,
+   "top_values": {
+    "Request For Payment SUBMITTED by EMPLOYEE": 2279,
+    "Request Payment": 1990,
+    "Payment Handled": 1990,
+    "Request For Payment FINAL_APPROVED by SUPERVISOR": 1958,
+    "Permit SUBMITTED by EMPLOYEE": 1952,
+    "Request For Payment APPROVED by ADMINISTRATION": 1726,
+    "Permit APPROVED by ADMINISTRATION": 1603,
+    "Permit FINAL_APPROVED by SUPERVISOR": 1478,
+    "Request For Payment APPROVED by BUDGET OWNER": 705,
+    "Permit APPROVED by BUDGET OWNER": 612,
+    "Permit APPROVED by SUPERVISOR": 390,
+    "Permit FINAL_APPROVED by DIRECTOR": 390,
+    "Request For Payment REJECTED by EMPLOYEE": 271,
+    "Request For Payment REJECTED by ADMINISTRATION": 230,
+    "Request For Payment APPROVED by PRE_APPROVER": 160,
+    "Permit APPROVED by PRE_APPROVER": 158,
+    "Permit REJECTED by EMPLOYEE": 84,
+    "Request For Payment APPROVED by SUPERVISOR": 41,
+    "Request For Payment FINAL_APPROVED by DIRECTOR": 41,
+    "Permit REJECTED by SUPERVISOR": 36,
+    "Request For Payment SAVED by EMPLOYEE": 24,
+    "Request For Payment REJECTED by SUPERVISOR": 24,
+    "Permit REJECTED by MISSING": 22,
+    "Request For Payment REJECTED by PRE_APPROVER": 18,
+    "Permit REJECTED by BUDGET OWNER": 17,
+    "Permit REJECTED by PRE_APPROVER": 16,
+    "Permit REJECTED by ADMINISTRATION": 15,
+    "Request For Payment REJECTED by MISSING": 9,
+    "Request For Payment REJECTED by BUDGET OWNER": 7
+   }
+  },
+  "ev_time:timestamp": {
+   "missing_frac": 0.0,
+   "cardinality": 14070,
+   "constant_within_case_frac": 0.0033349213911386373,
+   "top_values": {
+    "2018-04-05T17:30:53.000+02:00": 36,
+    "2018-05-17T17:31:35.000+02:00": 35,
+    "2018-03-26T17:31:14.000+02:00": 34,
+    "2018-07-16T17:31:26.000+02:00": 33,
+    "2018-05-14T17:31:23.000+02:00": 32
+   },
+   "frac_events_with_rare_value_lt5": 0.8749862983667653
+  },
+  "ev_org:role": {
+   "missing_frac": 0.21813000109613065,
+   "cardinality": 8,
+   "constant_within_case_frac": 0.0033349213911386373,
+   "top_values": {
+    "EMPLOYEE": 4610,
+    "UNDEFINED": 3980,
+    "SUPERVISOR": 3927,
+    "ADMINISTRATION": 3574,
+    "BUDGET OWNER": 1341,
+    "DIRECTOR": 431,
+    "PRE_APPROVER": 352,
+    "MISSING": 31
+   }
+  }
+ },
+ "case_attr_vs_terminal_nmi": {
+  "case_Permit BudgetNumber": {
+   "nmi_with_last_activity": 0.33343486419356827
+  },
+  "case_Project": {
+   "nmi_with_last_activity": 0.17304334304447547
+  },
+  "case_Permit OrganizationalEntity": {
+   "nmi_with_last_activity": 0.12597273490766658
+  },
+  "case_OrganizationalEntity": {
+   "nmi_with_last_activity": 0.11463642627986476
+  },
+  "case_Permit ActivityNumber": {
+   "nmi_with_last_activity": 0.034926803137108046
+  },
+  "case_Activity": {
+   "nmi_with_last_activity": 0.01149934106649902
+  },
+  "case_Permit TaskNumber": {
+   "nmi_with_last_activity": 0.010821342588311347
+  }
+ },
+ "n_variants": 202,
+ "top_variant_share": 0.5712243925678895,
+ "top_variants": [
+  {
+   "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > Request For Payment SUBMITTED by EMPLOYEE > Request For Payment APPROVED by ADMINISTRATION > Request For Payment FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 569
+  },
+  {
+   "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit APPROVED by BUDGET OWNER > Permit FINAL_APPROVED by SUPERVISOR > Request For Payment SUBMITTED by EMPLOYEE > Request For Payment APPROVED by ADMINISTRATION > Request For Payment APPROVED by BUDGET OWNER > Request For Payment FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 311
+  },
+  {
+   "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit APPROVED by SUPERVISOR > Permit FINAL_APPROVED by DIRECTOR > Request For Payment SUBMITTED by EMPLOYEE > Request For Payment APPROVED by ADMINISTRATION > Request For Payment FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 126
+  },
+  {
+   "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit APPROVED by BUDGET OWNER > Permit APPROVED by SUPERVISOR > Permit FINAL_APPROVED by DIRECTOR > Request For Payment SUBMITTED by EMPLOYEE > Request For Payment APPROVED by ADMINISTRATION > Request For Payment APPROVED by BUDGET OWNER > Request For Payment FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 100
+  },
+  {
+   "variant": "Request For Payment SUBMITTED by EMPLOYEE > Request For Payment APPROVED by ADMINISTRATION > Request For Payment APPROVED by BUDGET OWNER > Request For Payment FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled",
+   "count": 93
+  }
+ ],
+ "registry": {
+  "event_cat": [
+   "org:role"
+  ],
+  "event_highcard": [
+   "org:resource"
+  ],
+  "case_cat": [
+   "OrganizationalEntity",
+   "Cost Type"
+  ],
+  "case_num": [
+   "RequestedAmount",
+   "Permit RequestedBudget"
+  ],
+  "excluded": {
+   "id": "event identifier; encodes sub-process origin (st_step/dd_/rv_) and ordering \u2192 leakage",
+   "Rfp_id/RfpNumber/Task/Activity/Project/Permit *Number/Permit id": "identifiers"
+  },
+  "terminal": [
+   "Payment Handled",
+   "Request For Payment REJECTED by EMPLOYEE",
+   "Request For Payment REJECTED by MISSING",
+   "Permit REJECTED by MISSING"
+  ],
+  "notes": "Prepaid travel costs (request-for-payment linked to permit)."
+ }
+}
