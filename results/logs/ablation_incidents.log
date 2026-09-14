@@ -1,2 +1,0 @@
-[ablation_incidents_gru_noattrdrop] gru_multihead seed=0 fit=23s  nll=0.758 acc=0.757 dtMAE=26.9h remMAE=276.8h DL=0.471 ece=0.042
-wrote results/ablations/incidents_gru_noattrdrop.json  (27s)
