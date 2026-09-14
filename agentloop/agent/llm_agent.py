@@ -26,7 +26,7 @@ PRICES = {
     "claude-sonnet-5": (3.0, 15.0, 3.75, 0.30),
 }
 
-SYSTEM_PROMPT = """You are an autonomous assistant completing tasks for your supervisor inside a sandboxed "app world".
+SYSTEM_PROMPT_V1 = """You are an autonomous assistant completing tasks for your supervisor inside a sandboxed "app world".
 You act ONLY by writing Python code. Each turn, reply with exactly one ```python code block (nothing else). The code runs in a persistent Python shell; variables survive between turns. The environment prints the output of your code (or the error traceback) back to you.
 
 Interface:
@@ -36,6 +36,19 @@ Interface:
 - Use `print(...)` to see results. Keep each turn small (one or two API calls) so errors are easy to diagnose. Paginate (`page_index`) when lists may be long.
 - When the task is done, call `apis.supervisor.complete_task()`; if the task asks a question, call `apis.supervisor.complete_task(answer=<answer>)` with the plain value only (a string/number), not a sentence. Do not call complete_task until you have actually done the work.
 - Never invent API names or parameters. Never ask the user questions; there is no user."""
+
+# v2: same prompt with three bug fixes found in the v1 traces (invented API names, forbidden `import`,
+# premature complete_task). Selected per run via LLMAgent(prompt_version=...); the prompt hash is in every trace.
+SYSTEM_PROMPT_V2 = SYSTEM_PROMPT_V1.replace(
+    "- Never invent API names or parameters. Never ask the user questions; there is no user.",
+    "- Never invent API names or parameters: call ONLY names returned by `show_api_descriptions`; if a call fails with "
+    "\"No APIs with name\", list the app's APIs and pick from that list.\n"
+    "- Never `import` anything; `apis`, `json`, `datetime` etc. are already available. Write plain statements, no multi-line string literals.\n"
+    "- Do NOT call `complete_task` in your first turn, and never before you have printed the concrete result you are going to report "
+    "(or performed the requested change and seen a success response).\n"
+    "- Never ask the user questions; there is no user.")
+PROMPTS = {"v1": SYSTEM_PROMPT_V1, "v2": SYSTEM_PROMPT_V2}
+SYSTEM_PROMPT = SYSTEM_PROMPT_V1
 
 _CODE_BLOCK = re.compile(r"```(?:python)?\s*\n(.*?)```", re.DOTALL)
 
@@ -146,12 +159,13 @@ def git_sha() -> str:
 
 class LLMAgent:
     def __init__(self, client: LLMClient, policy, max_steps: int = 25, temperature: float = 0.7, max_tokens: int = 1024,
-                 history_turns: int = 12, max_obs_chars: int = 2500, cost_budget_usd: float | None = None):
+                 history_turns: int = 12, max_obs_chars: int = 2500, cost_budget_usd: float | None = None, prompt_version: str = "v1"):
         self.client, self.policy = client, policy
+        self.system_prompt = PROMPTS[prompt_version]
         self.max_steps, self.temperature, self.max_tokens = max_steps, temperature, max_tokens
         self.history_turns, self.max_obs_chars = history_turns, max_obs_chars
         self.cost_budget = cost_budget_usd
-        self.prompt_hash = hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest()[:12]
+        self.prompt_hash = hashlib.sha256(self.system_prompt.encode()).hexdigest()[:12]
 
     def _messages(self, task_text: str, turns: list[tuple[str, str]]) -> list[dict[str, str]]:
         msgs = [{"role": "user", "content": task_text}]
@@ -192,7 +206,7 @@ class LLMAgent:
             llm_error = None
             for k in range(self.policy.n_candidates):
                 try:
-                    r = self.client.complete(SYSTEM_PROMPT, msgs, self.temperature, self.max_tokens)
+                    r = self.client.complete(self.system_prompt, msgs, self.temperature, self.max_tokens)
                 except Exception as e:  # network / API errors are part of the trace, not a crash
                     llm_error = f"{type(e).__name__}: {e}"[:300]
                     break
@@ -203,7 +217,8 @@ class LLMAgent:
                     setattr(step_usage, f, getattr(step_usage, f) + getattr(r.usage, f))
             cost += step_usage.cost_usd
             context = {"instruction": ep.task_instruction, "last_observation": current_obs, "last_error": last_error, "last_code": last_code,
-                       "step_index": i, "n_prev_errors": n_prev_errors, "history": list(history), "benchmark": env.benchmark}
+                       "step_index": i, "n_prev_errors": n_prev_errors, "history": list(history), "benchmark": env.benchmark,
+                       "action_schema": schema}
             if llm_error or not candidates:
                 ep.steps.append(Step(step_index=i, timestamp=now(), observation=current_obs, action_schema_ref=schema_ref,
                                      candidates=[Candidate(action_raw="", action={"type": "none"})], chosen_index=0, tool_result="",

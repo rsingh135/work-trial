@@ -59,3 +59,65 @@ class RerankerPolicy:
         if s[best] - s[0] < self.min_margin:
             best = 0
         return best, [float(x) for x in s], {"scores": [float(x) for x in s], "overrode_first": best != 0, "score_mode": self.score_mode}
+
+
+# ----------------------------------------------------------------------------------------------
+# Rule-based gates derived from information the environment already publishes. They are the
+# "does the world model of the action space say this is possible" checks, and serve as controls
+# for how much of a learned policy's gain is attributable to them.
+# ----------------------------------------------------------------------------------------------
+import re as _re
+
+_API_RE = _re.compile(r"apis\.([a-z_]+)\.([a-z_]+)\(")
+_META_APPS = ("api_docs", "supervisor")
+
+
+def _api_calls(code: str):
+    return _API_RE.findall(code or "")
+
+
+def schema_violations(code: str, schema: dict | None) -> list[str]:
+    """API calls in ``code`` whose app.api does not exist in the published action schema."""
+    if not schema or "apps" not in schema:
+        return []
+    apps = schema["apps"]
+    return [f"{a}.{b}" for a, b in _api_calls(code) if a not in apps or b not in apps[a]]
+
+
+def premature_completion(code: str, history: list[dict]) -> bool:
+    """``complete_task`` before any productive (non-docs, non-supervisor) call succeeded."""
+    if "complete_task" not in (code or ""):
+        return False
+    for h in history:
+        if h.get("error_type"):
+            continue
+        if any(a not in _META_APPS for a, _ in _api_calls(h.get("code", ""))):
+            return False
+    return True
+
+
+class GatedPolicy:
+    """Wraps any policy: candidates that violate the schema or complete prematurely are pushed to
+    the back (they are still recorded and scored); the inner policy chooses among the survivors.
+    If nothing survives, the inner policy sees all candidates unchanged."""
+
+    def __init__(self, inner, schema_gate: bool = True, progress_gate: bool = True):
+        self.inner = inner
+        self.schema_gate, self.progress_gate = schema_gate, progress_gate
+        self.policy_id = f"{inner.policy_id}+gate" if inner.policy_id != "first_candidate" else "gate_only"
+        self.version = getattr(inner, "version", "1") + "+gate1"
+        self.n_candidates = max(getattr(inner, "n_candidates", 1), 3)  # a gate needs alternatives to pick from
+
+    def choose(self, context: dict, codes: list[str]):
+        schema, hist = context.get("action_schema"), context.get("history", [])
+        bad = [bool(self.schema_gate and schema_violations(c, schema)) or bool(self.progress_gate and premature_completion(c, hist)) for c in codes]
+        keep = [i for i, b in enumerate(bad) if not b]
+        if not keep or len(keep) == len(codes):
+            idx, scores, meta = self.inner.choose(context, codes)
+            return idx, scores, {**meta, "gate_rejected": [i for i, b in enumerate(bad) if b], "gate_fallback": not keep}
+        sub_idx, sub_scores, meta = self.inner.choose(context, [codes[i] for i in keep])
+        scores = [None] * len(codes)
+        for k, sc in zip(keep, sub_scores):
+            scores[k] = sc
+        chosen = keep[sub_idx]
+        return chosen, scores, {**meta, "gate_rejected": [i for i, b in enumerate(bad) if b], "overrode_first": chosen != 0}

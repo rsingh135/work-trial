@@ -111,3 +111,20 @@ def test_trace_world_model_train_and_policy(tmp_path: Path):
     ctx = {"instruction": "What is the value stored under key k3?", "history": [{"code": "print(apis.store.keys())", "error_type": None, "timestamp": 1.0}], "benchmark": "mockworld"}
     idx, scores, meta = pol.choose(ctx, ["print(apis.nonexistent.call())", "print(apis.store.get('k3'))"])
     assert idx == 1 and "plausible" in meta
+
+
+def test_schema_and_progress_gates():
+    from agentloop.agent.policy import GatedPolicy, premature_completion, schema_violations
+    schema = {"apps": {"store": ["get", "keys"], "supervisor": ["complete_task"], "api_docs": ["show_api_doc"]}}
+    assert schema_violations("print(apis.store.get('k'))", schema) == []
+    assert schema_violations("print(apis.store.list_all())", schema) == ["store.list_all"]
+    assert schema_violations("x = apis.storage.get('k')", schema) == ["storage.get"]
+    assert premature_completion("apis.supervisor.complete_task()", []) is True
+    assert premature_completion("apis.supervisor.complete_task()", [{"code": "print(apis.api_docs.show_api_doc())", "error_type": None}]) is True
+    assert premature_completion("apis.supervisor.complete_task(answer=v)", [{"code": "v = apis.store.get('k')", "error_type": None}]) is False
+    pol = GatedPolicy(FirstCandidatePolicy())
+    ctx = {"action_schema": schema, "history": []}
+    idx, scores, meta = pol.choose(ctx, ["apis.supervisor.complete_task()", "print(apis.store.list_all())", "print(apis.store.keys())"])
+    assert idx == 2 and meta["gate_rejected"] == [0, 1] and pol.n_candidates == 3
+    idx, _, meta = pol.choose(ctx, ["print(apis.store.list_all())"])  # nothing survives → fallback to inner choice
+    assert idx == 0 and meta["gate_fallback"]
