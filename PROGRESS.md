@@ -44,3 +44,30 @@ Conventions: each entry = date, what, **why**. Decisions that change results get
 7. **Missingness**: `org:role` 11–36% UNKNOWN/UNDEFINED depending on log → kept as an explicit category, not imputed.
 8. **Schema quirk**: `oranization country` (sic) exists only in Open Problems. Excluded (as is its correctly-spelled sibling).
 9. **Variants**: Domestic/RfP top-5 variants cover ~90% of cases (easy); Permit 32%, Incidents 41% (hard). ⇒ substantive BPI2020 experiments on **Domestic** (large, simple, near-deterministic — tests calibration/time) and **International** (longer, permit+trip prefix, 753 variants — tests multi-step and long-history retention); **RfP→Domestic** transfer as the cross-log shift (shared org, disjoint activity strings that share structure `X APPROVED by Y`).
+
+## 2026-09-14 — Part 1 pipeline complete; Part 2 loop built offline
+
+**Part 1 code** (`bpm/`): case loader with per-log schema → train-fit encoder → three models behind one interface (`SequenceModel`: `predict_case`, `rollout`, `rollout_many`) → one evaluator (`bpm/evaluate.py`) → `bpm/run.py` config runner writing `results/<name>.json`. Demo (`configs/demo.yaml`) runs in ~25 s.
+
+Bugs caught by end-to-end demo (documented because they would have silently corrupted results):
+- pandas 3 stores tz-aware timestamps at µs resolution; my `astype("int64")/1e9` gave epoch-*milliseconds*, so every Δt was 1000× too small (MAE "0.1 h" on a log whose median Δt is ~40 h). Fixed with an explicit `total_seconds()` and a regression test.
+- sklearn HGB treats my `-1` "no earlier event" marker as a categorical value out of range → NLL 7.6. Fixed with NaN (native missing support).
+- sklearn HGB single-row `predict_proba` inside a rollout loop thrashed 18 threads (18k calls). Fixed with lock-step batched rollouts (`rollout_many`) — evaluation of 1000 prefixes × 6 rollouts now takes seconds.
+
+**DECISION: completeness rule + EOS token.** End-of-case is predicted as an `<EOS>` class in the next-activity head (no separate Bernoulli head) — one distribution, coherent by construction. Suffix/remaining-time targets only from complete cases (terminal set per log). Incidents `In Call`-ending cases, International `End trip`-ending cases etc. are therefore *incomplete* and excluded from those targets.
+
+**DECISION: decomposed activity components.** Activity embedding = whole-label embedding + Σ component embeddings (`Declaration|APPROVED|SUPERVISOR`, or BPI2013 `status|substatus`). Unseen labels → UNK whole-label but still carry action/actor components. This is the mechanism tested in the RfP→Domestic transfer experiment.
+
+**DECISION: attribute dropout (p=0.15)** during training so rollouts with unknown future attributes (UNK) are in-distribution.
+
+**Loss weights fixed a priori**: CE + 0.5·MDN-NLL(Δt) + 0.5·Gaussian-NLL(remaining). Not tuned on test.
+
+**Part 2 code** (`agentloop/`): pydantic v2 schema v1.0.0, redaction, `Env` protocol, AppWorld HTTP adapter (server auto-launched from `.venv-appworld`), mock env, LLM agent (Anthropic + scripted client), policies, collect/build/train/evaluate CLIs. 12 tests pass, incl. an end-to-end collect→build→train→reinsert test on the mock env.
+
+**DECISION: label only the executed action.** AppWorld `save_state/load_state` checkpoints DBs but not the Python shell namespace, so "counterfactually executing" unchosen candidates would leak variables between candidates and corrupt labels. So: collection uses the baseline (1 sample/step, cheapest), each step yields one (context, code) → valid example; the reranker samples N=3 only at deployment. Unexecuted candidates are still recorded in the trace with their scores.
+
+**DECISION: raise_on_failure=True** in the AppWorld adapter — otherwise API failures (401 etc.) come back as ordinary output and would be labelled *valid*.
+
+**Finding (mock env, before any API spend): validity ≠ progress.** A validity-only reranker cut the invalid-action rate 23%→2% but *halved* task success (72%→33%) because "complete_task(answer='wrong')" never errors. Added a second head P(success | context, action) trained on the episode-level label; scoring mode `product` restored TGC to 100% on the mock. This is the concrete illustration of "offline metric improves, end-to-end does not" that the brief asks for; the AppWorld run will report all three modes.
+
+**Cost plan for AppWorld (needs ANTHROPIC_API_KEY)**: `claude-haiku-4-5`, prompt caching on the system prompt, max 25 steps, outputs truncated to 2500 chars. Collection: ~45 train tasks × 1 run ≈ $5–8; eval: 30 dev tasks × 2 policies × 2 runs, reranker at N=3 ≈ $10–15. Hard `--cost-budget` guard in the collector.

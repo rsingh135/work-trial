@@ -1,0 +1,13 @@
+# Small end-to-end demo: subsample of BPI2020 Domestic, all three models, few epochs.
+# Runs in ~1-2 minutes on a laptop CPU. Produces results/demo.json.
+name: demo
+log: bpi2020_domestic
+max_cases: 1500
+split: {type: random, seed: 0, fracs: [0.7, 0.15, 0.15]}
+models:
+  - {type: markov, order: 2}
+  - {type: gbm, max_iter: 100}
+  - {type: gru, d_model: 64, n_layers: 1, epochs: 8, patience: 3, batch_size: 32}
+seeds: [0]
+eval: {n_suffix_prefixes: 150, max_suffix_len: 30, n_samples: 3, n_boot: 100}
+out: results/demo.json

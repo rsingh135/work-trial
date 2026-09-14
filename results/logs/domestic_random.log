@@ -1,0 +1,5 @@
+[domestic_random] markov_k2 seed=0 fit=0s  nll=0.324 acc=0.885 dtMAE=45.9h remMAE=99.8h DL=0.924 ece=0.008
+[domestic_random] gbm seed=0 fit=10s  nll=0.303 acc=0.892 dtMAE=39.6h remMAE=92.5h DL=0.934 ece=0.010
+[domestic_random] gbm seed=1 fit=11s  nll=0.303 acc=0.892 dtMAE=39.5h remMAE=92.4h DL=0.937 ece=0.010
+[domestic_random] gbm seed=2 fit=10s  nll=0.303 acc=0.892 dtMAE=39.7h remMAE=92.3h DL=0.937 ece=0.010
+[domestic_random] gru_multihead seed=0 fit=16s  nll=0.320 acc=0.890 dtMAE=41.6h remMAE=101.0h DL=0.936 ece=0.007

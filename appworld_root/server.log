@@ -1,0 +1,37 @@
+INFO:     Started server process [26350]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9123 (Press CTRL+C to quit)
+INFO:     127.0.0.1:58758 - "GET / HTTP/1.1" 200 OK
+/Users/ranveersingh/work_trial/.venv-appworld/lib/python3.11/site-packages/IPython/core/interactiveshell.py:976: UserWarning: Attempting to work in a virtualenv. If you encounter problems, please install IPython inside the virtualenv.
+  warn(
+INFO:     127.0.0.1:58760 - "POST /initialize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58761 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58762 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58763 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58764 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58765 - "GET /api_docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58766 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58767 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58768 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58769 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58770 - "POST /close HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [26350]
+INFO:     Started server process [26376]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9123 (Press CTRL+C to quit)
+INFO:     127.0.0.1:58780 - "GET / HTTP/1.1" 200 OK
+/Users/ranveersingh/work_trial/.venv-appworld/lib/python3.11/site-packages/IPython/core/interactiveshell.py:976: UserWarning: Attempting to work in a virtualenv. If you encounter problems, please install IPython inside the virtualenv.
+  warn(
+INFO:     127.0.0.1:58781 - "POST /initialize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58782 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58783 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58784 - "POST /close HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [26376]

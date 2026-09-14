@@ -1,0 +1,13 @@
+{
+ "n_episodes": 48,
+ "n_examples": 143,
+ "n_groups": 8,
+ "heldout_groups": [
+  "scenario01",
+  "scenario04"
+ ],
+ "pos_rate": 0.8181818181818182,
+ "builder_version": "1",
+ "n_train": 107,
+ "n_heldout": 36
+}

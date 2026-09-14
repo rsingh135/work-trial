@@ -1,0 +1,97 @@
+{
+ "family": "bpi2020",
+ "event_cat_fields": [
+  "org:role",
+  "org:resource"
+ ],
+ "case_cat_fields": [],
+ "case_num_fields": [
+  "Amount"
+ ],
+ "min_count_cat": 5,
+ "min_count_act": 1,
+ "act_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<EOS>": 2,
+  "Declaration SUBMITTED by EMPLOYEE": 3,
+  "Declaration FINAL_APPROVED by SUPERVISOR": 4,
+  "Payment Handled": 5,
+  "Request Payment": 6,
+  "Declaration APPROVED by ADMINISTRATION": 7,
+  "Declaration APPROVED by BUDGET OWNER": 8,
+  "Declaration REJECTED by EMPLOYEE": 9,
+  "Declaration REJECTED by ADMINISTRATION": 10,
+  "Declaration APPROVED by PRE_APPROVER": 11,
+  "Declaration REJECTED by SUPERVISOR": 12,
+  "Declaration SAVED by EMPLOYEE": 13,
+  "Declaration REJECTED by MISSING": 14,
+  "Declaration REJECTED by PRE_APPROVER": 15,
+  "Declaration REJECTED by BUDGET OWNER": 16,
+  "Declaration FOR_APPROVAL by ADMINISTRATION": 17,
+  "Declaration FOR_APPROVAL by PRE_APPROVER": 18,
+  "Declaration FOR_APPROVAL by SUPERVISOR": 19
+ },
+ "comp_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "obj=Declaration": 2,
+  "act=REJECTED": 3,
+  "act=APPROVED": 4,
+  "act=FOR_APPROVAL": 5,
+  "actor=ADMINISTRATION": 6,
+  "actor=EMPLOYEE": 7,
+  "actor=PRE_APPROVER": 8,
+  "actor=SUPERVISOR": 9,
+  "act=<none>": 10,
+  "actor=<none>": 11,
+  "actor=BUDGET OWNER": 12,
+  "act=FINAL_APPROVED": 13,
+  "act=SAVED": 14,
+  "act=SUBMITTED": 15,
+  "actor=MISSING": 16,
+  "obj=Payment Handled": 17,
+  "obj=Request Payment": 18
+ },
+ "n_comps": 3,
+ "cat_vocabs": {
+  "org:role": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "<MISSING>": 2,
+   "EMPLOYEE": 3,
+   "SUPERVISOR": 4,
+   "ADMINISTRATION": 5,
+   "BUDGET OWNER": 6,
+   "PRE_APPROVER": 7,
+   "MISSING": 8
+  },
+  "org:resource": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "STAFF MEMBER": 2,
+   "SYSTEM": 3
+  }
+ },
+ "case_cat_vocabs": {},
+ "scalers": {
+  "dt": {
+   "mean": 9.677223177231637,
+   "std": 3.8874655037565264
+  },
+  "elapsed": {
+   "mean": 8.718344148943318,
+   "std": 5.5125516022485055
+  },
+  "pos": {
+   "mean": 1.0425367620704917,
+   "std": 0.62390667394229
+  },
+  "case_num": {
+   "Amount": {
+    "mean": 3.730490051210503,
+    "std": 1.2805206500768276
+   }
+  }
+ }
+}

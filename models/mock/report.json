@@ -1,0 +1,49 @@
+{
+ "n_train": 107,
+ "n_heldout": 36,
+ "C": 1.0,
+ "seed": 0,
+ "featurizer_version": "1",
+ "train_metrics": {
+  "valid": {
+   "n": 107,
+   "pos_rate": 0.8037383177570093,
+   "auroc": 1.0,
+   "auprc": 1.0,
+   "logloss": 0.15428642034101417,
+   "accuracy": 1.0,
+   "majority_accuracy": 0.8037383177570093
+  },
+  "success": {
+   "n": 107,
+   "pos_rate": 0.7757009345794392,
+   "auroc": 0.9615963855421688,
+   "auprc": 0.9883870588360076,
+   "logloss": 0.3693223071629017,
+   "accuracy": 0.897196261682243,
+   "majority_accuracy": 0.7757009345794392
+  }
+ },
+ "heldout_metrics": {
+  "valid": {
+   "n": 36,
+   "pos_rate": 0.8611111111111112,
+   "auroc": 1.0,
+   "auprc": 1.0,
+   "logloss": 0.19048745979280404,
+   "accuracy": 1.0,
+   "majority_accuracy": 0.8611111111111112
+  },
+  "success": {
+   "n": 36,
+   "pos_rate": 0.6944444444444444,
+   "auroc": 0.6690909090909091,
+   "auprc": 0.7860589063351155,
+   "logloss": 0.5467649941415192,
+   "accuracy": 0.8055555555555556,
+   "majority_accuracy": 0.6944444444444444
+  }
+ },
+ "train_seconds": 3.012769937515259,
+ "version": "logreg-h1-1789364719"
+}
