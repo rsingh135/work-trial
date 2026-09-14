@@ -51,10 +51,10 @@ def summarize(episodes: list[Episode]) -> dict:
     return {"n_episodes": len(episodes), "n_runs": len(per_run), "per_run": per_run, **agg}
 
 
-def run_policy(env, tasks, split, policy_kind, policy_model, n_candidates, client_kind, model_id, runs, seed, max_steps, temperature, out, noise, run_tag, score_mode="product"):
+def run_policy(env, tasks, split, policy_kind, policy_model, n_candidates, client_kind, model_id, runs, seed, max_steps, temperature, out, noise, run_tag, score_mode="product", validity_model=None):
     out.mkdir(parents=True, exist_ok=True)
     (out / "schemas").mkdir(exist_ok=True)
-    policy = make_policy(policy_kind, policy_model, n_candidates, score_mode)
+    policy = make_policy(policy_kind, policy_model, n_candidates, score_mode, validity_model)
     redactor = Redactor(salt=run_tag)
     schemas: dict = {}
     eps, n_ok, n_bad = [], 0, 0
@@ -85,8 +85,10 @@ def main(argv=None):
     ap.add_argument("--client", default="anthropic", choices=["anthropic", "scripted"])
     ap.add_argument("--model", default="claude-haiku-4-5")
     ap.add_argument("--policy-model", required=True)
+    ap.add_argument("--validity-model", default=None, help="tracemodel only: also multiply by the token-level validity scorer (hybrid)")
+    ap.add_argument("--policy", default="reranker", choices=["reranker", "tracemodel"], help="which learned component to reinsert")
     ap.add_argument("--n-candidates", type=int, default=3)
-    ap.add_argument("--score-mode", default="product", choices=["valid", "success", "product"])
+    ap.add_argument("--score-mode", default="product", choices=["valid", "success", "product", "plausible"])
     ap.add_argument("--max-steps", type=int, default=25)
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--seed", type=int, default=100)
@@ -102,7 +104,7 @@ def main(argv=None):
     res = {"args": vars(a), "tasks": tasks, "n_tasks": len(tasks)}
     if not a.skip_baseline:
         res["baseline"] = run_policy(policy_kind="baseline", policy_model=None, n_candidates=1, out=out / "baseline", run_tag=f"eval-{a.env}-baseline", **common)
-    res["reranker"] = run_policy(policy_kind="reranker", policy_model=a.policy_model, n_candidates=a.n_candidates, out=out / "reranker", run_tag=f"eval-{a.env}-reranker", score_mode=a.score_mode, **common)
+    res["reranker"] = run_policy(policy_kind=a.policy, policy_model=a.policy_model, n_candidates=a.n_candidates, out=out / "reranker", run_tag=f"eval-{a.env}-reranker", score_mode=a.score_mode, validity_model=a.validity_model, **common)
     if "baseline" in res:
         res["delta"] = {k: res["reranker"][k]["mean"] - res["baseline"][k]["mean"] for k in ("tgc", "sgc", "invalid_action_rate", "mean_steps", "mean_wall_s", "mean_cost_usd")}
     res["total_seconds"] = time.time() - t0

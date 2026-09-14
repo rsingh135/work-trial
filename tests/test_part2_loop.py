@@ -91,3 +91,23 @@ def test_end_to_end_collect_build_train_reinsert(tmp_path: Path):
     ep2 = agent2.run_episode(env, env.task_ids("dev")[0], "dev", run_id="r1", seed=1)
     assert ep2.versions.policy_id == "validity_reranker" and len(ep2.steps[0].candidates) == 3
     assert all(c.score is not None for c in ep2.steps[0].candidates)
+
+
+def test_trace_world_model_train_and_policy(tmp_path: Path):
+    """Agent traces as an event log: episode→case conversion, Part 1 model trained on them, and the
+    resulting policy scoring candidates (incl. the hybrid with the token-level validity scorer)."""
+    from agentloop.trace_model import OUTCOME_FAIL, OUTCOME_OK, TraceModelPolicy, action_activity, episode_to_case, train as train_tm
+    env = MockEnv()
+    agent = LLMAgent(ScriptedClient(noise=0.4, seed=2), FirstCandidatePolicy(), max_steps=8)
+    eps = [agent.run_episode(env, t, "train", run_id="r0", seed=2) for t in env.task_ids("train")]
+    c = episode_to_case(eps[0])
+    assert len(c) == eps[0].totals.steps + 2 and c.activities[-1] in (OUTCOME_OK, OUTCOME_FAIL) and c.complete
+    assert action_activity("print(apis.store.get('k1'))", None) == "store.get|ok" and action_activity("x", "api_error") == "python.no_api|err"
+    d = tmp_path / "tr"; d.mkdir()
+    (d / "episodes.jsonl").write_text("".join(e.to_jsonl_line() + "\n" for e in eps))
+    rep = train_tm([d], tmp_path / "tm", epochs=15)
+    assert rep["vocab"] > 3 and "heldout" in rep
+    pol = TraceModelPolicy(tmp_path / "tm", n_candidates=2, score_mode="plausible")
+    ctx = {"instruction": "What is the value stored under key k3?", "history": [{"code": "print(apis.store.keys())", "error_type": None, "timestamp": 1.0}], "benchmark": "mockworld"}
+    idx, scores, meta = pol.choose(ctx, ["print(apis.nonexistent.call())", "print(apis.store.get('k3'))"])
+    assert idx == 1 and "plausible" in meta

@@ -133,3 +133,14 @@ Prompted by the reviewer's question whether the task is "pretty easy". Framing: 
 6. Greedy decoding loops on Incidents → sample-medoid decoding.
 7. Transfer negative for a mechanical reason (per-label output rows) → component-factorised, input-tied output head; rerun RfP→Domestic; unseen-label rate on 2017→2018 chrono tests.
 8. Part 2 learner is a throwaway → treat agent traces as event logs (episode=case, app.api=activity with object/action components, error=attribute) and use the Part 1 model class as the learned component (next-API, P(error), P(success), remaining steps). LogReg stays as the cheap baseline learner.
+
+## 2026-09-14 — Upgrade batch 1 implemented (items 1–8 of the self-review)
+
+- **Transformer backbone** behind identical heads (`backbone: transformer`, causal, positional + case-context vector); rollouts recompute over the growing buffer (KV-cache state). Streaming API `init_stream/step` for both backbones; test asserts step-wise == batch forward.
+- **Strict chronological split** (`strict: true`): train/val events at/after the test cutoff removed, truncated cases marked incomplete; counts recorded in split meta. Configs `*_chrono_strict`.
+- **Attribute-removal probe**: every trained model is re-evaluated with all event attributes masked (`metrics.attr_removed`) — tests the attribute-dropout robustness claim vs GBM.
+- **Medoid decoding** from the 5 samples (`suffix.medoid_*`) as an alternative to greedy.
+- **Component-factorised output head** (`factorised_output: true`): label logit += Σ component logits; transfer config now compares plain vs factorised, and fine-tune gets the same epoch budget as scratch (60) — the earlier 15 vs 60 comparison was unfair.
+- **Downstream script** (`bpm/downstream.py`): selective prediction, seed-ensemble mutual information, SLA-breach P(remaining>T) with AUROC/Brier, anomaly scores with length/Markov confound checks.
+- **Part 2 unified with Part 1** (`agentloop/trace_model.py`): episode→Case (activity = `app.api|ok/err`, `start.episode` and `outcome.success/failure` pseudo-events, error/#calls attributes), the Part 1 `RecurrentModel` trained on traces, its next-activity head → validity/plausibility/success scores for candidates, `--policy tracemodel`. **Findings on the mock before any API spend**: (a) without a start pseudo-event the policy scored the first action from an unseen dummy prefix → TGC 0.56; fixed → 0.83–0.92 vs baseline 0.72. (b) The API-level abstraction is blind to *argument-level* mistakes (`store.get('k3x')`, `answer='wrong'` are the same activity as the right calls); the token-level scorer sees them. Hybrid (sequence plausibility·success × token validity·success) → TGC 1.00, invalid rate 4%. Complementary information, not a contest.
+- Full batch v3 (4 models × 14 configs) running; all numbers in the design note will be replaced by this batch.

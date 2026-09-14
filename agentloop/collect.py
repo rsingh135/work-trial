@@ -42,11 +42,14 @@ def make_client(kind: str, model_id: str, seed: int = 0, noise: float = 0.3):
     raise ValueError(kind)
 
 
-def make_policy(kind: str, model_path: str | None, n_candidates: int, score_mode: str = "product"):
+def make_policy(kind: str, model_path: str | None, n_candidates: int, score_mode: str = "product", validity_model: str | None = None):
     if kind == "baseline":
         return FirstCandidatePolicy()
     if kind == "reranker":
         return RerankerPolicy(model_path, n_candidates=n_candidates, score_mode=score_mode)
+    if kind == "tracemodel":
+        from agentloop.trace_model import TraceModelPolicy
+        return TraceModelPolicy(model_path, n_candidates=n_candidates, score_mode=score_mode, validity_model=validity_model)
     raise ValueError(kind)
 
 
@@ -97,10 +100,11 @@ def main(argv=None):
     ap.add_argument("--runs", type=int, default=1)
     ap.add_argument("--client", default="anthropic", choices=["anthropic", "scripted", "canned"])
     ap.add_argument("--model", default="claude-haiku-4-5")
-    ap.add_argument("--policy", default="baseline", choices=["baseline", "reranker"])
+    ap.add_argument("--policy", default="baseline", choices=["baseline", "reranker", "tracemodel"])
     ap.add_argument("--policy-model", default=None)
+    ap.add_argument("--validity-model", default=None, help="tracemodel only: also multiply by the token-level validity scorer (hybrid)")
     ap.add_argument("--n-candidates", type=int, default=3)
-    ap.add_argument("--score-mode", default="product", choices=["valid", "success", "product"])
+    ap.add_argument("--score-mode", default="product", choices=["valid", "success", "product", "plausible"])
     ap.add_argument("--max-steps", type=int, default=25)
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--seed", type=int, default=0)
@@ -114,7 +118,7 @@ def main(argv=None):
     (out / "schemas").mkdir(parents=True, exist_ok=True)
     env = make_env(args.env)
     tasks = args.tasks or select_tasks(env, args.split, args.n_tasks, args.seed)
-    policy = make_policy(args.policy, args.policy_model, args.n_candidates, args.score_mode)
+    policy = make_policy(args.policy, args.policy_model, args.n_candidates, args.score_mode, args.validity_model)
     run_id = args.run_id or f"{args.env}-{args.split}-{args.policy}-{time.strftime('%Y%m%d%H%M%S')}"
     redactor = Redactor(salt=run_id)
     schemas: dict = {}

@@ -171,6 +171,7 @@ class LLMAgent:
             started_at=now(), task_instruction=obs.task_meta.get("instruction", obs.text), task_meta=obs.task_meta,
         )
         turns: list[tuple[str, str]] = []
+        history: list[dict] = []  # structured trajectory so far, for sequence-model policies
         current_obs = obs.text
         last_error, last_code, n_prev_errors, invalid = None, None, 0, 0
         termination = TerminationReason.max_steps
@@ -194,7 +195,7 @@ class LLMAgent:
                     setattr(step_usage, f, getattr(step_usage, f) + getattr(r.usage, f))
             cost += step_usage.cost_usd
             context = {"instruction": ep.task_instruction, "last_observation": current_obs, "last_error": last_error, "last_code": last_code,
-                       "step_index": i, "n_prev_errors": n_prev_errors}
+                       "step_index": i, "n_prev_errors": n_prev_errors, "history": list(history), "benchmark": env.benchmark}
             if llm_error or not candidates:
                 ep.steps.append(Step(step_index=i, timestamp=now(), observation=current_obs, action_schema_ref=schema_ref,
                                      candidates=[Candidate(action_raw="", action={"type": "none"})], chosen_index=0, tool_result="",
@@ -217,6 +218,7 @@ class LLMAgent:
             ep.steps.append(Step(step_index=i, timestamp=now(), observation=current_obs, action_schema_ref=schema_ref, candidates=candidates, chosen_index=chosen,
                                  tool_result=res_obs, error=ErrorInfo(**err) if err else None, success_state=done, usage=step_usage, policy_meta=meta))
             turns.append((code or "(no code)", res_obs))
+            history.append({"code": code or "", "error_type": err["type"] if err else None, "timestamp": time.time()})
             current_obs, last_error, last_code = res_obs, (err["message"] if err else None), code
             if done:
                 termination = TerminationReason.completed

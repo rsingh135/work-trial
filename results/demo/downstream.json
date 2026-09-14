@@ -1,0 +1,111 @@
+{
+ "run": "demo",
+ "model": "gru_multihead",
+ "n_seeds": 1,
+ "selective_prediction": {
+  "ensemble_accuracy_at_coverage": {
+   "100%": 0.9083743842364532,
+   "90%": 0.9211391018619934,
+   "80%": 0.9532019704433498,
+   "70%": 0.9802816901408451,
+   "50%": 0.9901380670611439,
+   "30%": 1.0
+  },
+  "single_model_accuracy": 0.9083743842364532,
+  "ensemble_accuracy": 0.9083743842364532,
+  "aurc_proxy": 0.9739998924745427
+ },
+ "uncertainty": {
+  "mean_entropy_nats": 0.37143674492836,
+  "mean_mutual_information_nats": 0.0,
+  "mi_on_wrong_vs_right": [
+   0.0,
+   0.0
+  ],
+  "unseen_label_rate_test": 0.0
+ },
+ "sla_breach": {
+  "train_median": {
+   "T_hours": 102.09527777777778,
+   "positive_rate": 0.6333754740834386,
+   "auroc": 0.7424599077706656,
+   "brier": 0.19111479138211462,
+   "auroc_single": 0.7424599077706656,
+   "brier_single": 0.19111479138211462
+  },
+  "train_p90": {
+   "T_hours": 296.3927777777778,
+   "positive_rate": 0.13653603034134007,
+   "auroc": 0.6690390976628167,
+   "brier": 0.1142034985902779,
+   "auroc_single": 0.6690390976628167,
+   "brier_single": 0.1142034985902779
+  }
+ },
+ "anomaly": {
+  "spearman_score_vs_case_length": 0.7090374682760624,
+  "spearman_vs_markov_score": 0.8350192392596314,
+  "top10": [
+   {
+    "case_id": "declaration 88818",
+    "score": 1.9684876203536987,
+    "length": 3,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE"
+   },
+   {
+    "case_id": "declaration 94194",
+    "score": 1.8434382677078247,
+    "length": 3,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING"
+   },
+   {
+    "case_id": "declaration 96089",
+    "score": 1.8324257135391235,
+    "length": 3,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING"
+   },
+   {
+    "case_id": "declaration 93457",
+    "score": 1.8316549062728882,
+    "length": 3,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING"
+   },
+   {
+    "case_id": "declaration 101989",
+    "score": 1.5926517248153687,
+    "length": 8,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by PRE_APPROVER > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled"
+   },
+   {
+    "case_id": "declaration 89158",
+    "score": 1.0325654745101929,
+    "length": 9,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled"
+   },
+   {
+    "case_id": "declaration 87305",
+    "score": 1.025362253189087,
+    "length": 10,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Reque"
+   },
+   {
+    "case_id": "declaration 90166",
+    "score": 1.0138851404190063,
+    "length": 9,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled"
+   },
+   {
+    "case_id": "declaration 86632",
+    "score": 0.8560816049575806,
+    "length": 9,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Hand"
+   },
+   {
+    "case_id": "declaration 89290",
+    "score": 0.8321670293807983,
+    "length": 7,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled"
+   }
+  ]
+ }
+}

@@ -10512,6 +10512,8 @@
    0.15,
    0.15
   ],
+  "strict": false,
+  "cutoff_ts": 1541150486.0,
   "train_end_start_ts": "2018-08-27T07:01:31+00:00",
   "test_first_start_ts": "2018-11-02T09:21:26+00:00",
   "frac_train_cases_overlapping_test_window": 0.0023132398965845695

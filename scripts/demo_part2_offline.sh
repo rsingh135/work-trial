@@ -10,3 +10,10 @@ uv run python -m agentloop.train datasets/mock --out models/mock
 uv run python -m agentloop.evaluate --env mock --split dev --client scripted --runs 3 --noise 0.35 \
     --policy-model models/mock/model.pkl --score-mode product --out results/part2_mock
 echo "summary: results/part2_mock/summary.json"
+# --- the connection between the parts: Part 1 sequence model trained on the same agent traces, reinserted as policy
+uv run python -m agentloop.trace_model train traces/mock_train --out models/mock_tracemodel --epochs 40
+uv run python -m agentloop.evaluate --env mock --split dev --client scripted --runs 3 --noise 0.35 \
+    --policy tracemodel --policy-model models/mock_tracemodel --score-mode product --skip-baseline --out results/part2_mock_tracemodel
+uv run python -m agentloop.evaluate --env mock --split dev --client scripted --runs 3 --noise 0.35 \
+    --policy tracemodel --policy-model models/mock_tracemodel --validity-model models/mock/model.pkl --score-mode product --skip-baseline --out results/part2_mock_hybrid
+echo "summaries: results/part2_mock{,_tracemodel,_hybrid}/summary.json"
