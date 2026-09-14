@@ -76,10 +76,12 @@ class LLMClient(Protocol):
 
 
 class AnthropicClient:
-    def __init__(self, model_id: str = "claude-haiku-4-5", max_retries: int = 4):
+    def __init__(self, model_id: str = "claude-haiku-4-5", max_retries: int = 3, timeout_s: float = 120.0):
         import anthropic  # local import so the package is optional in offline mode
         self.model_id = model_id
-        self._client = anthropic.Anthropic(max_retries=max_retries)
+        # bounded per-attempt timeout: the SDK default (10 min × retries) let one stalled request freeze an
+        # evaluation for ~45 min; a failed call is recorded as an llm_error step, not a crash
+        self._client = anthropic.Anthropic(max_retries=max_retries, timeout=timeout_s)
 
     # Models that still accept sampling parameters (anthropic SDK 1.x removed `temperature` as a named
     # argument; Opus 5 / Sonnet 5 / Fable reject it with a 400, Haiku 4.5 accepts it via extra_body).
