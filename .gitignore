@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+# raw data: too large / not ours to redistribute
+bundle/**/*.xes
+bundle/**/*.xes.gz
+bundle/**/*.zip
+data/
+# AppWorld protected data & experiment outputs
+appworld_data/
+experiments/
+# local secrets
+.env
