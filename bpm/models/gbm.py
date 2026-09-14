@@ -42,10 +42,15 @@ class GBMModel(SequenceModel):
     def _features(self, enc: EncodedCase) -> np.ndarray:
         return np.stack([self._feat_row(enc, t, enc.act, enc.time[t], enc.cat[t]) for t in range(len(enc))])
 
-    def _cat_mask(self, enc: EncodedCase) -> list[bool]:
+    def _cat_mask(self, enc: EncodedCase, encoder: Encoder) -> list[bool]:
+        """sklearn's categorical support caps cardinality at 255; fields above that (e.g. Incidents
+        org:group, 472 train values) are fed as ordinal integers instead — a documented baseline
+        weakness, not a modelling choice."""
         n_last, n_bag, n_time = self.k_last, self.V, enc.time.shape[1]
-        n_cat, n_ccat, n_cnum = enc.cat.shape[1], len(enc.case_cat), len(enc.case_num)
-        return [True] * n_last + [False] * n_bag + [False] * n_time + [True] * n_cat + [True] * n_ccat + [False] * n_cnum + [False]
+        n_cnum = len(enc.case_num)
+        cat_flags = [len(encoder.cat_vocabs[f]) <= 255 for f in encoder.event_cat_fields]
+        ccat_flags = [len(encoder.case_cat_vocabs[f]) <= 255 for f in encoder.case_cat_fields]
+        return [self.V <= 255] * n_last + [False] * n_bag + [False] * n_time + cat_flags + ccat_flags + [False] * n_cnum + [False]
 
     def fit(self, train, val, encoder: Encoder) -> dict:
         self.V = encoder.n_activities
@@ -58,7 +63,7 @@ class GBMModel(SequenceModel):
             yrem.append(c.remaining)
         X = np.concatenate(X)
         ya, ydt, yrem = np.concatenate(ya), np.concatenate(ydt), np.concatenate(yrem)
-        cat_mask = self._cat_mask(train[0])
+        cat_mask = self._cat_mask(train[0], encoder)
         # sklearn needs categorical values < max_bins; ids here are small (vocab-sized)
         common = dict(max_iter=self.max_iter, learning_rate=self.lr, early_stopping=True, validation_fraction=0.1,
                       random_state=self.seed, categorical_features=cat_mask, max_bins=255, l2_regularization=1.0, min_samples_leaf=20)

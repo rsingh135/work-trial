@@ -1,0 +1,26 @@
+[incidents_chrono] markov_k2 seed=0 fit=0s  nll=1.080 acc=0.519 dtMAE=13.7h remMAE=103.8h DL=0.327 ece=0.103
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/ranveersingh/work_trial/bpm/run.py", line 244, in <module>
+    main()
+  File "/Users/ranveersingh/work_trial/bpm/run.py", line 240, in main
+    run(cfg)
+  File "/Users/ranveersingh/work_trial/bpm/run.py", line 127, in run
+    train_log = model.fit(enc_tr, enc_va, encoder)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ranveersingh/work_trial/bpm/models/gbm.py", line 69, in fit
+    self.clf = HistGradientBoostingClassifier(**clf_kw).fit(X[m], ya[m])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/base.py", line 1403, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py", line 447, in fit
+    X, known_categories = self._preprocess_X(X, reset=True)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py", line 299, in _preprocess_X
+    known_categories = self._check_categories()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py", line 348, in _check_categories
+    raise ValueError(
+ValueError: Categorical feature at index 3 is expected to have a cardinality <= 255 but actually has a cardinality of 510.

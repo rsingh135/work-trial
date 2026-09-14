@@ -1,1 +1,8 @@
 [international_chrono] markov_k2 seed=0 fit=0s  nll=0.522 acc=0.844 dtMAE=95.7h remMAE=324.1h DL=0.858 ece=0.069
+[international_chrono] gbm seed=0 fit=20s  nll=0.298 acc=0.892 dtMAE=83.7h remMAE=283.4h DL=0.897 ece=0.021
+[international_chrono] gbm seed=1 fit=20s  nll=0.298 acc=0.892 dtMAE=84.8h remMAE=286.1h DL=0.894 ece=0.021
+[international_chrono] gbm seed=2 fit=19s  nll=0.298 acc=0.892 dtMAE=84.7h remMAE=286.0h DL=0.890 ece=0.021
+[international_chrono] gru_multihead seed=0 fit=29s  nll=0.287 acc=0.892 dtMAE=88.1h remMAE=284.0h DL=0.909 ece=0.013
+[international_chrono] gru_multihead seed=1 fit=29s  nll=0.293 acc=0.887 dtMAE=88.3h remMAE=293.5h DL=0.895 ece=0.014
+[international_chrono] gru_multihead seed=2 fit=31s  nll=0.292 acc=0.891 dtMAE=84.4h remMAE=278.1h DL=0.894 ece=0.012
+wrote results/international_chrono.json  (167s)

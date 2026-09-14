@@ -25,3 +25,22 @@ wrote results/domestic_chrono.json  (124s)
 Traceback (most recent call last):
 RuntimeError: probability tensor contains either `inf`, `nan` or element < 0
 === international_chrono Mon Sep 14 10:35:54 EDT 2026
+[international_chrono] markov_k2 seed=0 fit=0s  nll=0.522 acc=0.844 dtMAE=95.7h remMAE=324.1h DL=0.858 ece=0.069
+[international_chrono] gbm seed=0 fit=20s  nll=0.298 acc=0.892 dtMAE=83.7h remMAE=283.4h DL=0.897 ece=0.021
+[international_chrono] gbm seed=1 fit=20s  nll=0.298 acc=0.892 dtMAE=84.8h remMAE=286.1h DL=0.894 ece=0.021
+[international_chrono] gbm seed=2 fit=19s  nll=0.298 acc=0.892 dtMAE=84.7h remMAE=286.0h DL=0.890 ece=0.021
+[international_chrono] gru_multihead seed=0 fit=29s  nll=0.287 acc=0.892 dtMAE=88.1h remMAE=284.0h DL=0.909 ece=0.013
+[international_chrono] gru_multihead seed=1 fit=29s  nll=0.293 acc=0.887 dtMAE=88.3h remMAE=293.5h DL=0.895 ece=0.014
+[international_chrono] gru_multihead seed=2 fit=31s  nll=0.292 acc=0.891 dtMAE=84.4h remMAE=278.1h DL=0.894 ece=0.012
+wrote results/international_chrono.json  (167s)
+=== incidents_random Mon Sep 14 10:38:42 EDT 2026
+[incidents_random] markov_k2 seed=0 fit=0s  nll=1.022 acc=0.585 dtMAE=31.4h remMAE=299.1h DL=0.300 ece=0.037
+Traceback (most recent call last):
+    raise ValueError(
+ValueError: Categorical feature at index 3 is expected to have a cardinality <= 255 but actually has a cardinality of 472.
+=== incidents_chrono Mon Sep 14 10:38:47 EDT 2026
+[incidents_chrono] markov_k2 seed=0 fit=0s  nll=1.080 acc=0.519 dtMAE=13.7h remMAE=103.8h DL=0.327 ece=0.103
+Traceback (most recent call last):
+    raise ValueError(
+ValueError: Categorical feature at index 3 is expected to have a cardinality <= 255 but actually has a cardinality of 510.
+=== closed_random Mon Sep 14 10:38:52 EDT 2026

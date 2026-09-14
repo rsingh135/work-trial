@@ -1,0 +1,4 @@
+[closed_random] markov_k2 seed=0 fit=0s  nll=1.032 acc=0.608 dtMAE=1252.2h remMAE=3655.5h DL=0.574 ece=0.032
+[closed_random] gbm seed=0 fit=3s  nll=1.123 acc=0.695 dtMAE=1140.1h remMAE=2824.1h DL=0.600 ece=0.162
+[closed_random] gbm seed=1 fit=3s  nll=1.123 acc=0.695 dtMAE=1148.2h remMAE=2817.8h DL=0.600 ece=0.162
+[closed_random] gbm seed=2 fit=3s  nll=1.123 acc=0.695 dtMAE=1123.1h remMAE=2869.6h DL=0.600 ece=0.162
