@@ -1,0 +1,1 @@
+[permit_random] markov_k2 seed=0 fit=0s  nll=0.818 acc=0.756 dtMAE=151.3h remMAE=500.9h DL=0.711 ece=0.012

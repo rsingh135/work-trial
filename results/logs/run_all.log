@@ -44,3 +44,17 @@ Traceback (most recent call last):
     raise ValueError(
 ValueError: Categorical feature at index 3 is expected to have a cardinality <= 255 but actually has a cardinality of 510.
 === closed_random Mon Sep 14 10:38:52 EDT 2026
+[closed_random] markov_k2 seed=0 fit=0s  nll=1.032 acc=0.608 dtMAE=1252.2h remMAE=3655.5h DL=0.574 ece=0.032
+[closed_random] gbm seed=0 fit=3s  nll=1.123 acc=0.695 dtMAE=1140.1h remMAE=2824.1h DL=0.600 ece=0.162
+[closed_random] gbm seed=1 fit=3s  nll=1.123 acc=0.695 dtMAE=1148.2h remMAE=2817.8h DL=0.600 ece=0.162
+[closed_random] gbm seed=2 fit=3s  nll=1.123 acc=0.695 dtMAE=1123.1h remMAE=2869.6h DL=0.600 ece=0.162
+[closed_random] gru_multihead seed=0 fit=2s  nll=1.108 acc=0.594 dtMAE=1328.3h remMAE=4110.2h DL=0.537 ece=0.092
+[closed_random] gru_multihead seed=1 fit=2s  nll=1.233 acc=0.583 dtMAE=1336.5h remMAE=4140.9h DL=0.536 ece=0.093
+[closed_random] gru_multihead seed=2 fit=1s  nll=1.156 acc=0.597 dtMAE=1337.0h remMAE=4370.6h DL=0.538 ece=0.068
+wrote results/closed_random.json  (18s)
+=== open_random Mon Sep 14 10:39:11 EDT 2026
+[open_random] markov_k2 seed=0 fit=0s  nll=1.305 acc=0.465 dtMAE=802.1h remMAE=nanh DL=nan ece=0.048
+Traceback (most recent call last):
+    raise ValueError(
+ValueError: Found array with 0 sample(s) (shape=(0, 8)) while a minimum of 1 is required.
+=== permit_random Mon Sep 14 10:39:14 EDT 2026

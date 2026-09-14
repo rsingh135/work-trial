@@ -1,0 +1,165 @@
+{
+ "family": "bpi2020",
+ "event_cat_fields": [
+  "org:role",
+  "org:resource"
+ ],
+ "case_cat_fields": [
+  "OrganizationalEntity"
+ ],
+ "case_num_fields": [
+  "RequestedBudget"
+ ],
+ "min_count_cat": 5,
+ "min_count_act": 1,
+ "act_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<EOS>": 2,
+  "Declaration SUBMITTED by EMPLOYEE": 3,
+  "Payment Handled": 4,
+  "Request Payment": 5,
+  "Permit SUBMITTED by EMPLOYEE": 6,
+  "Start trip": 7,
+  "End trip": 8,
+  "Permit FINAL_APPROVED by SUPERVISOR": 9,
+  "Permit APPROVED by ADMINISTRATION": 10,
+  "Declaration FINAL_APPROVED by SUPERVISOR": 11,
+  "Declaration APPROVED by ADMINISTRATION": 12,
+  "Send Reminder": 13,
+  "Request For Payment SUBMITTED by EMPLOYEE": 14,
+  "Permit APPROVED by BUDGET OWNER": 15,
+  "Request For Payment FINAL_APPROVED by SUPERVISOR": 16,
+  "Declaration REJECTED by EMPLOYEE": 17,
+  "Declaration APPROVED by BUDGET OWNER": 18,
+  "Request For Payment APPROVED by ADMINISTRATION": 19,
+  "Declaration REJECTED by ADMINISTRATION": 20,
+  "Permit APPROVED by SUPERVISOR": 21,
+  "Permit FINAL_APPROVED by DIRECTOR": 22,
+  "Request For Payment APPROVED by BUDGET OWNER": 23,
+  "Permit APPROVED by PRE_APPROVER": 24,
+  "Declaration APPROVED by PRE_APPROVER": 25,
+  "Permit REJECTED by EMPLOYEE": 26,
+  "Request For Payment REJECTED by EMPLOYEE": 27,
+  "Declaration APPROVED by SUPERVISOR": 28,
+  "Declaration FINAL_APPROVED by DIRECTOR": 29,
+  "Request For Payment REJECTED by ADMINISTRATION": 30,
+  "Request For Payment APPROVED by PRE_APPROVER": 31,
+  "Permit REJECTED by ADMINISTRATION": 32,
+  "Permit REJECTED by SUPERVISOR": 33,
+  "Declaration REJECTED by SUPERVISOR": 34,
+  "Declaration REJECTED by MISSING": 35,
+  "Permit REJECTED by MISSING": 36,
+  "Declaration SAVED by EMPLOYEE": 37,
+  "Declaration REJECTED by PRE_APPROVER": 38,
+  "Permit REJECTED by BUDGET OWNER": 39,
+  "Permit REJECTED by PRE_APPROVER": 40,
+  "Declaration REJECTED by BUDGET OWNER": 41,
+  "Request For Payment APPROVED by SUPERVISOR": 42,
+  "Request For Payment FINAL_APPROVED by DIRECTOR": 43,
+  "Permit SAVED by EMPLOYEE": 44,
+  "Request For Payment REJECTED by SUPERVISOR": 45,
+  "Request For Payment SAVED by EMPLOYEE": 46,
+  "Request For Payment REJECTED by PRE_APPROVER": 47,
+  "Request For Payment REJECTED by BUDGET OWNER": 48,
+  "Request For Payment REJECTED by MISSING": 49,
+  "Declaration REJECTED by DIRECTOR": 50,
+  "Permit REJECTED by DIRECTOR": 51,
+  "Permit FOR_APPROVAL by SUPERVISOR": 52
+ },
+ "comp_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "act=REJECTED": 2,
+  "obj=Permit": 3,
+  "obj=Declaration": 4,
+  "obj=Request For Payment": 5,
+  "act=APPROVED": 6,
+  "actor=SUPERVISOR": 7,
+  "actor=EMPLOYEE": 8,
+  "act=FINAL_APPROVED": 9,
+  "actor=ADMINISTRATION": 10,
+  "actor=BUDGET OWNER": 11,
+  "actor=PRE_APPROVER": 12,
+  "act=<none>": 13,
+  "actor=<none>": 14,
+  "actor=DIRECTOR": 15,
+  "act=SAVED": 16,
+  "act=SUBMITTED": 17,
+  "actor=MISSING": 18,
+  "act=FOR_APPROVAL": 19,
+  "obj=End trip": 20,
+  "obj=Payment Handled": 21,
+  "obj=Request Payment": 22,
+  "obj=Send Reminder": 23,
+  "obj=Start trip": 24
+ },
+ "n_comps": 3,
+ "cat_vocabs": {
+  "org:role": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "EMPLOYEE": 2,
+   "<MISSING>": 3,
+   "SUPERVISOR": 4,
+   "ADMINISTRATION": 5,
+   "BUDGET OWNER": 6,
+   "PRE_APPROVER": 7,
+   "DIRECTOR": 8,
+   "MISSING": 9
+  },
+  "org:resource": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "STAFF MEMBER": 2,
+   "SYSTEM": 3
+  }
+ },
+ "case_cat_vocabs": {
+  "OrganizationalEntity": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "organizational unit 65458": 2,
+   "organizational unit 65455": 3,
+   "organizational unit 65456": 4,
+   "organizational unit 65454": 5,
+   "organizational unit 65459": 6,
+   "organizational unit 65460": 7,
+   "organizational unit 65457": 8,
+   "organizational unit 65464": 9,
+   "organizational unit 65466": 10,
+   "organizational unit 65461": 11,
+   "organizational unit 65469": 12,
+   "organizational unit 65470": 13,
+   "organizational unit 65467": 14,
+   "organizational unit 65472": 15,
+   "organizational unit 65475": 16,
+   "organizational unit 65477": 17,
+   "organizational unit 65473": 18,
+   "organizational unit 65465": 19,
+   "organizational unit 65468": 20,
+   "organizational unit 65471": 21,
+   "organizational unit 65480": 22
+  }
+ },
+ "scalers": {
+  "dt": {
+   "mean": 10.168147075758748,
+   "std": 4.304611767968173
+  },
+  "elapsed": {
+   "mean": 12.466253912105614,
+   "std": 5.16755667515864
+  },
+  "pos": {
+   "mean": 1.767302127529212,
+   "std": 0.8241558721716454
+  },
+  "case_num": {
+   "RequestedBudget": {
+    "mean": 6.3566748399136435,
+    "std": 1.7123340173412158
+   }
+  }
+ }
+}

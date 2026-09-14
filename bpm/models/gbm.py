@@ -76,8 +76,12 @@ class GBMModel(SequenceModel):
         m = np.isfinite(ydt)
         self.reg_dt = HistGradientBoostingRegressor(loss="absolute_error", **common).fit(X[m], ydt[m])
         m = np.isfinite(yrem)
-        self.reg_rem = HistGradientBoostingRegressor(loss="absolute_error", **common).fit(X[m], np.log1p(yrem[m]))
-        return {"n_rows": int(len(X)), "clf_iters": int(self.clf.n_iter_), "dt_iters": int(self.reg_dt.n_iter_), "rem_iters": int(self.reg_rem.n_iter_)}
+        if m.sum() >= 50:
+            self.reg_rem = HistGradientBoostingRegressor(loss="absolute_error", **common).fit(X[m], np.log1p(yrem[m]))
+        else:  # fully / almost fully censored log (e.g. Open Problems): no remaining-time targets to learn from
+            self.reg_rem = None
+        return {"n_rows": int(len(X)), "clf_iters": int(self.clf.n_iter_), "dt_iters": int(self.reg_dt.n_iter_),
+                "rem_iters": int(self.reg_rem.n_iter_) if self.reg_rem is not None else 0}
 
     def _probs_full(self, X: np.ndarray) -> np.ndarray:
         p = self.clf.predict_proba(X)
@@ -89,7 +93,7 @@ class GBMModel(SequenceModel):
         X = self._features(enc)
         probs = self._probs_full(X)
         dt = np.expm1(self.reg_dt.predict(X))
-        rem = np.expm1(self.reg_rem.predict(X))
+        rem = np.expm1(self.reg_rem.predict(X)) if self.reg_rem is not None else np.full(len(X), np.nan)
         return CasePreds(probs, dt, rem)
 
     def predict_cases(self, cases):
@@ -99,7 +103,7 @@ class GBMModel(SequenceModel):
         X = np.concatenate([self._features(c) for c in cases])
         probs = self._probs_full(X)
         dt = np.expm1(self.reg_dt.predict(X))
-        rem = np.expm1(self.reg_rem.predict(X))
+        rem = np.expm1(self.reg_rem.predict(X)) if self.reg_rem is not None else np.full(len(X), np.nan)
         out, i = [], 0
         for c in cases:
             n = len(c)
