@@ -117,3 +117,7 @@ What the bundle changes / confirms:
 - `results/BPI2020_RESULTS_NOTE.md`: no canonical BPI2020 table; Impedovo et al. 2023 report shallow > Bi-LSTM under a 3-event window. Consistent with my finding that GBM ties the GRU in-distribution. Their numbers are cited as context only, not compared.
 - `docs/APPWORLD_SETUP.md`: split policy (train for collection, dev for the paired comparison, never test) matches what I built; SGC requires complete variant groups — my task selector already picks whole scenarios; "unique experiment_name + task_id" — my adapter uses `harness_<run_id>`; adds "collateral changes / evaluator assertions passed" to the metrics list → the evaluator's raw pass/fail list is already stored per episode, summarised into the Part 2 report.
 - Reading guide: the BPI2013 dataset guide (§1.1–1.4) and BPI2020 attribute explanation are consistent with the registry; nothing to change.
+
+## 2026-09-14 — Published-protocol reproduction (BPI2013, 5-fold CV)
+
+`results/PUBLISHED_COMPARISON.md`. Fold means: Closed acc GBM 70.7 / GRU 68.1 / Markov 63.1 % vs best published 64.0 %; Incidents acc 76.7 / 76.0 / 59.0 % vs 74.7 %; Incidents remaining MAE 11.2 / 11.7 days vs 12.4; suffix DL Incidents 0.54 / 0.52 vs 0.53. Markov (activity-only) inside the published range on both logs → protocol reproduction sane. The learned models' margin over the published rows comes largely from event attributes, stated in the note; not framed as SOTA. Published fold files excluded from `results/SUMMARY.md` (separate report).

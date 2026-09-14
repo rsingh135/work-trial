@@ -34,3 +34,18 @@ wrote results/published_incidents_fold0.json  (47s)
 [published_incidents_fold1] gru_multihead seed=0 fit=31s  nll=0.755 acc=0.760 dtMAE=26.7h remMAE=285.5h DL=0.506 ece=0.032
 wrote results/published_incidents_fold1.json  (51s)
 === published_incidents_fold2 Mon Sep 14 11:42:52 EDT 2026
+[published_incidents_fold2] markov_k2 seed=0 fit=0s  nll=1.019 acc=0.589 dtMAE=31.9h remMAE=295.5h DL=0.273 ece=0.034
+[published_incidents_fold2] gbm seed=0 fit=8s  nll=0.704 acc=0.766 dtMAE=28.2h remMAE=261.6h DL=0.534 ece=0.015
+[published_incidents_fold2] gru_multihead seed=0 fit=32s  nll=0.756 acc=0.754 dtMAE=27.7h remMAE=275.9h DL=0.551 ece=0.020
+wrote results/published_incidents_fold2.json  (51s)
+=== published_incidents_fold3 Mon Sep 14 11:43:44 EDT 2026
+[published_incidents_fold3] markov_k2 seed=0 fit=0s  nll=1.011 acc=0.589 dtMAE=32.1h remMAE=270.8h DL=0.276 ece=0.032
+[published_incidents_fold3] gbm seed=0 fit=8s  nll=0.703 acc=0.765 dtMAE=28.5h remMAE=238.6h DL=0.542 ece=0.013
+[published_incidents_fold3] gru_multihead seed=0 fit=25s  nll=0.736 acc=0.762 dtMAE=27.8h remMAE=255.3h DL=0.550 ece=0.027
+wrote results/published_incidents_fold3.json  (43s)
+=== published_incidents_fold4 Mon Sep 14 11:44:28 EDT 2026
+[published_incidents_fold4] markov_k2 seed=0 fit=0s  nll=1.006 acc=0.592 dtMAE=33.8h remMAE=307.3h DL=0.290 ece=0.035
+[published_incidents_fold4] gbm seed=0 fit=8s  nll=0.695 acc=0.770 dtMAE=30.7h remMAE=271.2h DL=0.553 ece=0.008
+[published_incidents_fold4] gru_multihead seed=0 fit=25s  nll=0.722 acc=0.768 dtMAE=29.0h remMAE=284.3h DL=0.505 ece=0.020
+wrote results/published_incidents_fold4.json  (43s)
+=== ALL DONE Mon Sep 14 11:45:13 EDT 2026
