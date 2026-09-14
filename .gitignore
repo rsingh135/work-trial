@@ -14,3 +14,11 @@ experiments/
 # local secrets
 .env
 .DS_Store
+# generated / large
+traces/*
+!traces/examples/
+datasets/
+models/
+appworld_root/
+results/*/gru_seed0.pt
+*.pkl
