@@ -7,7 +7,7 @@ __pycache__/
 researcher_work_trial_bundle/data/
 
 
-data/
+/data/
 # AppWorld protected data & experiment outputs
 appworld_data/
 experiments/
