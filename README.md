@@ -21,7 +21,7 @@ Raw logs are read from the reference bundle at `researcher_work_trial_bundle/dat
 |---|---|---|
 | Data audit (all 8 logs) | `uv run python -m bpm.ingest.audit` | `results/audit/SUMMARY.md`, per-log JSON |
 | **One-command demo** (sample, baselines + proposed, ~2 min) | `make demo` (= `uv run python -m bpm.run configs/demo.yaml`) | `results/demo.json` |
-| Full-scale run for one config | `uv run python -m bpm.run configs/international_random.yaml` | `results/<name>.json`, `results/<name>/{split,encoder}.json`, `gru_seed0.pt` |
+| Full-scale run for one config | `uv run python -m bpm.run configs/international_random.yaml` | `results/<name>.json`, `results/<name>/{split,encoder}.json`, `<model>_seed<k>.pt` (checkpoints are not committed; rerun to regenerate them for `analyze_failures`/`downstream`) |
 | All full-scale runs (hours) | `scripts/run_all_part1.sh` | `results/*.json`, logs in `results/logs/` |
 | Aggregate tables + figures | `uv run python -m bpm.report` | `results/SUMMARY.md`, `results/figures/*.png` |
 | Failure analysis for a run | `uv run python -m bpm.analyze_failures results/international_random.json` | `results/international_random/failure_analysis.md` |
