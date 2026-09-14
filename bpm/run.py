@@ -33,7 +33,7 @@ import yaml
 
 torch.set_num_threads(int(os.environ["OMP_NUM_THREADS"]))
 
-from bpm.data.cases import Case, load_cases, split_chronological, split_random
+from bpm.data.cases import Case, load_cases, split_chronological, split_cv, split_random
 from bpm.data.encoding import Encoder, encoder_for
 from bpm.evaluate import evaluate
 from bpm.ingest.registry import get_schema
@@ -66,6 +66,8 @@ def make_split(cases: list[Case], spec: dict):
         return split_random(cases, seed=spec.get("seed", 0), fracs=tuple(spec.get("fracs", (0.7, 0.15, 0.15))))
     if spec["type"] == "chronological":
         return split_chronological(cases, fracs=tuple(spec.get("fracs", (0.7, 0.15, 0.15))))
+    if spec["type"] == "cv":
+        return split_cv(cases, fold=spec["fold"], n_folds=spec.get("n_folds", 5), seed=spec.get("seed", 0), val_frac=spec.get("val_frac", 0.2))
     raise ValueError(spec["type"])
 
 
@@ -88,6 +90,10 @@ def run(cfg: dict) -> dict:
     t_start = time.time()
     schema = get_schema(cfg["log"])
     cases = truncate(load_cases(schema, max_cases=cfg.get("max_cases")), cfg.get("max_len"))
+    if cfg.get("assume_complete"):
+        # published-protocol mode: every trace gets an end-of-case token regardless of its last activity
+        for c in cases:
+            c.complete = True
     split = make_split(cases, cfg["split"])
     by_id = {c.case_id: c for c in cases}
     tr, va, te = [by_id[i] for i in split.train], [by_id[i] for i in split.val], [by_id[i] for i in split.test]

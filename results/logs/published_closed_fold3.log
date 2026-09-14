@@ -1,0 +1,4 @@
+[published_closed_fold3] markov_k2 seed=0 fit=0s  nll=1.013 acc=0.634 dtMAE=1227.0h remMAE=3530.6h DL=0.599 ece=0.016
+[published_closed_fold3] gbm seed=0 fit=3s  nll=1.063 acc=0.706 dtMAE=1104.7h remMAE=2723.2h DL=0.628 ece=0.145
+[published_closed_fold3] gru_multihead seed=0 fit=6s  nll=0.912 acc=0.684 dtMAE=1115.3h remMAE=2923.0h DL=0.629 ece=0.044
+wrote results/published_closed_fold3.json  (10s)

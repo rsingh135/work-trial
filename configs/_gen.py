@@ -31,3 +31,11 @@ cfg("permit_random", "bpi2020_permit", R, seeds=(0,), extra={"max_len": 64}, ev=
 cfg("prepaid_random", "bpi2020_prepaid", R, seeds=(0,), ev={**EV, "n_suffix_prefixes": 500})
 cfg("rfp_transfer_domestic", "bpi2020_rfp", R, models=[{"type": "markov", "order": 2}, GRU], seeds=(0,),
     extra={"transfer": {"target_log": "bpi2020_domestic", "finetune_frac": 0.05, "finetune_epochs": 15}})
+
+# Published-protocol reproduction (Rama-Maneiro et al. 2021, Table 5/7/9 columns for BPI2013): 5-fold CV over
+# cases, 80/20 train/val inside the training folds, EOS appended to every trace (assume_complete), no trace attrs.
+PUB_EV = {"n_suffix_prefixes": 100000, "max_suffix_len": 60, "n_samples": 0, "n_boot": 100}
+for log, tag in (("bpi2013_closed_problems", "closed"), ("bpi2013_incidents", "incidents")):
+    for k in range(5):
+        cfg(f"published_{tag}_fold{k}", log, {"type": "cv", "fold": k, "n_folds": 5, "seed": 0, "val_frac": 0.2},
+            seeds=(0,), extra={"assume_complete": True}, ev=PUB_EV)

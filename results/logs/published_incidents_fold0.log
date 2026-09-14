@@ -1,0 +1,4 @@
+[published_incidents_fold0] markov_k2 seed=0 fit=0s  nll=1.007 acc=0.595 dtMAE=30.8h remMAE=318.6h DL=0.280 ece=0.031
+[published_incidents_fold0] gbm seed=0 fit=9s  nll=0.707 acc=0.767 dtMAE=28.1h remMAE=283.5h DL=0.540 ece=0.011
+[published_incidents_fold0] gru_multihead seed=0 fit=25s  nll=0.751 acc=0.755 dtMAE=27.0h remMAE=296.6h DL=0.495 ece=0.022
+wrote results/published_incidents_fold0.json  (47s)

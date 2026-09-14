@@ -103,7 +103,7 @@ def test_metric_sanity():
     assert e < 0.01  # 90% confident, 90% correct
 
 
-@pytest.mark.skipif(not Path("bundle/logs/DomesticDeclarations.xes.gz").exists(), reason="bundle not present")
+@pytest.mark.skipif(not Path("researcher_work_trial_bundle/data/bpi2020/DomesticDeclarations.xes.gz").exists(), reason="bundle not present")
 def test_real_log_smoke():
     from bpm.data.cases import load_cases
     from bpm.ingest.registry import get_schema

@@ -22,7 +22,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
-LOG_DIR = Path("bundle/logs")
+BUNDLE = Path("researcher_work_trial_bundle")  # the reference bundle is the single source of truth
+LOG_DIR = BUNDLE / "data"
 
 
 @dataclass(frozen=True)
@@ -57,7 +58,7 @@ _BPI2013_EXCLUDED = {
 
 BPI2013_INCIDENTS = LogSchema(
     name="bpi2013_incidents",
-    file="bpi_challenge_2013_incidents.xes.gz",
+    file="bpi2013/BPI_Challenge_2013_incidents.xes.gz",
     family="bpi2013",
     activity_keys=("concept:name", "lifecycle:transition"),
     event_cat=("org:group", "org:role", "impact", "organization involved"),
@@ -72,7 +73,7 @@ BPI2013_INCIDENTS = LogSchema(
 
 BPI2013_CLOSED = LogSchema(
     name="bpi2013_closed_problems",
-    file="bpi_challenge_2013_closed_problems.xes.gz",
+    file="bpi2013/BPI_Challenge_2013_closed_problems.xes.gz",
     family="bpi2013",
     activity_keys=("concept:name", "lifecycle:transition"),
     event_cat=("org:group", "org:role", "impact", "organization involved"),
@@ -84,7 +85,7 @@ BPI2013_CLOSED = LogSchema(
 
 BPI2013_OPEN = LogSchema(
     name="bpi2013_open_problems",
-    file="bpi_challenge_2013_open_problems.xes.gz",
+    file="bpi2013/BPI_Challenge_2013_open_problems.xes.gz",
     family="bpi2013",
     activity_keys=("concept:name", "lifecycle:transition"),
     event_cat=("org:group", "org:role", "impact"),
@@ -109,7 +110,7 @@ _BPI2020_EV_EXCL = {
 
 BPI2020_DOMESTIC = LogSchema(
     name="bpi2020_domestic",
-    file="DomesticDeclarations.xes.gz",
+    file="bpi2020/DomesticDeclarations.xes.gz",
     family="bpi2020",
     activity_keys=("concept:name",),
     event_cat=("org:role",),
@@ -127,7 +128,7 @@ BPI2020_DOMESTIC = LogSchema(
 
 BPI2020_INTERNATIONAL = LogSchema(
     name="bpi2020_international",
-    file="InternationalDeclarations.xes.gz",
+    file="bpi2020/InternationalDeclarations.xes.gz",
     family="bpi2020",
     activity_keys=("concept:name",),
     event_cat=("org:role",),
@@ -150,7 +151,7 @@ BPI2020_INTERNATIONAL = LogSchema(
 
 BPI2020_PERMIT = LogSchema(
     name="bpi2020_permit",
-    file="PermitLog.xes.gz",
+    file="bpi2020/PermitLog.xes.gz",
     family="bpi2020",
     activity_keys=("concept:name",),
     event_cat=("org:role",),
@@ -173,7 +174,7 @@ BPI2020_PERMIT = LogSchema(
 
 BPI2020_PREPAID = LogSchema(
     name="bpi2020_prepaid",
-    file="PrepaidTravelCost.xes.gz",
+    file="bpi2020/PrepaidTravelCost.xes.gz",
     family="bpi2020",
     activity_keys=("concept:name",),
     event_cat=("org:role",),
@@ -191,7 +192,7 @@ BPI2020_PREPAID = LogSchema(
 
 BPI2020_RFP = LogSchema(
     name="bpi2020_rfp",
-    file="RequestForPayment.xes.gz",
+    file="bpi2020/RequestForPayment.xes.gz",
     family="bpi2020",
     activity_keys=("concept:name",),
     event_cat=("org:role",),

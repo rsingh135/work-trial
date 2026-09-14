@@ -4,9 +4,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 # raw data: too large / not ours to redistribute
-bundle/**/*.xes
-bundle/**/*.xes.gz
-bundle/**/*.zip
+researcher_work_trial_bundle/data/
+
+
 data/
 # AppWorld protected data & experiment outputs
 appworld_data/

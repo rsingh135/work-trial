@@ -13,7 +13,7 @@ make appworld-setup            # AppWorld in its own Python 3.11 venv (it pins p
 export ANTHROPIC_API_KEY=...   # only needed for Part 2 runs on AppWorld with a real LLM
 ```
 
-Raw logs are expected at `bundle/logs/*.xes.gz` (the eight BPI files; see `bpm/ingest/registry.py` for names). They are not committed.
+Raw logs are read from the reference bundle at `researcher_work_trial_bundle/data/{bpi2013,bpi2020}/*.xes.gz` (paths in `bpm/ingest/registry.py`); the bundle data is not committed. Plain-language model explainer: `docs/WORLD_MODEL_EXPLAINED.md`.
 
 ## Part 1 — commands
 
@@ -25,6 +25,7 @@ Raw logs are expected at `bundle/logs/*.xes.gz` (the eight BPI files; see `bpm/i
 | All full-scale runs (hours) | `scripts/run_all_part1.sh` | `results/*.json`, logs in `results/logs/` |
 | Aggregate tables + figures | `uv run python -m bpm.report` | `results/SUMMARY.md`, `results/figures/*.png` |
 | Failure analysis for a run | `uv run python -m bpm.analyze_failures results/international_random.json` | `results/international_random/failure_analysis.md` |
+| Published-protocol reproduction (5-fold CV, BPI2013) | `scripts/run_published_bpi2013.sh` then `uv run python -m bpm.published_compare` | `results/PUBLISHED_COMPARISON.md` |
 | Tests | `uv run pytest -q` | |
 
 Config keys are documented at the top of `bpm/run.py`; `--override key=value` patches any of them (e.g. `--override max_cases=500 seeds=[0]`).

@@ -1,0 +1,36 @@
+=== published_closed_fold0 Mon Sep 14 11:40:14 EDT 2026
+[published_closed_fold0] markov_k2 seed=0 fit=0s  nll=0.985 acc=0.625 dtMAE=1024.1h remMAE=2774.6h DL=0.600 ece=0.043
+[published_closed_fold0] gbm seed=0 fit=3s  nll=1.003 acc=0.724 dtMAE=922.3h remMAE=2124.0h DL=0.646 ece=0.130
+[published_closed_fold0] gru_multihead seed=0 fit=8s  nll=0.893 acc=0.681 dtMAE=942.7h remMAE=2254.3h DL=0.638 ece=0.040
+wrote results/published_closed_fold0.json  (13s)
+=== published_closed_fold1 Mon Sep 14 11:40:28 EDT 2026
+[published_closed_fold1] markov_k2 seed=0 fit=0s  nll=0.965 acc=0.645 dtMAE=1316.4h remMAE=3610.9h DL=0.615 ece=0.023
+[published_closed_fold1] gbm seed=0 fit=3s  nll=0.995 acc=0.714 dtMAE=1081.4h remMAE=2686.3h DL=0.630 ece=0.140
+[published_closed_fold1] gru_multihead seed=0 fit=4s  nll=0.861 acc=0.696 dtMAE=1134.0h remMAE=2839.0h DL=0.658 ece=0.047
+wrote results/published_closed_fold1.json  (8s)
+=== published_closed_fold2 Mon Sep 14 11:40:38 EDT 2026
+[published_closed_fold2] markov_k2 seed=0 fit=0s  nll=0.984 acc=0.637 dtMAE=1102.5h remMAE=2952.6h DL=0.608 ece=0.036
+[published_closed_fold2] gbm seed=0 fit=3s  nll=1.019 acc=0.696 dtMAE=971.1h remMAE=2168.0h DL=0.623 ece=0.152
+[published_closed_fold2] gru_multihead seed=0 fit=5s  nll=0.909 acc=0.693 dtMAE=1085.5h remMAE=2657.6h DL=0.637 ece=0.040
+wrote results/published_closed_fold2.json  (9s)
+=== published_closed_fold3 Mon Sep 14 11:40:49 EDT 2026
+[published_closed_fold3] markov_k2 seed=0 fit=0s  nll=1.013 acc=0.634 dtMAE=1227.0h remMAE=3530.6h DL=0.599 ece=0.016
+[published_closed_fold3] gbm seed=0 fit=3s  nll=1.063 acc=0.706 dtMAE=1104.7h remMAE=2723.2h DL=0.628 ece=0.145
+[published_closed_fold3] gru_multihead seed=0 fit=6s  nll=0.912 acc=0.684 dtMAE=1115.3h remMAE=2923.0h DL=0.629 ece=0.044
+wrote results/published_closed_fold3.json  (10s)
+=== published_closed_fold4 Mon Sep 14 11:41:01 EDT 2026
+[published_closed_fold4] markov_k2 seed=0 fit=0s  nll=1.024 acc=0.614 dtMAE=1178.9h remMAE=3364.3h DL=0.581 ece=0.038
+[published_closed_fold4] gbm seed=0 fit=4s  nll=1.099 acc=0.694 dtMAE=1061.9h remMAE=2650.0h DL=0.603 ece=0.156
+[published_closed_fold4] gru_multihead seed=0 fit=5s  nll=0.916 acc=0.654 dtMAE=1063.6h remMAE=2707.0h DL=0.606 ece=0.063
+wrote results/published_closed_fold4.json  (9s)
+=== published_incidents_fold0 Mon Sep 14 11:41:11 EDT 2026
+[published_incidents_fold0] markov_k2 seed=0 fit=0s  nll=1.007 acc=0.595 dtMAE=30.8h remMAE=318.6h DL=0.280 ece=0.031
+[published_incidents_fold0] gbm seed=0 fit=9s  nll=0.707 acc=0.767 dtMAE=28.1h remMAE=283.5h DL=0.540 ece=0.011
+[published_incidents_fold0] gru_multihead seed=0 fit=25s  nll=0.751 acc=0.755 dtMAE=27.0h remMAE=296.6h DL=0.495 ece=0.022
+wrote results/published_incidents_fold0.json  (47s)
+=== published_incidents_fold1 Mon Sep 14 11:41:59 EDT 2026
+[published_incidents_fold1] markov_k2 seed=0 fit=0s  nll=1.030 acc=0.587 dtMAE=31.4h remMAE=304.5h DL=0.276 ece=0.035
+[published_incidents_fold1] gbm seed=0 fit=9s  nll=0.728 acc=0.765 dtMAE=27.6h remMAE=291.3h DL=0.547 ece=0.013
+[published_incidents_fold1] gru_multihead seed=0 fit=31s  nll=0.755 acc=0.760 dtMAE=26.7h remMAE=285.5h DL=0.506 ece=0.032
+wrote results/published_incidents_fold1.json  (51s)
+=== published_incidents_fold2 Mon Sep 14 11:42:52 EDT 2026
