@@ -28,3 +28,4 @@
   ret = ret.dtype.type(ret / rcount)
 [domestic_chrono] gru_multihead seed=0 fit=25s  nll=0.249 acc=0.912 dtMAE=38.7h remMAE=102.7h DL=0.944 ece=0.038
 [domestic_chrono] gru_multihead seed=1 fit=19s  nll=0.263 acc=0.915 dtMAE=38.2h remMAE=102.6h DL=0.945 ece=0.035
+[domestic_chrono] gru_multihead seed=2 fit=26s  nll=0.268 acc=0.915 dtMAE=37.9h remMAE=101.7h DL=0.937 ece=0.047

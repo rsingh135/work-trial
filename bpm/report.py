@@ -54,11 +54,28 @@ def model_rows(name: str, r: dict) -> list[str]:
     return rows
 
 
+def robustness_rows(results: dict) -> list[str]:
+    """Attribute-removal probe and medoid decoding, per run/model."""
+    rows = []
+    for name, r in results.items():
+        for mname, m in r["models"].items():
+            met = m["runs"][0]["metrics"]
+            ar = met.get("attr_removed")
+            sf = met.get("suffix", {})
+            base = met["next_activity"]["nll"]["mean"]
+            ar_s = f"{ar['nll']['mean']:.3f} ({(ar['nll']['mean'] - base) / base * 100:+.0f}%)" if ar else "–"
+            med = f"{sf['medoid_dl']:.3f} / {sf['medoid_valid_termination_rate']:.3f}" if "medoid_dl" in sf else "–"
+            grd = f"{sf['dl_similarity']['mean']:.3f} / {sf['valid_termination_rate']:.3f}" if "dl_similarity" in sf else "–"
+            rows.append(f"| {name} | {mname} | {base:.3f} | {ar_s} | {grd} | {med} |")
+    return rows
+
+
 def shift_rows(results: dict) -> list[str]:
     """Relative degradation random → chronological for the same log/model."""
     rows = []
     for base in [k for k in results if k.endswith("_random")]:
-        shifted = base.replace("_random", "_chrono")
+      for suffix in ("_chrono", "_chrono_strict"):
+        shifted = base.replace("_random", suffix)
         if shifted not in results:
             continue
         for mname in results[base]["models"]:
@@ -67,7 +84,7 @@ def shift_rows(results: dict) -> list[str]:
             a, b = results[base]["models"][mname]["runs"][0]["metrics"], results[shifted]["models"][mname]["runs"][0]["metrics"]
             def rel(x, y):
                 return f"{x:.3f} → {y:.3f} ({(y - x) / abs(x) * 100:+.0f}%)" if x else "–"
-            rows.append(f"| {base.replace('_random','')} | {mname} | {rel(a['next_activity']['nll']['mean'], b['next_activity']['nll']['mean'])} | "
+            rows.append(f"| {base.replace('_random','')}{' (strict)' if suffix.endswith('strict') else ''} | {mname} | {rel(a['next_activity']['nll']['mean'], b['next_activity']['nll']['mean'])} | "
                         f"{rel(a['next_activity']['accuracy']['mean'], b['next_activity']['accuracy']['mean'])} | {rel(a['next_dt_hours']['mae']['mean'], b['next_dt_hours']['mae']['mean'])} | "
                         f"{rel(_g(a,'suffix','dl_similarity','mean', default=0.0), _g(b,'suffix','dl_similarity','mean', default=0.0))} | {rel(a['uncertainty']['ece_raw'], b['uncertainty']['ece_raw'])} |")
     return rows
@@ -116,6 +133,10 @@ def main():
     lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     for name, r in results.items():
         lines += model_rows(name, r)
+    rr = robustness_rows(results)
+    if rr:
+        lines += ["", "## Robustness probe (all event attributes masked at test time) and decoding", "",
+                  "| run | model | NLL | NLL with attributes removed (Δ%) | greedy DL / valid-term | medoid DL / valid-term |", "|---|---|---|---|---|---|"] + rr
     sr = shift_rows(results)
     if sr:
         lines += ["", "## Distribution shift: random → chronological split (same log, same model)", "",

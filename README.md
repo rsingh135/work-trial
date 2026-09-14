@@ -25,10 +25,11 @@ Raw logs are read from the reference bundle at `researcher_work_trial_bundle/dat
 | All full-scale runs (hours) | `scripts/run_all_part1.sh` | `results/*.json`, logs in `results/logs/` |
 | Aggregate tables + figures | `uv run python -m bpm.report` | `results/SUMMARY.md`, `results/figures/*.png` |
 | Failure analysis for a run | `uv run python -m bpm.analyze_failures results/international_random.json` | `results/international_random/failure_analysis.md` |
+| Downstream uses of the state (selective prediction, ensemble uncertainty, SLA risk, anomaly) | `uv run python -m bpm.downstream results/international_random.json --model gru_multihead` | `results/international_random/downstream.md` |
 | Published-protocol reproduction (5-fold CV, BPI2013) | `scripts/run_published_bpi2013.sh` then `uv run python -m bpm.published_compare` | `results/PUBLISHED_COMPARISON.md` |
 | Tests | `uv run pytest -q` | |
 
-Config keys are documented at the top of `bpm/run.py`; `--override key=value` patches any of them (e.g. `--override max_cases=500 seeds=[0]`).
+Config keys are documented at the top of `bpm/run.py`; `--override key=value` patches any of them (e.g. `--override max_cases=500 seeds=[0]`). Model types: `markov`, `gbm`, `gru`, `transformer` (same heads, attention state); `factorised_output: true` adds the component-factorised output head. Split types: `random`, `chronological` (+ `strict: true`), `cv` (published protocol).
 
 Result JSON layout: `config`, `git_sha`, `split` (type, fingerprint, sizes), `data`, then `models.<name>.runs[]` each with `train_log` and `metrics` (`next_activity`, `next_dt_hours`, `remaining_hours`, `suffix`, `uncertainty` incl. reliability bins, `next_activity_by_prefix_len`), plus `seed_summary` and optional `transfer`.
 
@@ -42,6 +43,8 @@ Result JSON layout: `config`, `git_sha`, `split` (type, fingerprint, sizes), `da
 | Train the action scorer | `uv run python -m agentloop.train datasets/appworld_v1 --out models/appworld_v1` |
 | Baseline vs. reranked agent on held-out dev tasks | `uv run python -m agentloop.evaluate --env appworld --split dev --n-tasks 30 --runs 2 --policy-model models/appworld_v1/model.pkl --out results/part2_appworld_v1` |
 | Whole AppWorld pipeline | `scripts/run_part2_appworld.sh` (env vars `N_TRAIN_TASKS N_DEV_TASKS RUNS MODEL BUDGET`) |
+| Train the Part 1 sequence model on agent traces (trace world model) | `uv run python -m agentloop.trace_model train traces/appworld_train_v1 --out models/tracemodel_v1` |
+| Reinsert it (alone, or hybrid with the token scorer) | `uv run python -m agentloop.evaluate ... --policy tracemodel --policy-model models/tracemodel_v1 [--validity-model models/appworld_v1/model.pkl]` |
 | Dry run of the AppWorld adapter with canned actions (no key) | `uv run python -m agentloop.collect --env appworld --split train --n-tasks 3 --client canned --out traces/appworld_canned` |
 
 Trace layout: `<out>/episodes.jsonl` (one validated, redacted `Episode` per line; schema in `agentloop/schema.py`), `<out>/schemas/<sha256>.json` (action/tool schemas referenced by `action_schema_ref`), `<out>/manifest.json` (config, versions, validation rate, cost), `<out>/invalid.jsonl` (records that failed validation — never dropped silently). Example traces: `traces/examples/`.
@@ -63,6 +66,7 @@ agentloop/{schema,redaction}.py      trace schema v1.0.0, redaction
 agentloop/envs/{base,appworld,mock}.py
 agentloop/agent/{llm_agent,policy,features}.py
 agentloop/{collect,build_dataset,train,evaluate}.py
+agentloop/trace_model.py             agent traces as event logs → Part 1 model as the Part 2 learned component
 configs/  results/  traces/examples/  tests/  scripts/
 ```
 

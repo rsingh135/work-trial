@@ -13,3 +13,9 @@ uv run python -m agentloop.train datasets/appworld_$TAG --out models/appworld_$T
 uv run python -m agentloop.evaluate --env appworld --split dev --n-tasks $N_DEV_TASKS --runs $RUNS --model $MODEL \
     --policy-model models/appworld_$TAG/model.pkl --score-mode product --out results/part2_appworld_$TAG
 echo "summary: results/part2_appworld_$TAG/summary.json"
+# trace world model (Part 1 model on the same traces) alone and hybrid, same dev tasks
+uv run python -m agentloop.trace_model train traces/appworld_train_$TAG --out models/tracemodel_$TAG
+uv run python -m agentloop.evaluate --env appworld --split dev --n-tasks $N_DEV_TASKS --runs $RUNS --model $MODEL --skip-baseline \
+    --policy tracemodel --policy-model models/tracemodel_$TAG --score-mode product --out results/part2_appworld_${TAG}_tracemodel
+uv run python -m agentloop.evaluate --env appworld --split dev --n-tasks $N_DEV_TASKS --runs $RUNS --model $MODEL --skip-baseline \
+    --policy tracemodel --policy-model models/tracemodel_$TAG --validity-model models/appworld_$TAG/model.pkl --score-mode product --out results/part2_appworld_${TAG}_hybrid
