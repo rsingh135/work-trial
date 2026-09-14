@@ -83,7 +83,17 @@ So the model was wrong — a rejection came out of nowhere. Nothing in the three
 ## What the experiments showed (one line each)
 
 - When train and test come from the same period, the tree model and the sticky-note model are about equally good; counting alone is far behind on the complex logs.
-- When we train on the past and test on the future, the sticky-note model loses the least (IT tickets: +5 % error vs +26 % for trees).
+- When we train on the past and test on the future with histories honestly cut off at the cutoff date, the sticky-note models lose the least (IT tickets: +7–8 % error vs +95 % for trees).
 - Its confidence is honest (calibration error ≤ 0.02) and its time ranges cover the truth ~80 % of the time, as designed.
-- It forgets: three events after a rejection, the note no longer "remembers" it. The fix would be a model that can look back (attention) — listed as next step.
-- Reusing a model from a *different* log and fine-tuning it did **worse** than training fresh on the small new data; the part-based trick helps on the input side only, not on the output side yet.
+- It forgets: three events after a rejection, the note no longer "remembers" it. A look-back (attention) version remembers longer but is not more accurate — see the update below.
+- Reusing a model from a *different* log and fine-tuning it ends up about equal to training fresh on the small new data (an earlier "worse" result was an unfair epoch budget); letting the output layer also use the label *parts* helps a little (zero-shot error 5.75 → 5.15).
+
+## Update after the second round of experiments
+
+**Two kinds of sticky note, compared.** Besides the note that gets rewritten each time (GRU), I built a version that keeps *all* the past lines and looks back at them when it needs to (attention, a Transformer). Same inputs, same three readers. Result: in the ordinary tests they tie. When we train only on the past and test on the future *with the training histories honestly cut off at the cutoff date*, the tree model falls apart (error up 95%), both note-keeping models barely change (+7–8%), and the look-back version is the steadier of the two. The look-back model really does remember an early rejection longer (I can measure it), but that memory doesn't make its guesses better here, because what happens next is mostly decided by things outside the log.
+
+**Does the model survive losing its side-information?** I removed every "who/what" attribute at test time. The tree model's error jumped 69%; the note-keeping model's 23%, and it then beats the tree. Training with 15% of attributes randomly blanked is what bought that.
+
+**A better way to read the future.** Instead of always taking the most likely next step (which loops forever on the IT-ticket log: "still in progress, still in progress, …"), sample five possible futures and take the one that is most like the others. That version always ends, and its story matches the truth more often than the tree model's.
+
+**Part 2 uses the very same model.** An agent's log of API calls is just another event log (one call per line, plus whether it errored, plus how the episode ended). So I trained the same sticky-note model on agent traces and used it to choose between candidate actions. It knows *what a good agent does next* and *whether things are going well*, but it can't see inside the arguments (right key vs. wrong key look the same to it). A small text model can. Together they got every held-out mock task right; either alone did not.
