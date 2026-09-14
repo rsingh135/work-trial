@@ -71,3 +71,13 @@ Bugs caught by end-to-end demo (documented because they would have silently corr
 **Finding (mock env, before any API spend): validity ≠ progress.** A validity-only reranker cut the invalid-action rate 23%→2% but *halved* task success (72%→33%) because "complete_task(answer='wrong')" never errors. Added a second head P(success | context, action) trained on the episode-level label; scoring mode `product` restored TGC to 100% on the mock. This is the concrete illustration of "offline metric improves, end-to-end does not" that the brief asks for; the AppWorld run will report all three modes.
 
 **Cost plan for AppWorld (needs ANTHROPIC_API_KEY)**: `claude-haiku-4-5`, prompt caching on the system prompt, max 25 steps, outputs truncated to 2500 chars. Collection: ~45 train tasks × 1 run ≈ $5–8; eval: 30 dev tasks × 2 policies × 2 runs, reranker at N=3 ≈ $10–15. Hard `--cost-budget` guard in the collector.
+
+## 2026-09-14 (later) — Batch run hung; root causes fixed
+
+Symptoms: the full-scale batch sat on `domestic_random` GBM for 8 hours; a concurrent demo run also stalled. Alone, the same GBM stage takes 13 s.
+- **Cause 1 — OpenMP oversubscription.** torch and sklearn each load an OpenMP runtime; with default "all 18 cores" per library and a second process on the box, sklearn's HistGradientBoosting calls degraded from seconds to effectively hanging. **Fix:** `OMP_NUM_THREADS=8` set in `bpm/run.py` before imports, `torch.set_num_threads(8)`; and never run two heavy Part 1 processes concurrently (documented in README).
+- **Cause 2 — per-row sklearn calls.** `predict_case` was called once per case (3k tiny `predict_proba` calls). **Fix:** `predict_cases` batched interface (one call per split) for both GBM and GRU.
+- **Cause 3 — gradient-free batches.** After the NaN guard, a length-sorted batch made only of single-event *incomplete* cases has no targets at all → loss is a constant without `grad_fn` → `backward()` raises. **Fix:** skip such batches. (Single-event cases still contribute at eval time as prefixes with no target — i.e. not at all — which is correct.)
+Net effect: full Domestic (10.5k cases) demo config end-to-end in 7 s; a full-scale config with 3 seeds in a few minutes.
+
+**Coherence finding surfaced by the failure-analysis script on the demo:** predicted remaining time is *not monotone* along a case (only ~60% of consecutive positions decrease) because each position is predicted independently from the state. Candidate fix (not implemented): predict remaining time as Δt-head expectation summed over a rollout, or add a monotonicity penalty. Recorded as a limitation.
