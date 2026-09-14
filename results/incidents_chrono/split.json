@@ -7566,6 +7566,8 @@
    0.15,
    0.15
   ],
+  "strict": false,
+  "cutoff_ts": 1336115820.0,
   "train_end_start_ts": "2012-05-03T10:08:54+00:00",
   "test_first_start_ts": "2012-05-04T07:17:00+00:00",
   "frac_train_cases_overlapping_test_window": 0.6695668621146208

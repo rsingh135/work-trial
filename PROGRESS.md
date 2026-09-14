@@ -144,3 +144,13 @@ Prompted by the reviewer's question whether the task is "pretty easy". Framing: 
 - **Downstream script** (`bpm/downstream.py`): selective prediction, seed-ensemble mutual information, SLA-breach P(remaining>T) with AUROC/Brier, anomaly scores with length/Markov confound checks.
 - **Part 2 unified with Part 1** (`agentloop/trace_model.py`): episode→Case (activity = `app.api|ok/err`, `start.episode` and `outcome.success/failure` pseudo-events, error/#calls attributes), the Part 1 `RecurrentModel` trained on traces, its next-activity head → validity/plausibility/success scores for candidates, `--policy tracemodel`. **Findings on the mock before any API spend**: (a) without a start pseudo-event the policy scored the first action from an unseen dummy prefix → TGC 0.56; fixed → 0.83–0.92 vs baseline 0.72. (b) The API-level abstraction is blind to *argument-level* mistakes (`store.get('k3x')`, `answer='wrong'` are the same activity as the right calls); the token-level scorer sees them. Hybrid (sequence plausibility·success × token validity·success) → TGC 1.00, invalid rate 4%. Complementary information, not a contest.
 - Full batch v3 (4 models × 14 configs) running; all numbers in the design note will be replaced by this batch.
+
+## 2026-09-14 — Batch v3 results (4 models × 14 configs) — what changed in the story
+
+- **Strict chronological split is the real test.** Incidents: GBM +95% NLL (0.693→1.349), GRU +7%, Transformer +8% (suffix DL 0.595). Domestic/International: strict ≈ leaky (little overlap). Leaky-vs-strict difference on Incidents (GBM 0.875 vs 1.349) shows how much a naive chronological split flatters a prefix-feature model.
+- **Transformer vs GRU**: tie in-distribution; Transformer steadier under strict shift (seed spread 0.80–0.85 vs 0.81–1.22) and retains more long-range information (KL probe 0.03–0.04 vs ≤0.01 beyond 3 events) — but that information is not predictive (accuracy by distance identical). Attention buys robustness, not accuracy, here.
+- **Attribute removal** confirms the dropout claim (Incidents: GBM +69% vs GRU +23%).
+- **Medoid decoding** fixes greedy non-termination on Incidents (DL 0.456→0.571, termination 0.655→1.0).
+- **Transfer with a fair budget**: fine-tune ≈ scratch (0.364 vs 0.366); factorised head: zero-shot 5.75→5.15, fine-tune 0.348. My earlier "negative transfer" was a 15- vs 60-epoch artefact — corrected in the note.
+- **Downstream**: selective prediction strong (Incidents 0.77→0.86 at 80% coverage); SLA AUROC 0.85–0.94 on declarations, weak on Incidents; **seed-ensemble MI does not detect shift** (negative result kept); anomaly score length-confounded on some logs.
+Docs: DESIGN_NOTE §1.5 rewritten from this batch; SUMMARY/figures regenerated.

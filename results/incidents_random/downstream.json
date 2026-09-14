@@ -1,0 +1,111 @@
+{
+ "run": "incidents_random",
+ "model": "transformer_multihead",
+ "n_seeds": 3,
+ "selective_prediction": {
+  "ensemble_accuracy_at_coverage": {
+   "100%": 0.7647745358090186,
+   "90%": 0.8137231784956378,
+   "80%": 0.8574270557029178,
+   "70%": 0.9022282855843565,
+   "50%": 0.967741935483871,
+   "30%": 0.9794835514679873
+  },
+  "single_model_accuracy": 0.7555437665782493,
+  "ensemble_accuracy": 0.7647745358090186,
+  "aurc_proxy": 0.9188560440081055
+ },
+ "uncertainty": {
+  "mean_entropy_nats": 0.6618513464927673,
+  "mean_mutual_information_nats": 0.028905536979436874,
+  "mi_on_wrong_vs_right": [
+   0.060364704579114914,
+   0.01922948658466339
+  ],
+  "unseen_label_rate_test": 0.0
+ },
+ "sla_breach": {
+  "train_median": {
+   "T_hours": 183.60333333333332,
+   "positive_rate": 0.5287226001511716,
+   "auroc": 0.7533198411793101,
+   "brier": 0.21283969316174112,
+   "auroc_single": 0.743446697616333,
+   "brier_single": 0.22243628729205214
+  },
+  "train_p90": {
+   "T_hours": 677.7535416666667,
+   "positive_rate": 0.10393046107331821,
+   "auroc": 0.7353867651632308,
+   "brier": 0.08230203058391339,
+   "auroc_single": 0.7364346118289603,
+   "brier_single": 0.08309460234101436
+  }
+ },
+ "anomaly": {
+  "spearman_score_vs_case_length": 0.6480515078767383,
+  "spearman_vs_markov_score": 0.04205908693425726,
+  "top10": [
+   {
+    "case_id": "1-740414265",
+    "score": 3.229748487472534,
+    "length": 5,
+    "variant": "Queued|Awaiting Assignment > Accepted|In Progress > Completed|Resolved > Completed|Resolved > Completed|Resolved"
+   },
+   {
+    "case_id": "1-737375500",
+    "score": 2.670576572418213,
+    "length": 10,
+    "variant": "Accepted|In Progress > Accepted|In Progress > Queued|Awaiting Assignment > Accepted|In Progress > Queued|Awaiting Assignment > Accepted|Assigned > Accepted|Wait - User > Accepted|Assigned > Accepted|Wait - User > Completed|Resolved"
+   },
+   {
+    "case_id": "1-739794081",
+    "score": 2.5218942165374756,
+    "length": 4,
+    "variant": "Queued|Awaiting Assignment > Accepted|Wait - User > Accepted|Wait - User > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740585356",
+    "score": 2.375232696533203,
+    "length": 5,
+    "variant": "Accepted|In Progress > Accepted|In Progress > Accepted|In Progress > Accepted|In Progress > Completed|In Call"
+   },
+   {
+    "case_id": "1-739248306",
+    "score": 2.2134077548980713,
+    "length": 3,
+    "variant": "Accepted|In Progress > Accepted|In Progress > Completed|In Call"
+   },
+   {
+    "case_id": "1-736667947",
+    "score": 2.044212579727173,
+    "length": 6,
+    "variant": "Accepted|In Progress > Accepted|In Progress > Accepted|Wait - Customer > Accepted|Wait > Completed|Resolved > Completed|Closed"
+   },
+   {
+    "case_id": "1-583200733",
+    "score": 2.0038464069366455,
+    "length": 8,
+    "variant": "Accepted|In Progress > Accepted|In Progress > Accepted|Wait - User > Accepted|Wait - User > Accepted|In Progress > Accepted|Wait > Accepted|In Progress > Completed|In Call"
+   },
+   {
+    "case_id": "1-737313765",
+    "score": 1.988944411277771,
+    "length": 10,
+    "variant": "Accepted|In Progress > Accepted|In Progress > Accepted|Assigned > Queued|Awaiting Assignment > Accepted|In Progress > Queued|Awaiting Assignment > Accepted|In Progress > Accepted|Assigned > Accepted|Wait - User > Completed|Resolved"
+   },
+   {
+    "case_id": "1-734911670",
+    "score": 1.9017900228500366,
+    "length": 4,
+    "variant": "Accepted|In Progress > Accepted|In Progress > Accepted|Wait - User > Completed|Resolved"
+   },
+   {
+    "case_id": "1-738238024",
+    "score": 1.892901062965393,
+    "length": 6,
+    "variant": "Accepted|In Progress > Accepted|Wait - User > Accepted|Wait - User > Accepted|In Progress > Completed|Resolved > Completed|Closed"
+   }
+  ]
+ }
+}

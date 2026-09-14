@@ -47,6 +47,7 @@ def main(argv=None):
     ap.add_argument("--n-cases", type=int, default=3)
     ap.add_argument("--n-prefixes", type=int, default=600)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--model", default="gru_multihead", help="model name whose <name>_seed0.pt to analyse")
     a = ap.parse_args(argv)
     r = json.loads(Path(a.results_json).read_text())
     name = r["config"]["name"]
@@ -57,11 +58,14 @@ def main(argv=None):
     cases = truncate(load_cases(schema, max_cases=r["config"].get("max_cases")), r["config"].get("max_len"))
     by = {c.case_id: c for c in cases}
     test = encoder.transform_all([by[i] for i in split.test])
-    model = RecurrentModel.load(d / "gru_seed0.pt", encoder)
+    if r["config"].get("assume_complete"):
+        for c in cases:
+            c.complete = True
+    model = RecurrentModel.load(d / f"{a.model}_seed0.pt", encoder)
     id2act = encoder.id2act
     term_ids = {encoder.act_id(t) for t in schema.terminal}
-    gru = r["models"]["gru_multihead"]["runs"][0]["metrics"]
-    L = [f"# Failure analysis — {name} (GRU seed 0)", ""]
+    gru = r["models"][a.model]["runs"][0]["metrics"]
+    L = [f"# Failure analysis — {name} ({a.model} seed 0)", ""]
 
     # ---------------- 1. compounding
     L += ["## 1. Do errors compound in multi-step prediction?", ""]
@@ -187,8 +191,9 @@ def main(argv=None):
         L.append(f"- at the prefix end, top-3 next: " + ", ".join(f"`{id2act[i]}` {pr.next_probs[t][i]:.2f}" for i in top) + f"; true next `{id2act[true[0]]}`")
         L.append(f"- first divergence at suffix step {fw}; Δt 80% interval at prefix end: [{pr.next_dt_q[t][0] / 3600:.1f}, {pr.next_dt_q[t][1] / 3600:.1f}] h, true {np.expm1(c.next_dt[t]) / 3600:.1f} h")
         L.append("")
-    (d / "failure_analysis.md").write_text("\n".join(L))
-    print(f"wrote {d / 'failure_analysis.md'}")
+    fn = "failure_analysis.md" if a.model == "gru_multihead" else f"failure_analysis_{a.model}.md"
+    (d / fn).write_text("\n".join(L))
+    print(f"wrote {d / fn}")
 
 
 def _subcase(c, keep):

@@ -1,4 +1,17 @@
 [prepaid_random] markov_k2 seed=0 fit=0s  nll=0.527 acc=0.834 dtMAE=86.0h remMAE=282.7h DL=0.875 ece=0.024
-[prepaid_random] gbm seed=0 fit=10s  nll=0.304 acc=0.909 dtMAE=78.0h remMAE=256.1h DL=0.908 ece=0.026
-[prepaid_random] gru_multihead seed=0 fit=10s  nll=0.328 acc=0.890 dtMAE=80.7h remMAE=271.5h DL=0.916 ece=0.014
-wrote results/prepaid_random.json  (23s)
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[prepaid_random] gbm seed=0 fit=13s  nll=0.304 acc=0.909 dtMAE=78.0h remMAE=256.1h DL=0.908 ece=0.026
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[prepaid_random] gru_multihead seed=0 fit=13s  nll=0.328 acc=0.890 dtMAE=80.7h remMAE=271.5h DL=0.916 ece=0.014
+[prepaid_random] transformer_multihead seed=0 fit=13s  nll=0.341 acc=0.883 dtMAE=83.6h remMAE=281.1h DL=0.913 ece=0.017
+wrote results/prepaid_random.json  (47s)

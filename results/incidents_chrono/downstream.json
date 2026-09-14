@@ -1,0 +1,103 @@
+{
+ "run": "incidents_chrono",
+ "model": "transformer_multihead",
+ "n_seeds": 3,
+ "selective_prediction": {
+  "ensemble_accuracy_at_coverage": {
+   "100%": 0.7390448055145249,
+   "90%": 0.7911727156666059,
+   "80%": 0.8354534263438654,
+   "70%": 0.8862837045720985,
+   "50%": 0.9704530531845043,
+   "30%": 0.9923371647509579
+  },
+  "single_model_accuracy": 0.7355982274741507,
+  "ensemble_accuracy": 0.7390448055145249,
+  "aurc_proxy": 0.9133214630389717
+ },
+ "uncertainty": {
+  "mean_entropy_nats": 0.7344589233398438,
+  "mean_mutual_information_nats": 0.025294439867138863,
+  "mi_on_wrong_vs_right": [
+   0.05039377883076668,
+   0.016431916505098343
+  ],
+  "unseen_label_rate_test": 0.0
+ },
+ "sla_breach": {
+  "train_median": {
+   "T_hours": 200.985,
+   "positive_rate": 0.18761510128913444,
+   "auroc": 0.6658807740248632,
+   "brier": 0.4178610592349855,
+   "auroc_single": 0.6734423106008585,
+   "brier_single": 0.46572575521401033
+  }
+ },
+ "anomaly": {
+  "spearman_score_vs_case_length": 0.04431622915502709,
+  "spearman_vs_markov_score": 0.46817470239186254,
+  "top10": [
+   {
+    "case_id": "1-740781545",
+    "score": 4.142561435699463,
+    "length": 2,
+    "variant": "Accepted|In Progress > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740782031",
+    "score": 4.005484104156494,
+    "length": 4,
+    "variant": "Accepted|In Progress > Accepted|Wait - User > Accepted|Wait - User > Accepted|Wait - Implementation"
+   },
+   {
+    "case_id": "1-740462311",
+    "score": 3.627872943878174,
+    "length": 2,
+    "variant": "Accepted|Wait > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740453701",
+    "score": 3.6272706985473633,
+    "length": 3,
+    "variant": "Completed|Resolved > Queued|Awaiting Assignment > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740421014",
+    "score": 3.1940677165985107,
+    "length": 3,
+    "variant": "Accepted|In Progress > Accepted|Wait - User > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740414265",
+    "score": 3.070568084716797,
+    "length": 5,
+    "variant": "Queued|Awaiting Assignment > Accepted|In Progress > Completed|Resolved > Completed|Resolved > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740680465",
+    "score": 2.7928340435028076,
+    "length": 4,
+    "variant": "Accepted|In Progress > Accepted|In Progress > Accepted|In Progress > Completed|In Call"
+   },
+   {
+    "case_id": "1-740826591",
+    "score": 2.609553098678589,
+    "length": 5,
+    "variant": "Queued|Awaiting Assignment > Accepted|In Progress > Queued|Awaiting Assignment > Accepted|Wait - Implementation > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740493521",
+    "score": 2.602616786956787,
+    "length": 5,
+    "variant": "Queued|Awaiting Assignment > Accepted|In Progress > Queued|Awaiting Assignment > Accepted|Wait - Vendor > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740364822",
+    "score": 2.572669506072998,
+    "length": 5,
+    "variant": "Accepted|In Progress > Accepted|In Progress > Queued|Awaiting Assignment > Queued|Awaiting Assignment > Accepted|Wait - User"
+   }
+  ]
+ }
+}

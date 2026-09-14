@@ -1,0 +1,111 @@
+{
+ "run": "domestic_chrono_strict",
+ "model": "transformer_multihead",
+ "n_seeds": 3,
+ "selective_prediction": {
+  "ensemble_accuracy_at_coverage": {
+   "100%": 0.9145338208409507,
+   "90%": 0.9131538852209243,
+   "80%": 0.9117268961576918,
+   "70%": 0.9580476656872348,
+   "50%": 0.9990859232175503,
+   "30%": 1.0
+  },
+  "single_model_accuracy": 0.9145338208409507,
+  "ensemble_accuracy": 0.9145338208409507,
+  "aurc_proxy": 0.9694929397425192
+ },
+ "uncertainty": {
+  "mean_entropy_nats": 0.3254813551902771,
+  "mean_mutual_information_nats": 0.0012416584650054574,
+  "mi_on_wrong_vs_right": [
+   0.0024241337087005377,
+   0.0011311523849144578
+  ],
+  "unseen_label_rate_test": 0.0
+ },
+ "sla_breach": {
+  "train_median": {
+   "T_hours": 117.20111111111112,
+   "positive_rate": 0.6220428611188422,
+   "auroc": 0.8656565781366861,
+   "brier": 0.14459839132221533,
+   "auroc_single": 0.8656075687038116,
+   "brier_single": 0.14438534455422486
+  },
+  "train_p90": {
+   "T_hours": 318.6438888888889,
+   "positive_rate": 0.2009462844419705,
+   "auroc": 0.6599016842414015,
+   "brier": 0.15601929675435525,
+   "auroc_single": 0.6546204595385511,
+   "brier_single": 0.15718730882436957
+  }
+ },
+ "anomaly": {
+  "spearman_score_vs_case_length": 0.7883327320150084,
+  "spearman_vs_markov_score": 0.8578851786132344,
+  "top10": [
+   {
+    "case_id": "declaration 140675",
+    "score": 2.481233596801758,
+    "length": 3,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration REJECTED by SUPERVISOR"
+   },
+   {
+    "case_id": "declaration 142992",
+    "score": 2.4778482913970947,
+    "length": 4,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Payment Handled"
+   },
+   {
+    "case_id": "declaration 141310",
+    "score": 2.387707233428955,
+    "length": 4,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Payment Handled"
+   },
+   {
+    "case_id": "declaration 138710",
+    "score": 2.3459854125976562,
+    "length": 4,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Payment Handled"
+   },
+   {
+    "case_id": "declaration 138147",
+    "score": 2.329447031021118,
+    "length": 5,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration FINAL_APPROVED by SUPERVISOR > Payment Handled"
+   },
+   {
+    "case_id": "declaration 141395",
+    "score": 2.3083226680755615,
+    "length": 3,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration REJECTED by SUPERVISOR"
+   },
+   {
+    "case_id": "declaration 136996",
+    "score": 2.30210280418396,
+    "length": 5,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration FINAL_APPROVED by SUPERVISOR > Payment Handled"
+   },
+   {
+    "case_id": "declaration 132896",
+    "score": 2.1912925243377686,
+    "length": 4,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration REJECTED by SUPERVISOR"
+   },
+   {
+    "case_id": "declaration 141910",
+    "score": 1.7742469310760498,
+    "length": 10,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration REJECTED by SUPERVISOR > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVIS"
+   },
+   {
+    "case_id": "declaration 142979",
+    "score": 1.6771808862686157,
+    "length": 6,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration REJECTED by SUPERVISOR"
+   }
+  ]
+ }
+}

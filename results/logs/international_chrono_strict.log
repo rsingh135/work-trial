@@ -1,0 +1,35 @@
+[international_chrono_strict] markov_k2 seed=0 fit=0s  nll=0.525 acc=0.844 dtMAE=92.3h remMAE=294.3h DL=0.858 ece=0.072
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_chrono_strict] gbm seed=0 fit=48s  nll=0.302 acc=0.890 dtMAE=81.5h remMAE=260.9h DL=0.899 ece=0.024
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_chrono_strict] gbm seed=1 fit=65s  nll=0.302 acc=0.890 dtMAE=81.1h remMAE=262.4h DL=0.899 ece=0.024
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_chrono_strict] gbm seed=2 fit=53s  nll=0.302 acc=0.890 dtMAE=81.1h remMAE=261.9h DL=0.893 ece=0.024
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_chrono_strict] gru_multihead seed=0 fit=38s  nll=0.293 acc=0.899 dtMAE=80.8h remMAE=261.6h DL=0.906 ece=0.020
+[international_chrono_strict] gru_multihead seed=1 fit=35s  nll=0.300 acc=0.898 dtMAE=85.1h remMAE=259.7h DL=0.897 ece=0.014
+[international_chrono_strict] gru_multihead seed=2 fit=31s  nll=0.340 acc=0.867 dtMAE=83.6h remMAE=258.3h DL=0.862 ece=0.015
+[international_chrono_strict] transformer_multihead seed=0 fit=45s  nll=0.304 acc=0.891 dtMAE=87.0h remMAE=293.5h DL=0.907 ece=0.010
+[international_chrono_strict] transformer_multihead seed=1 fit=36s  nll=0.304 acc=0.889 dtMAE=97.7h remMAE=310.7h DL=0.895 ece=0.009
+[international_chrono_strict] transformer_multihead seed=2 fit=42s  nll=0.296 acc=0.891 dtMAE=95.6h remMAE=290.3h DL=0.897 ece=0.010
+wrote results/international_chrono_strict.json  (493s)

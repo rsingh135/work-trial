@@ -11,3 +11,140 @@
 [domestic_random] transformer_multihead seed=2 fit=36s  nll=0.313 acc=0.890 dtMAE=42.5h remMAE=98.8h DL=0.940 ece=0.015
 wrote results/domestic_random.json  (245s)
 === domestic_chrono Mon Sep 14 14:07:31 EDT 2026
+[domestic_chrono] markov_k2 seed=0 fit=0s  nll=0.290 acc=0.904 dtMAE=43.9h remMAE=110.3h DL=0.931 ece=0.051
+[domestic_chrono] gbm seed=0 fit=8s  nll=0.278 acc=0.905 dtMAE=38.2h remMAE=102.0h DL=0.941 ece=0.040
+[domestic_chrono] gbm seed=1 fit=8s  nll=0.278 acc=0.905 dtMAE=38.0h remMAE=102.1h DL=0.939 ece=0.040
+[domestic_chrono] gbm seed=2 fit=8s  nll=0.278 acc=0.905 dtMAE=38.1h remMAE=102.1h DL=0.932 ece=0.040
+[domestic_chrono] gru_multihead seed=0 fit=25s  nll=0.249 acc=0.912 dtMAE=38.7h remMAE=102.7h DL=0.944 ece=0.038
+[domestic_chrono] gru_multihead seed=1 fit=19s  nll=0.263 acc=0.915 dtMAE=38.2h remMAE=102.6h DL=0.945 ece=0.035
+[domestic_chrono] gru_multihead seed=2 fit=26s  nll=0.268 acc=0.915 dtMAE=37.9h remMAE=101.7h DL=0.937 ece=0.047
+[domestic_chrono] transformer_multihead seed=0 fit=29s  nll=0.250 acc=0.913 dtMAE=40.7h remMAE=107.1h DL=0.947 ece=0.048
+[domestic_chrono] transformer_multihead seed=1 fit=55s  nll=0.279 acc=0.915 dtMAE=39.9h remMAE=104.2h DL=0.945 ece=0.066
+[domestic_chrono] transformer_multihead seed=2 fit=37s  nll=0.273 acc=0.914 dtMAE=40.6h remMAE=105.7h DL=0.937 ece=0.056
+wrote results/domestic_chrono.json  (231s)
+=== domestic_chrono_strict Mon Sep 14 14:11:24 EDT 2026
+[domestic_chrono_strict] markov_k2 seed=0 fit=0s  nll=0.291 acc=0.904 dtMAE=43.9h remMAE=110.4h DL=0.931 ece=0.051
+[domestic_chrono_strict] gbm seed=0 fit=20s  nll=0.279 acc=0.904 dtMAE=38.0h remMAE=102.0h DL=0.940 ece=0.040
+[domestic_chrono_strict] gbm seed=1 fit=22s  nll=0.279 acc=0.904 dtMAE=38.0h remMAE=102.1h DL=0.937 ece=0.040
+[domestic_chrono_strict] gbm seed=2 fit=28s  nll=0.279 acc=0.904 dtMAE=38.1h remMAE=102.0h DL=0.933 ece=0.040
+[domestic_chrono_strict] gru_multihead seed=0 fit=51s  nll=0.249 acc=0.914 dtMAE=38.2h remMAE=102.2h DL=0.946 ece=0.038
+[domestic_chrono_strict] gru_multihead seed=1 fit=55s  nll=0.257 acc=0.914 dtMAE=38.2h remMAE=101.9h DL=0.945 ece=0.041
+[domestic_chrono_strict] gru_multihead seed=2 fit=45s  nll=0.260 acc=0.914 dtMAE=38.6h remMAE=102.4h DL=0.937 ece=0.044
+[domestic_chrono_strict] transformer_multihead seed=0 fit=101s  nll=0.271 acc=0.915 dtMAE=40.1h remMAE=104.9h DL=0.947 ece=0.041
+[domestic_chrono_strict] transformer_multihead seed=1 fit=78s  nll=0.262 acc=0.914 dtMAE=40.0h remMAE=105.1h DL=0.945 ece=0.021
+[domestic_chrono_strict] transformer_multihead seed=2 fit=74s  nll=0.273 acc=0.914 dtMAE=40.8h remMAE=104.6h DL=0.937 ece=0.037
+wrote results/domestic_chrono_strict.json  (517s)
+=== international_random Mon Sep 14 14:20:03 EDT 2026
+[international_random] markov_k2 seed=0 fit=0s  nll=0.583 acc=0.815 dtMAE=158.7h remMAE=420.2h DL=0.828 ece=0.013
+[international_random] gbm seed=0 fit=56s  nll=0.318 acc=0.893 dtMAE=133.4h remMAE=376.9h DL=0.883 ece=0.020
+[international_random] gbm seed=1 fit=55s  nll=0.318 acc=0.893 dtMAE=132.8h remMAE=378.7h DL=0.890 ece=0.020
+[international_random] gbm seed=2 fit=47s  nll=0.318 acc=0.893 dtMAE=133.9h remMAE=378.7h DL=0.889 ece=0.020
+[international_random] gru_multihead seed=0 fit=86s  nll=0.318 acc=0.885 dtMAE=141.1h remMAE=379.9h DL=0.888 ece=0.013
+[international_random] gru_multihead seed=1 fit=59s  nll=0.320 acc=0.884 dtMAE=132.2h remMAE=380.9h DL=0.891 ece=0.012
+[international_random] gru_multihead seed=2 fit=70s  nll=0.319 acc=0.884 dtMAE=146.1h remMAE=380.4h DL=0.893 ece=0.021
+[international_random] transformer_multihead seed=0 fit=95s  nll=0.323 acc=0.883 dtMAE=142.8h remMAE=388.6h DL=0.890 ece=0.019
+[international_random] transformer_multihead seed=1 fit=74s  nll=0.332 acc=0.881 dtMAE=137.8h remMAE=381.5h DL=0.890 ece=0.029
+[international_random] transformer_multihead seed=2 fit=97s  nll=0.324 acc=0.883 dtMAE=142.4h remMAE=398.8h DL=0.894 ece=0.023
+wrote results/international_random.json  (752s)
+=== international_chrono Mon Sep 14 14:32:39 EDT 2026
+[international_chrono] markov_k2 seed=0 fit=0s  nll=0.522 acc=0.844 dtMAE=95.7h remMAE=324.1h DL=0.858 ece=0.069
+[international_chrono] gbm seed=0 fit=66s  nll=0.298 acc=0.892 dtMAE=83.7h remMAE=283.4h DL=0.897 ece=0.021
+[international_chrono] gbm seed=1 fit=48s  nll=0.298 acc=0.892 dtMAE=84.8h remMAE=286.1h DL=0.894 ece=0.021
+[international_chrono] gbm seed=2 fit=42s  nll=0.298 acc=0.892 dtMAE=84.7h remMAE=286.0h DL=0.890 ece=0.021
+[international_chrono] gru_multihead seed=0 fit=32s  nll=0.298 acc=0.885 dtMAE=88.0h remMAE=299.9h DL=0.906 ece=0.020
+[international_chrono] gru_multihead seed=1 fit=35s  nll=0.299 acc=0.894 dtMAE=87.9h remMAE=282.7h DL=0.899 ece=0.018
+[international_chrono] gru_multihead seed=2 fit=56s  nll=0.287 acc=0.894 dtMAE=87.0h remMAE=289.6h DL=0.892 ece=0.006
+[international_chrono] transformer_multihead seed=0 fit=50s  nll=0.294 acc=0.894 dtMAE=99.7h remMAE=361.1h DL=0.906 ece=0.012
+[international_chrono] transformer_multihead seed=1 fit=59s  nll=0.291 acc=0.896 dtMAE=104.3h remMAE=334.8h DL=0.902 ece=0.016
+[international_chrono] transformer_multihead seed=2 fit=56s  nll=0.298 acc=0.889 dtMAE=97.8h remMAE=355.1h DL=0.897 ece=0.014
+wrote results/international_chrono.json  (534s)
+=== international_chrono_strict Mon Sep 14 14:41:36 EDT 2026
+[international_chrono_strict] markov_k2 seed=0 fit=0s  nll=0.525 acc=0.844 dtMAE=92.3h remMAE=294.3h DL=0.858 ece=0.072
+[international_chrono_strict] gbm seed=0 fit=48s  nll=0.302 acc=0.890 dtMAE=81.5h remMAE=260.9h DL=0.899 ece=0.024
+[international_chrono_strict] gbm seed=1 fit=65s  nll=0.302 acc=0.890 dtMAE=81.1h remMAE=262.4h DL=0.899 ece=0.024
+[international_chrono_strict] gbm seed=2 fit=53s  nll=0.302 acc=0.890 dtMAE=81.1h remMAE=261.9h DL=0.893 ece=0.024
+[international_chrono_strict] gru_multihead seed=0 fit=38s  nll=0.293 acc=0.899 dtMAE=80.8h remMAE=261.6h DL=0.906 ece=0.020
+[international_chrono_strict] gru_multihead seed=1 fit=35s  nll=0.300 acc=0.898 dtMAE=85.1h remMAE=259.7h DL=0.897 ece=0.014
+[international_chrono_strict] gru_multihead seed=2 fit=31s  nll=0.340 acc=0.867 dtMAE=83.6h remMAE=258.3h DL=0.862 ece=0.015
+[international_chrono_strict] transformer_multihead seed=0 fit=45s  nll=0.304 acc=0.891 dtMAE=87.0h remMAE=293.5h DL=0.907 ece=0.010
+[international_chrono_strict] transformer_multihead seed=1 fit=36s  nll=0.304 acc=0.889 dtMAE=97.7h remMAE=310.7h DL=0.895 ece=0.009
+[international_chrono_strict] transformer_multihead seed=2 fit=42s  nll=0.296 acc=0.891 dtMAE=95.6h remMAE=290.3h DL=0.897 ece=0.010
+wrote results/international_chrono_strict.json  (493s)
+=== incidents_random Mon Sep 14 14:49:52 EDT 2026
+[incidents_random] markov_k2 seed=0 fit=0s  nll=1.022 acc=0.585 dtMAE=31.4h remMAE=299.1h DL=0.300 ece=0.037
+[incidents_random] gbm seed=0 fit=23s  nll=0.693 acc=0.769 dtMAE=28.3h remMAE=263.4h DL=0.567 ece=0.015
+[incidents_random] gbm seed=1 fit=18s  nll=0.693 acc=0.769 dtMAE=28.4h remMAE=263.7h DL=0.574 ece=0.015
+[incidents_random] gbm seed=2 fit=22s  nll=0.693 acc=0.769 dtMAE=28.5h remMAE=264.3h DL=0.562 ece=0.015
+[incidents_random] gru_multihead seed=0 fit=33s  nll=0.759 acc=0.753 dtMAE=26.9h remMAE=278.7h DL=0.456 ece=0.020
+[incidents_random] gru_multihead seed=1 fit=36s  nll=0.756 acc=0.757 dtMAE=26.7h remMAE=275.8h DL=0.563 ece=0.025
+[incidents_random] gru_multihead seed=2 fit=36s  nll=0.735 acc=0.765 dtMAE=26.6h remMAE=276.1h DL=0.526 ece=0.034
+[incidents_random] transformer_multihead seed=0 fit=48s  nll=0.741 acc=0.756 dtMAE=28.2h remMAE=276.3h DL=0.415 ece=0.031
+[incidents_random] transformer_multihead seed=1 fit=60s  nll=0.737 acc=0.759 dtMAE=28.8h remMAE=276.6h DL=0.536 ece=0.039
+[incidents_random] transformer_multihead seed=2 fit=43s  nll=0.754 acc=0.756 dtMAE=29.8h remMAE=283.2h DL=0.549 ece=0.031
+wrote results/incidents_random.json  (500s)
+=== incidents_chrono Mon Sep 14 14:58:14 EDT 2026
+[incidents_chrono] markov_k2 seed=0 fit=0s  nll=1.080 acc=0.519 dtMAE=13.7h remMAE=103.8h DL=0.327 ece=0.103
+[incidents_chrono] gbm seed=0 fit=21s  nll=0.875 acc=0.714 dtMAE=11.3h remMAE=162.8h DL=0.289 ece=0.075
+[incidents_chrono] gbm seed=1 fit=16s  nll=0.875 acc=0.714 dtMAE=11.3h remMAE=157.5h DL=0.262 ece=0.075
+[incidents_chrono] gbm seed=2 fit=14s  nll=0.875 acc=0.714 dtMAE=11.3h remMAE=161.5h DL=0.272 ece=0.075
+[incidents_chrono] gru_multihead seed=0 fit=26s  nll=0.794 acc=0.732 dtMAE=10.4h remMAE=126.9h DL=0.525 ece=0.037
+[incidents_chrono] gru_multihead seed=1 fit=15s  nll=0.738 acc=0.757 dtMAE=10.4h remMAE=100.1h DL=0.549 ece=0.030
+[incidents_chrono] gru_multihead seed=2 fit=14s  nll=0.786 acc=0.706 dtMAE=9.8h remMAE=105.4h DL=0.386 ece=0.037
+[incidents_chrono] transformer_multihead seed=0 fit=40s  nll=0.791 acc=0.736 dtMAE=14.2h remMAE=181.3h DL=0.551 ece=0.050
+[incidents_chrono] transformer_multihead seed=1 fit=28s  nll=0.747 acc=0.745 dtMAE=13.2h remMAE=186.5h DL=0.461 ece=0.018
+[incidents_chrono] transformer_multihead seed=2 fit=21s  nll=0.765 acc=0.725 dtMAE=17.0h remMAE=113.3h DL=0.504 ece=0.027
+wrote results/incidents_chrono.json  (293s)
+=== incidents_chrono_strict Mon Sep 14 15:03:10 EDT 2026
+[incidents_chrono_strict] markov_k2 seed=0 fit=0s  nll=1.101 acc=0.515 dtMAE=20.4h remMAE=122.6h DL=0.320 ece=0.129
+[incidents_chrono_strict] gbm seed=0 fit=13s  nll=1.349 acc=0.574 dtMAE=20.0h remMAE=81.7h DL=0.281 ece=0.155
+[incidents_chrono_strict] gbm seed=1 fit=17s  nll=1.349 acc=0.574 dtMAE=20.0h remMAE=81.6h DL=0.313 ece=0.155
+[incidents_chrono_strict] gbm seed=2 fit=25s  nll=1.349 acc=0.574 dtMAE=19.8h remMAE=80.0h DL=0.301 ece=0.155
+[incidents_chrono_strict] gru_multihead seed=0 fit=8s  nll=0.812 acc=0.712 dtMAE=21.0h remMAE=126.2h DL=0.460 ece=0.040
+[incidents_chrono_strict] gru_multihead seed=1 fit=14s  nll=1.132 acc=0.632 dtMAE=19.9h remMAE=84.4h DL=0.262 ece=0.058
+[incidents_chrono_strict] gru_multihead seed=2 fit=11s  nll=1.217 acc=0.606 dtMAE=20.4h remMAE=92.7h DL=0.173 ece=0.107
+[incidents_chrono_strict] transformer_multihead seed=0 fit=13s  nll=0.799 acc=0.710 dtMAE=20.1h remMAE=113.9h DL=0.595 ece=0.020
+[incidents_chrono_strict] transformer_multihead seed=1 fit=9s  nll=0.848 acc=0.696 dtMAE=21.2h remMAE=135.2h DL=0.194 ece=0.033
+[incidents_chrono_strict] transformer_multihead seed=2 fit=12s  nll=0.823 acc=0.699 dtMAE=19.8h remMAE=100.0h DL=0.234 ece=0.049
+wrote results/incidents_chrono_strict.json  (218s)
+=== closed_random Mon Sep 14 15:06:50 EDT 2026
+[closed_random] markov_k2 seed=0 fit=0s  nll=1.032 acc=0.608 dtMAE=1252.2h remMAE=3655.5h DL=0.574 ece=0.032
+[closed_random] gbm seed=0 fit=3s  nll=1.123 acc=0.695 dtMAE=1140.1h remMAE=2824.1h DL=0.600 ece=0.162
+[closed_random] gbm seed=1 fit=3s  nll=1.123 acc=0.695 dtMAE=1148.2h remMAE=2817.8h DL=0.600 ece=0.162
+[closed_random] gbm seed=2 fit=3s  nll=1.123 acc=0.695 dtMAE=1123.1h remMAE=2869.6h DL=0.600 ece=0.162
+[closed_random] gru_multihead seed=0 fit=4s  nll=0.954 acc=0.664 dtMAE=1138.4h remMAE=3038.6h DL=0.598 ece=0.077
+[closed_random] gru_multihead seed=1 fit=5s  nll=0.950 acc=0.654 dtMAE=1158.2h remMAE=2975.2h DL=0.590 ece=0.069
+[closed_random] gru_multihead seed=2 fit=5s  nll=0.932 acc=0.670 dtMAE=1163.2h remMAE=2782.8h DL=0.614 ece=0.059
+[closed_random] transformer_multihead seed=0 fit=5s  nll=0.898 acc=0.667 dtMAE=1156.4h remMAE=2895.5h DL=0.597 ece=0.047
+[closed_random] transformer_multihead seed=1 fit=7s  nll=0.941 acc=0.664 dtMAE=1136.7h remMAE=2934.3h DL=0.606 ece=0.091
+[closed_random] transformer_multihead seed=2 fit=10s  nll=0.924 acc=0.667 dtMAE=1154.0h remMAE=2944.7h DL=0.601 ece=0.068
+wrote results/closed_random.json  (72s)
+=== open_random Mon Sep 14 15:08:04 EDT 2026
+[open_random] markov_k2 seed=0 fit=0s  nll=1.305 acc=0.465 dtMAE=802.1h remMAE=nanh DL=nan ece=0.048
+[open_random] gbm seed=0 fit=4s  nll=1.295 acc=0.555 dtMAE=741.4h remMAE=nanh DL=nan ece=0.156
+[open_random] gbm seed=1 fit=4s  nll=1.295 acc=0.555 dtMAE=773.2h remMAE=nanh DL=nan ece=0.156
+[open_random] gbm seed=2 fit=3s  nll=1.295 acc=0.555 dtMAE=757.5h remMAE=nanh DL=nan ece=0.156
+[open_random] gru_multihead seed=0 fit=3s  nll=1.151 acc=0.535 dtMAE=794.4h remMAE=nanh DL=nan ece=0.090
+[open_random] gru_multihead seed=1 fit=2s  nll=1.167 acc=0.578 dtMAE=828.5h remMAE=nanh DL=nan ece=0.087
+[open_random] gru_multihead seed=2 fit=2s  nll=1.175 acc=0.551 dtMAE=791.0h remMAE=nanh DL=nan ece=0.085
+[open_random] transformer_multihead seed=0 fit=3s  nll=1.159 acc=0.562 dtMAE=789.0h remMAE=nanh DL=nan ece=0.081
+[open_random] transformer_multihead seed=1 fit=3s  nll=1.140 acc=0.582 dtMAE=791.3h remMAE=nanh DL=nan ece=0.094
+[open_random] transformer_multihead seed=2 fit=3s  nll=1.180 acc=0.559 dtMAE=774.2h remMAE=nanh DL=nan ece=0.059
+wrote results/open_random.json  (29s)
+=== permit_random Mon Sep 14 15:08:35 EDT 2026
+[permit_random] markov_k2 seed=0 fit=0s  nll=0.818 acc=0.756 dtMAE=151.3h remMAE=500.9h DL=0.711 ece=0.012
+[permit_random] gbm seed=0 fit=102s  nll=0.488 acc=0.841 dtMAE=136.9h remMAE=430.7h DL=0.831 ece=0.028
+[permit_random] gru_multihead seed=0 fit=72s  nll=0.479 acc=0.839 dtMAE=136.4h remMAE=429.1h DL=0.835 ece=0.017
+[permit_random] transformer_multihead seed=0 fit=44s  nll=0.524 acc=0.832 dtMAE=138.9h remMAE=448.8h DL=0.830 ece=0.025
+wrote results/permit_random.json  (283s)
+=== prepaid_random Mon Sep 14 15:13:21 EDT 2026
+[prepaid_random] markov_k2 seed=0 fit=0s  nll=0.527 acc=0.834 dtMAE=86.0h remMAE=282.7h DL=0.875 ece=0.024
+[prepaid_random] gbm seed=0 fit=13s  nll=0.304 acc=0.909 dtMAE=78.0h remMAE=256.1h DL=0.908 ece=0.026
+[prepaid_random] gru_multihead seed=0 fit=13s  nll=0.328 acc=0.890 dtMAE=80.7h remMAE=271.5h DL=0.916 ece=0.014
+[prepaid_random] transformer_multihead seed=0 fit=13s  nll=0.341 acc=0.883 dtMAE=83.6h remMAE=281.1h DL=0.913 ece=0.017
+wrote results/prepaid_random.json  (47s)
+=== rfp_transfer_domestic Mon Sep 14 15:14:09 EDT 2026
+[rfp_transfer_domestic] markov_k2 seed=0 fit=0s  nll=0.344 acc=0.872 dtMAE=47.5h remMAE=119.6h DL=0.913 ece=0.008
+[rfp_transfer_domestic] gru_multihead seed=0 fit=33s  nll=0.295 acc=0.879 dtMAE=40.5h remMAE=112.7h DL=0.911 ece=0.007
+[rfp_transfer_domestic] gru_multihead_fac seed=0 fit=23s  nll=0.294 acc=0.882 dtMAE=40.4h remMAE=111.9h DL=0.915 ece=0.015
+wrote results/rfp_transfer_domestic.json  (91s)
+=== ALL DONE Mon Sep 14 15:15:43 EDT 2026

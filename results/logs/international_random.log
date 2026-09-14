@@ -1,8 +1,35 @@
 [international_random] markov_k2 seed=0 fit=0s  nll=0.583 acc=0.815 dtMAE=158.7h remMAE=420.2h DL=0.828 ece=0.013
-[international_random] gbm seed=0 fit=57s  nll=0.318 acc=0.893 dtMAE=133.4h remMAE=376.9h DL=0.883 ece=0.020
-[international_random] gbm seed=1 fit=43s  nll=0.318 acc=0.893 dtMAE=132.8h remMAE=378.7h DL=0.890 ece=0.020
-[international_random] gbm seed=2 fit=130s  nll=0.318 acc=0.893 dtMAE=133.9h remMAE=378.7h DL=0.889 ece=0.020
-[international_random] gru_multihead seed=0 fit=78s  nll=0.318 acc=0.885 dtMAE=141.1h remMAE=379.9h DL=0.888 ece=0.013
-[international_random] gru_multihead seed=1 fit=149s  nll=0.320 acc=0.884 dtMAE=132.2h remMAE=380.9h DL=0.891 ece=0.012
-[international_random] gru_multihead seed=2 fit=96s  nll=0.319 acc=0.884 dtMAE=146.1h remMAE=380.4h DL=0.893 ece=0.021
-wrote results/international_random.json  (595s)
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_random] gbm seed=0 fit=56s  nll=0.318 acc=0.893 dtMAE=133.4h remMAE=376.9h DL=0.883 ece=0.020
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_random] gbm seed=1 fit=55s  nll=0.318 acc=0.893 dtMAE=132.8h remMAE=378.7h DL=0.890 ece=0.020
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_random] gbm seed=2 fit=47s  nll=0.318 acc=0.893 dtMAE=133.9h remMAE=378.7h DL=0.889 ece=0.020
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_random] gru_multihead seed=0 fit=86s  nll=0.318 acc=0.885 dtMAE=141.1h remMAE=379.9h DL=0.888 ece=0.013
+[international_random] gru_multihead seed=1 fit=59s  nll=0.320 acc=0.884 dtMAE=132.2h remMAE=380.9h DL=0.891 ece=0.012
+[international_random] gru_multihead seed=2 fit=70s  nll=0.319 acc=0.884 dtMAE=146.1h remMAE=380.4h DL=0.893 ece=0.021
+[international_random] transformer_multihead seed=0 fit=95s  nll=0.323 acc=0.883 dtMAE=142.8h remMAE=388.6h DL=0.890 ece=0.019
+[international_random] transformer_multihead seed=1 fit=74s  nll=0.332 acc=0.881 dtMAE=137.8h remMAE=381.5h DL=0.890 ece=0.029
+[international_random] transformer_multihead seed=2 fit=97s  nll=0.324 acc=0.883 dtMAE=142.4h remMAE=398.8h DL=0.894 ece=0.023
+wrote results/international_random.json  (752s)

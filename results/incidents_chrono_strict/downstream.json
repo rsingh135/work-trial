@@ -1,0 +1,111 @@
+{
+ "run": "incidents_chrono_strict",
+ "model": "transformer_multihead",
+ "n_seeds": 3,
+ "selective_prediction": {
+  "ensemble_accuracy_at_coverage": {
+   "100%": 0.7149187592319055,
+   "90%": 0.7722049972642714,
+   "80%": 0.8249897414854329,
+   "70%": 0.8846424384525206,
+   "50%": 0.9596191726854891,
+   "30%": 0.9737274220032841
+  },
+  "single_model_accuracy": 0.7103233218447399,
+  "ensemble_accuracy": 0.7149187592319055,
+  "aurc_proxy": 0.9025860415801773
+ },
+ "uncertainty": {
+  "mean_entropy_nats": 0.8883678913116455,
+  "mean_mutual_information_nats": 0.025642644613981247,
+  "mi_on_wrong_vs_right": [
+   0.0409637950360775,
+   0.019533172249794006
+  ],
+  "unseen_label_rate_test": 0.0
+ },
+ "sla_breach": {
+  "train_median": {
+   "T_hours": 29.676805555555557,
+   "positive_rate": 0.8116942909760589,
+   "auroc": 0.6160160914311708,
+   "brier": 0.212586343473879,
+   "auroc_single": 0.6132916566699071,
+   "brier_single": 0.20606182537466583
+  },
+  "train_p90": {
+   "T_hours": 330.0788888888889,
+   "positive_rate": 0.03706261510128914,
+   "auroc": 0.6785821938250505,
+   "brier": 0.039799094649836574,
+   "auroc_single": 0.6577139352867195,
+   "brier_single": 0.04176052180108514
+  }
+ },
+ "anomaly": {
+  "spearman_score_vs_case_length": 0.5333773014432612,
+  "spearman_vs_markov_score": 0.06563951540797877,
+  "top10": [
+   {
+    "case_id": "1-740781545",
+    "score": 5.906161785125732,
+    "length": 2,
+    "variant": "Accepted|In Progress > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740812155",
+    "score": 5.135475158691406,
+    "length": 2,
+    "variant": "Accepted|Wait - Implementation > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740462311",
+    "score": 4.883349418640137,
+    "length": 2,
+    "variant": "Accepted|Wait > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740782031",
+    "score": 4.414029598236084,
+    "length": 4,
+    "variant": "Accepted|In Progress > Accepted|Wait - User > Accepted|Wait - User > Accepted|Wait - Implementation"
+   },
+   {
+    "case_id": "1-740328411",
+    "score": 3.7730343341827393,
+    "length": 3,
+    "variant": "Accepted|Assigned > Accepted|Wait - User > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740453701",
+    "score": 3.6928720474243164,
+    "length": 3,
+    "variant": "Completed|Resolved > Queued|Awaiting Assignment > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740348139",
+    "score": 3.223449468612671,
+    "length": 2,
+    "variant": "Accepted|Wait - User > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740421014",
+    "score": 3.2147328853607178,
+    "length": 3,
+    "variant": "Accepted|In Progress > Accepted|Wait - User > Completed|Resolved"
+   },
+   {
+    "case_id": "1-740681438",
+    "score": 3.1740071773529053,
+    "length": 4,
+    "variant": "Accepted|Assigned > Accepted|Assigned > Accepted|In Progress > Accepted|Assigned"
+   },
+   {
+    "case_id": "1-739794081",
+    "score": 2.83565616607666,
+    "length": 4,
+    "variant": "Queued|Awaiting Assignment > Accepted|Wait - User > Accepted|Wait - User > Completed|Resolved"
+   }
+  ]
+ }
+}

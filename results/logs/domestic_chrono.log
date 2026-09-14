@@ -29,3 +29,7 @@
 [domestic_chrono] gru_multihead seed=0 fit=25s  nll=0.249 acc=0.912 dtMAE=38.7h remMAE=102.7h DL=0.944 ece=0.038
 [domestic_chrono] gru_multihead seed=1 fit=19s  nll=0.263 acc=0.915 dtMAE=38.2h remMAE=102.6h DL=0.945 ece=0.035
 [domestic_chrono] gru_multihead seed=2 fit=26s  nll=0.268 acc=0.915 dtMAE=37.9h remMAE=101.7h DL=0.937 ece=0.047
+[domestic_chrono] transformer_multihead seed=0 fit=29s  nll=0.250 acc=0.913 dtMAE=40.7h remMAE=107.1h DL=0.947 ece=0.048
+[domestic_chrono] transformer_multihead seed=1 fit=55s  nll=0.279 acc=0.915 dtMAE=39.9h remMAE=104.2h DL=0.945 ece=0.066
+[domestic_chrono] transformer_multihead seed=2 fit=37s  nll=0.273 acc=0.914 dtMAE=40.6h remMAE=105.7h DL=0.937 ece=0.056
+wrote results/domestic_chrono.json  (231s)

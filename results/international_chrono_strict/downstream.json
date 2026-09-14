@@ -1,0 +1,111 @@
+{
+ "run": "international_chrono_strict",
+ "model": "transformer_multihead",
+ "n_seeds": 3,
+ "selective_prediction": {
+  "ensemble_accuracy_at_coverage": {
+   "100%": 0.8940173974791408,
+   "90%": 0.9346089357924845,
+   "80%": 0.9614957833999113,
+   "70%": 0.9809789500380421,
+   "50%": 0.9911237351322564,
+   "30%": 0.9964486534477656
+  },
+  "single_model_accuracy": 0.890999467424108,
+  "ensemble_accuracy": 0.8940173974791408,
+  "aurc_proxy": 0.973692428169907
+ },
+ "uncertainty": {
+  "mean_entropy_nats": 0.31413930654525757,
+  "mean_mutual_information_nats": 0.007406415417790413,
+  "mi_on_wrong_vs_right": [
+   0.020616427063941956,
+   0.0058404142037034035
+  ],
+  "unseen_label_rate_test": 0.0
+ },
+ "sla_breach": {
+  "train_median": {
+   "T_hours": 329.51166666666666,
+   "positive_rate": 0.579912315663611,
+   "auroc": 0.9116297878479627,
+   "brier": 0.12122508523934362,
+   "auroc_single": 0.9095047625801236,
+   "brier_single": 0.12313303947496955
+  },
+  "train_p90": {
+   "T_hours": 2021.0741666666668,
+   "positive_rate": 0.027600637704264647,
+   "auroc": 0.9030564399870821,
+   "brier": 0.04522414070539875,
+   "auroc_single": 0.9014394932309083,
+   "brier_single": 0.0439989992580345
+  }
+ },
+ "anomaly": {
+  "spearman_score_vs_case_length": 0.4038272833734687,
+  "spearman_vs_markov_score": 0.7795401866961599,
+  "top10": [
+   {
+    "case_id": "declaration 13216",
+    "score": 2.1649444103240967,
+    "length": 8,
+    "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Start trip > Declaration REJECTED by EMPLOYEE > End trip"
+   },
+   {
+    "case_id": "declaration 13321",
+    "score": 2.1294937133789062,
+    "length": 13,
+    "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > Declaration SUBMITTED by EMPLOYEE > Start trip > End trip > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration FINAL_APPROVED by SUPERVISOR > Request Paym"
+   },
+   {
+    "case_id": "declaration 50730",
+    "score": 1.514398455619812,
+    "length": 6,
+    "variant": "Start trip > Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > End trip > Permit FINAL_APPROVED by SUPERVISOR > Declaration SAVED by EMPLOYEE"
+   },
+   {
+    "case_id": "declaration 58157",
+    "score": 1.5093560218811035,
+    "length": 12,
+    "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit APPROVED by BUDGET OWNER > Permit FINAL_APPROVED by SUPERVISOR > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Declaration FINAL_APPROVED by SUPERVISOR > St"
+   },
+   {
+    "case_id": "declaration 28818",
+    "score": 1.463204264640808,
+    "length": 10,
+    "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit APPROVED by BUDGET OWNER > Permit APPROVED by SUPERVISOR > Permit FINAL_APPROVED by DIRECTOR > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Start trip > Declaration REJECTED by EMPLOYEE > End tr"
+   },
+   {
+    "case_id": "declaration 71076",
+    "score": 1.4578224420547485,
+    "length": 13,
+    "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declar"
+   },
+   {
+    "case_id": "declaration 58787",
+    "score": 1.253623366355896,
+    "length": 13,
+    "variant": "Permit SUBMITTED by EMPLOYEE > Permit REJECTED by ADMINISTRATION > Permit REJECTED by EMPLOYEE > Start trip > Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > End trip > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION"
+   },
+   {
+    "case_id": "declaration 52137",
+    "score": 1.2063335180282593,
+    "length": 9,
+    "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit APPROVED by BUDGET OWNER > Start trip > Permit FINAL_APPROVED by SUPERVISOR > Declaration SUBMITTED by EMPLOYEE > End trip > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE"
+   },
+   {
+    "case_id": "declaration 58965",
+    "score": 1.1688748598098755,
+    "length": 15,
+    "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > Start trip > End trip > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by ADMINISTRATION > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by"
+   },
+   {
+    "case_id": "declaration 33831",
+    "score": 1.165576457977295,
+    "length": 11,
+    "variant": "Permit SUBMITTED by EMPLOYEE > Permit APPROVED by ADMINISTRATION > Permit FINAL_APPROVED by SUPERVISOR > Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration APPROVED by BUDGET OWNER > Start trip > End trip > Declaration FINAL_APPROVED by SUPERVISOR > Request Paym"
+   }
+  ]
+ }
+}

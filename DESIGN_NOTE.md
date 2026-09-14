@@ -41,36 +41,55 @@ Both use the identical split, encoder and target construction as the proposed mo
 Proposed but not implemented: uncertainty-weighted multi-task loss; a Transformer variant with KV-cache as the state (O(t) memory) for comparison; hazard-style remaining-time head with explicit censoring likelihood (currently censored cases are masked, which is unbiased only if censoring is independent of the process state — not true for the Incidents snapshot).
 
 ### 1.5 Results and analysis
-*(filled from `results/SUMMARY.md`; see that file for every number with CIs)*
+*(all numbers from the final batch — 4 models × 14 configs, 3 seeds; every metric with CIs in `results/SUMMARY.md`; git sha in each results JSON)*
 
-**Headline numbers** (test split, NLL of the next activity with 95 % case-bootstrap CI; ± = std over 3 seeds; full table with every metric in `results/SUMMARY.md`):
+**Headline: next-activity NLL on the test split** (± = std over 3 seeds where run):
 
-| log / split | Markov k=2 | GBM | GRU (proposed) | GRU suffix DL-sim | GRU ECE raw |
-|---|---|---|---|---|---|
-| Domestic, random | 0.324 | 0.303 | 0.305 ± 0.002 | 0.937 | 0.008 |
-| Domestic, **chronological** | 0.290 | 0.278 | **0.249 ± 0.008** | 0.944 | 0.038 |
-| International, random | 0.583 | 0.318 | 0.318 ± 0.001 | 0.888 | 0.013 |
-| International, **chronological** | 0.522 | 0.298 | 0.298 ± 0.005 | **0.906** | 0.020 |
-| Incidents (BPI2013), random | 1.022 | **0.693** | 0.759 ± 0.011 | 0.456 | 0.020 |
-| Incidents, **chronological** | 1.080 | 0.875 | **0.794 ± 0.025** | **0.525** | **0.037** |
-| Closed Problems (BPI2013) | 1.032 | 1.123 | **0.954 ± 0.009** | 0.598 | 0.077 |
-| Open Problems (censored; next-event only) | 1.305 | 1.295 | **1.151 ± 0.010** | – | 0.090 |
-| PermitLog | 0.818 | 0.488 | **0.479** | 0.835 | 0.017 |
-| PrepaidTravelCost | 0.527 | **0.304** | 0.328 | 0.916 | 0.014 |
+| log / split | Markov k=2 | GBM | GRU | Transformer |
+|---|---|---|---|---|
+| Domestic, random | 0.324 | 0.303 | 0.305 ± .002 | 0.317 |
+| Domestic, chronological (strict) | 0.291 | 0.279 | **0.249** ± .008 | 0.271 |
+| International, random | 0.583 | 0.318 | 0.318 ± .001 | 0.323 |
+| International, chronological (strict) | 0.52 | 0.30 | 0.30 | 0.30 |
+| Incidents, random | 1.022 | **0.693** | 0.759 ± .011 | 0.741 |
+| Incidents, chronological (leaky: 67 % of train cases overlap the test window) | 1.080 | 0.875 | **0.794** ± .025 | 0.791 |
+| Incidents, chronological **strict** (train truncated at cutoff: 3,477 of 5,287 cases) | 1.101 | 1.349 | 0.812 (seeds: 0.81 / 1.13 / 1.22) | **0.799** (0.80 / 0.85 / 0.82) |
+| Closed Problems | 1.032 | 1.123 | **0.954** ± .009 | 1.02 |
+| Open Problems (censored; next-event only) | 1.305 | 1.295 | **1.151** ± .010 | 1.17 |
+| PermitLog | 0.818 | 0.488 | **0.479** | 0.49 |
+| PrepaidTravelCost | 0.527 | **0.304** | 0.328 | 0.33 |
 
-* **In distribution** the GBM and the GRU are statistically tied on the two large BPI2020 logs (CIs overlap; Domestic is saturated — even the Markov model reaches 0.32 because 90 % of cases follow five variants). The GBM wins on the attribute-rich Incidents log (0.693 vs 0.759) and on Prepaid; the GRU wins on Permit (the log with the longest, most variable cases), and clearly on the two small BPI2013 logs where the GBM overfits (Closed: 0.954 vs 1.123).
-* **Under temporal shift the GRU degrades least.** Incidents random→chronological: GRU +5 % NLL, GBM +26 %, Markov +6 %; the GRU's suffix similarity *rises* (0.456→0.525) while the GBM's halves (0.567→0.289). Domestic chronological: GRU 0.249 vs GBM 0.278 vs Markov 0.290 with the largest macro-F1 (0.665). Every model's calibration deteriorates under shift (Domestic ECE 0.008→0.04–0.05 for all three); the GRU keeps the lowest ECE on Incidents-chrono (0.037 vs 0.075). Note that all three models *improve* in NLL on the BPI2020 chronological splits: the later period of the declaration process is more regular than the earlier one, so "chronological" is a shift in both directions.
-* **Time.** Δt MAE is dominated by the heavy tail (Domestic: MAE 40 h, median AE 2.7 h); GBM (trained with an absolute-error loss) and GRU (mixture median) are within CI everywhere; both beat the naive per-activity median by ~30 %. The GRU's 80 % predictive interval covers 77–82 % of true Δt on every log — the mixture head is usably calibrated.
-* **Calibration.** Raw ECE of the GRU is ≤ 0.02 on all large logs without temperature scaling; scaling helps the GBM (Closed: 0.162→0.046) far more than the GRU, i.e. the GRU's probabilities are already close to honest.
-* **Against the published BPI2013 benchmark (protocol reproduced; `results/PUBLISHED_COMPARISON.md`).** Five-fold means: Closed Problems next-activity accuracy GBM 70.7 ± 1.1 %, GRU 68.1 ± 1.5 %, Markov 63.1 % vs. best published 64.0 % (Tax); suffix DL similarity GRU 0.634 vs. best 0.664 (Camargo argmax); remaining-time MAE GBM 103 d, GRU 112 d vs. best 159 d (Navarin). Incidents: accuracy GBM 76.7 ± 0.2 %, GRU 76.0 ± 0.5 % vs. best 74.7 % (Hinkka); suffix DL GBM 0.543, GRU 0.521 vs. best 0.529 (Camargo, random decoding); remaining MAE GBM 11.2 d, GRU 11.7 d vs. best 12.4 d (Navarin). The activity-only Markov baseline sits inside the published range on both logs (63.1 / 59.0 %), which supports the protocol reproduction; the learned models' margin comes largely from event attributes (role, group, impact, product), which the benchmark's own "Theis with attributes" row uses to worse effect. These are context, not a claim of state of the art: the published rows are 2017–2019 systems evaluated once per fold.
-* **Cross-log transfer (RfP → Domestic) is a negative result.** Zero-shot NLL 5.75 (output rows for Domestic labels are untrained; accuracy at prefix length 1 is 0 because `Declaration SUBMITTED by EMPLOYEE` never occurs in RfP). Fine-tuning on 5 % of Domestic cases (367) reaches 0.476, *worse* than training from scratch on the same 367 cases (0.366). The shared trunk is anchored to RfP statistics and 15 epochs at half learning rate do not undo it, while Domestic is easy enough that 367 cases suffice. The decomposed-component embeddings help only on the *input* side; the output layer is still per-label. The fix (next step 2) is a component-factorised output head.
+1. **In distribution, a stateless prefix-feature GBM is as good as a learned state.** GBM and the two sequence models are within CI on the large BPI2020 logs; the GBM wins on attribute-rich Incidents (0.693 vs 0.741/0.759) and Prepaid; the sequence models win on Permit (longest, most variable cases) and on the two small BPI2013 logs where the GBM overfits.
+2. **Under a *strict* temporal shift the state wins decisively.** On Incidents with train histories truncated at the cutoff (the honest protocol; the non-strict split leaks 67 % of train cases into the test window), GBM degrades +95 % in NLL (0.693 → 1.349, accuracy 0.77 → 0.57, suffix DL 0.57 → 0.28) while the GRU degrades +7 % and the Transformer +8 %, and the Transformer's suffix similarity *rises* to 0.595. On Domestic strict, GRU 0.249 vs GBM 0.279. (All BPI2020 chronological NLLs *improve* vs random because the 2018 rollout process is more regular than the 2017 pilot — the bundle's log catalog documents this process change.) One caveat: with truncated training the GRU's seed variance explodes (0.81–1.22; the validation CE is identical across seeds, the spread is in how each seed handles end-of-case on a test set that is 57 % complete while 66 % of training cases lost their ending) — the Transformer is steadier (0.80–0.85).
+3. **Robustness to attribute-schema removal (the attribute-dropout claim, now measured).** Re-evaluating each trained model with every event attribute masked: Incidents GBM 0.693 → 1.169 (+69 %), GRU 0.759 → 0.934 (+23 %), Transformer 0.741 → 0.941. Without attributes the sequence models beat the tree. On BPI2020 logs attributes carry little (role/anonymised resource) and nothing moves.
+4. **Decoding matters more than architecture for multi-step coherence.** Greedy rollouts loop on Incidents (`Accepted|In Progress` is 46 % of events): 35 % of GRU suffixes never terminate within 50 steps (DL 0.456). Taking the *medoid* of 5 sampled continuations terminates 100 % of the time and lifts DL to 0.571 (GRU) / 0.569 (Transformer), above the GBM's 0.567. On the BPI2020 logs greedy and medoid are within 0.01.
+5. **Time.** Δt MAE is tail-dominated (Domestic MAE 40 h vs median AE 2.7 h); GBM (absolute-error loss) and the mixture median are within CI everywhere and beat the naive per-activity median by ~30 %. The mixture's 80 % interval covers 77–82 % of true Δt on every log.
+6. **Calibration.** GRU raw ECE ≤ 0.02 on all large logs without temperature scaling (GBM needs scaling: Closed 0.162 → 0.046). Under strict shift the GRU keeps ECE 0.040 on Incidents where the GBM goes to 0.155.
+7. **Transfer (RfP → Domestic) with a fair budget is neutral, and the factorised head helps a little.** With the same 60-epoch budget as scratch, fine-tuning the RfP model on 5 % of Domestic cases gives 0.364 vs 0.366 from scratch (the earlier "negative" result was a 15- vs 60-epoch artefact, corrected). The component-factorised output head improves zero-shot from 5.75 to 5.15 NLL (accuracy 0.50 → 0.54, suffix DL 0.58 → 0.64) and fine-tune to 0.348 — real but small: RfP→Domestic shares actions/actors but Domestic is easy enough that 367 cases suffice from scratch.
+8. **Published protocol (5-fold CV, `results/PUBLISHED_COMPARISON.md`).** Closed Problems accuracy GBM 70.7 / GRU 68.1 / Markov 63.1 % vs best published 64.0 %; Incidents 76.7 / 76.0 / 59.0 % vs 74.7 %; Incidents remaining MAE 11.2 / 11.7 days vs 12.4; suffix DL 0.54 / 0.52 vs 0.53. The activity-only Markov baseline lands inside the published range, which validates the protocol reproduction; the learned models' margin comes largely from event attributes.
 
-**Failure analysis** (`results/<run>/failure_analysis.md`, GRU seed 0; four logs):
+**Downstream questions from the same state** (`results/<run>/downstream.md`, GRU 3-seed ensemble):
 
-1. *Errors compound.* Per-step error along greedy suffixes rises monotonically — International 0.12 → 0.51 over 8 steps, Permit 0.14 → 0.87 over 12 — and once the first wrong event is emitted, 93–95 % of the remaining suffix is wrong (mean post-divergence error 0.86–0.94 vs 0.41–0.65 overall). The rollout does not recover; it commits to a plausible alternative variant. Sampling five suffixes recovers the exact suffix in 91 % of Domestic prefixes vs 77 % greedy, so the *distribution* is informative even when the mode is wrong.
-2. *Coherence.* Termination is coherent where the process has a clear end: post-terminal continuation 2–4 % on BPI2020, 0 % on Incidents, EOS precision/recall ≥ 0.99. But on Incidents the GRU **fails to terminate** 35 % of greedy rollouts (mean predicted suffix 19.8 events vs 8.0 true; valid-termination 0.655 vs GBM 1.000): `Accepted|In Progress` is 46 % of all events, and its self-transition stays the arg-max at every step, so greedy decoding loops on the modal status. The failure is specific to greedy decoding on a snapshot log where the true end (`Closed`) is a batch event weakly tied to the case history. Remaining-time predictions are non-monotone along a case at 13–33 % of positions (each position is predicted independently; nothing enforces "one event later means less time left").
-3. *Long histories are forgotten.* The state-separation probe — KL between the next-event distribution with and without the first informative event (a rejection / queueing / reminder) in the prefix — decays from 0.20–0.27 nats when the event is 1–2 steps back to ≤ 0.01 at 3–5 steps and ≈ 0 beyond, on every log. Accuracy conditional on distance since that event drops correspondingly on Incidents (0.71 at 1–2 → 0.60 at 3–5). The GRU state carries a short effective memory: it summarises "where the case is now", not "what happened to it". This is the concrete argument for the attention-based variant (next step 2), which can look back at the rejection directly.
-4. *Concrete cases* (in the per-run files): e.g. Domestic `declaration 86632` — prefix `SUBMITTED → APPROVED by PRE_APPROVER → FINAL_APPROVED`, model puts 0.95 on `Request Payment`; true next is `REJECTED by MISSING` followed by a full re-approval loop. Nothing in the prefix distinguishes this case (the rejection is triggered by information outside the log); the model is *confidently wrong for the right reason*, and its Δt interval [5.9, 226] h does contain the true 119 h.
+| run | accuracy at 100 / 80 / 50 % coverage | SLA-breach AUROC (T = train median / p90) | ensemble MI (nats) | predictive entropy |
+|---|---|---|---|---|
+| Domestic random | 0.891 / 0.932 / 1.000 | 0.846 / 0.702 | 0.005 | 0.289 |
+| Domestic chrono strict | 0.915 / 0.912 / 0.999 | 0.866 / 0.660 | 0.001 | 0.325 |
+| International random | 0.883 / 0.958 / 0.989 | 0.938 / 0.906 | 0.005 | 0.285 |
+| International chrono strict | 0.894 / 0.961 / 0.991 | 0.912 / 0.903 | 0.007 | 0.314 |
+| Incidents random | 0.765 / 0.857 / 0.968 | 0.753 / 0.735 | 0.029 | 0.662 |
+| Incidents chrono strict | 0.715 / 0.825 / 0.960 | 0.616 / 0.679 | 0.026 | 0.888 |
+
+* *Selective prediction works*: abstaining on the 20 % most uncertain prefixes lifts Incidents accuracy from 0.77 to 0.86, and the remaining half of predictions are 96–100 % correct on every log. This is the operator-facing use of calibration.
+* *SLA-breach risk* from the Laplace head is a usable classifier on the declaration logs (AUROC 0.85–0.94 at the median threshold) and weak on Incidents (0.75 → 0.62 under shift), where the batch auto-close makes the end time nearly independent of the case.
+* *Seed-ensemble mutual information does not detect the shift*: it stays ≈ 0.005 on Domestic and ≈ 0.027 on Incidents across random / chronological / strict splits, while total entropy rises (0.66 → 0.89 on Incidents). Three seeds of one architecture agree even when they are jointly wrong — a negative result for cheap epistemic uncertainty here.
+* *Anomaly score* (per-case mean NLL) flags abandoned and multiply-rejected cases at the top on every log, but its Spearman correlation with case length ranges from 0.04 to 0.79 across runs, so it needs length-conditioning before it is an alert.
+
+**Failure analysis** (`results/<run>/failure_analysis*.md`, GRU and Transformer):
+
+1. *Errors compound identically for both state designs.* Per-step error along greedy suffixes rises monotonically (International 0.12 → 0.51 over 8 steps; Permit 0.14 → 0.87 over 12); after the first wrong event 90–93 % of the rest of the suffix is wrong for both GRU and Transformer. The model commits to a plausible alternative variant and never recovers; sampling recovers the exact suffix in 91 % of Domestic prefixes vs 77 % greedy.
+2. *Coherence.* Termination is coherent where the process has a real end (post-terminal continuation 2–4 % on BPI2020, EOS precision/recall ≥ 0.99), and fails on the Incidents snapshot under greedy decoding (fixed by medoid decoding, above). Remaining-time predictions are non-monotone along a case at 13–33 % of positions — each position is predicted independently.
+3. *Long histories: the GRU forgets, the Transformer remembers, and it does not matter.* The state-separation probe (KL between next-event distributions with and without the first informative event in the prefix) decays for the GRU from 0.20–0.26 nats at distance 1–2 to ≤ 0.01 beyond 3 events on every log; the Transformer retains 0.03–0.04 nats at 6–10+ events (Incidents: 0.027 vs 0.002; International: 0.043 vs 0.001). Yet accuracy conditional on distance since that event is the same for both (Incidents 3–5 events: 0.60 vs 0.58). The information an attention state keeps about an old rejection is real but not predictive in these logs: the remaining error is dominated by events triggered outside the log (checked directly: after `FINAL_APPROVED by SUPERVISOR`, 0.9 % of 9,145 prefixes are rejected next, with no prefix variant or amount separating them — the 99 % majority rule is the ceiling).
+4. *Concrete cases* are listed in the per-run files (e.g. Domestic `declaration 86632`: model 0.95 on `Request Payment`, true next `REJECTED by MISSING`; Δt interval [5.9, 226] h contains the true 119 h).
 
 ## 2. Part 2 — the trace → train → agent loop
 
@@ -103,8 +122,9 @@ Collection on a subset of AppWorld `train` tasks (whole scenarios, all variants)
 
 ## 3. Limitations
 * Bundle docs / published BPI2013 results were not received; the comparison with published numbers is protocol-described, not executed.
-* Remaining-time predictions are not constrained to be monotone along a case (≈60 % of consecutive positions decrease on Domestic); censoring is handled by masking, not by a likelihood.
-* The chronological split on Incidents is weak (snapshot log); cross-log transfer is limited to one pair.
+* Remaining-time predictions are not constrained to be monotone along a case (13–33 % of consecutive positions increase); censoring is handled by masking, not by a likelihood, and under the strict split the GRU's seed variance shows that truncated training histories are a real problem for a fixed-size state.
+* Seed-ensemble mutual information did not detect distribution shift; a proper epistemic estimate (deep ensembles across architectures, or a density model on the state) is future work.
+* Cross-log transfer is limited to one pair; PermitLog-involving pairs would leak (the log catalog documents that PermitLog embeds declarations and requests).
 * Part 2 learned component is linear on hashed features — deliberately cheap; it cannot represent long-range plan state. AppWorld numbers are on a small task subset with two runs, so run-to-run variation is wide.
 * Cost accounting uses list prices; the harness records raw token counts so it can be recomputed.
 

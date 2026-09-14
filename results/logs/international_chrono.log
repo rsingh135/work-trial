@@ -1,8 +1,35 @@
 [international_chrono] markov_k2 seed=0 fit=0s  nll=0.522 acc=0.844 dtMAE=95.7h remMAE=324.1h DL=0.858 ece=0.069
-[international_chrono] gbm seed=0 fit=52s  nll=0.298 acc=0.892 dtMAE=83.7h remMAE=283.4h DL=0.897 ece=0.021
-[international_chrono] gbm seed=1 fit=52s  nll=0.298 acc=0.892 dtMAE=84.8h remMAE=286.1h DL=0.894 ece=0.021
-[international_chrono] gbm seed=2 fit=50s  nll=0.298 acc=0.892 dtMAE=84.7h remMAE=286.0h DL=0.890 ece=0.021
-[international_chrono] gru_multihead seed=0 fit=33s  nll=0.298 acc=0.885 dtMAE=88.0h remMAE=299.9h DL=0.906 ece=0.020
-[international_chrono] gru_multihead seed=1 fit=41s  nll=0.299 acc=0.894 dtMAE=87.9h remMAE=282.7h DL=0.899 ece=0.018
-[international_chrono] gru_multihead seed=2 fit=48s  nll=0.287 acc=0.894 dtMAE=87.0h remMAE=289.6h DL=0.892 ece=0.006
-wrote results/international_chrono.json  (316s)
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_chrono] gbm seed=0 fit=66s  nll=0.298 acc=0.892 dtMAE=83.7h remMAE=283.4h DL=0.897 ece=0.021
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_chrono] gbm seed=1 fit=48s  nll=0.298 acc=0.892 dtMAE=84.8h remMAE=286.1h DL=0.894 ece=0.021
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_chrono] gbm seed=2 fit=42s  nll=0.298 acc=0.892 dtMAE=84.7h remMAE=286.0h DL=0.890 ece=0.021
+/Users/ranveersingh/work_trial/bpm/metrics.py:105: RuntimeWarning: invalid value encountered in scalar divide
+  boots.append(sums[idx].sum() / cnts[idx].sum())
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+[international_chrono] gru_multihead seed=0 fit=32s  nll=0.298 acc=0.885 dtMAE=88.0h remMAE=299.9h DL=0.906 ece=0.020
+[international_chrono] gru_multihead seed=1 fit=35s  nll=0.299 acc=0.894 dtMAE=87.9h remMAE=282.7h DL=0.899 ece=0.018
+[international_chrono] gru_multihead seed=2 fit=56s  nll=0.287 acc=0.894 dtMAE=87.0h remMAE=289.6h DL=0.892 ece=0.006
+[international_chrono] transformer_multihead seed=0 fit=50s  nll=0.294 acc=0.894 dtMAE=99.7h remMAE=361.1h DL=0.906 ece=0.012
+[international_chrono] transformer_multihead seed=1 fit=59s  nll=0.291 acc=0.896 dtMAE=104.3h remMAE=334.8h DL=0.902 ece=0.016
+[international_chrono] transformer_multihead seed=2 fit=56s  nll=0.298 acc=0.889 dtMAE=97.8h remMAE=355.1h DL=0.897 ece=0.014
+wrote results/international_chrono.json  (534s)

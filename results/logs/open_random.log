@@ -1,8 +1,11 @@
 [open_random] markov_k2 seed=0 fit=0s  nll=1.305 acc=0.465 dtMAE=802.1h remMAE=nanh DL=nan ece=0.048
-[open_random] gbm seed=0 fit=1s  nll=1.295 acc=0.555 dtMAE=741.4h remMAE=nanh DL=nan ece=0.156
-[open_random] gbm seed=1 fit=1s  nll=1.295 acc=0.555 dtMAE=773.2h remMAE=nanh DL=nan ece=0.156
-[open_random] gbm seed=2 fit=1s  nll=1.295 acc=0.555 dtMAE=757.5h remMAE=nanh DL=nan ece=0.156
-[open_random] gru_multihead seed=0 fit=1s  nll=1.151 acc=0.535 dtMAE=794.4h remMAE=nanh DL=nan ece=0.090
-[open_random] gru_multihead seed=1 fit=1s  nll=1.167 acc=0.578 dtMAE=828.5h remMAE=nanh DL=nan ece=0.087
-[open_random] gru_multihead seed=2 fit=1s  nll=1.175 acc=0.551 dtMAE=791.0h remMAE=nanh DL=nan ece=0.085
-wrote results/open_random.json  (8s)
+[open_random] gbm seed=0 fit=4s  nll=1.295 acc=0.555 dtMAE=741.4h remMAE=nanh DL=nan ece=0.156
+[open_random] gbm seed=1 fit=4s  nll=1.295 acc=0.555 dtMAE=773.2h remMAE=nanh DL=nan ece=0.156
+[open_random] gbm seed=2 fit=3s  nll=1.295 acc=0.555 dtMAE=757.5h remMAE=nanh DL=nan ece=0.156
+[open_random] gru_multihead seed=0 fit=3s  nll=1.151 acc=0.535 dtMAE=794.4h remMAE=nanh DL=nan ece=0.090
+[open_random] gru_multihead seed=1 fit=2s  nll=1.167 acc=0.578 dtMAE=828.5h remMAE=nanh DL=nan ece=0.087
+[open_random] gru_multihead seed=2 fit=2s  nll=1.175 acc=0.551 dtMAE=791.0h remMAE=nanh DL=nan ece=0.085
+[open_random] transformer_multihead seed=0 fit=3s  nll=1.159 acc=0.562 dtMAE=789.0h remMAE=nanh DL=nan ece=0.081
+[open_random] transformer_multihead seed=1 fit=3s  nll=1.140 acc=0.582 dtMAE=791.3h remMAE=nanh DL=nan ece=0.094
+[open_random] transformer_multihead seed=2 fit=3s  nll=1.180 acc=0.559 dtMAE=774.2h remMAE=nanh DL=nan ece=0.059
+wrote results/open_random.json  (29s)

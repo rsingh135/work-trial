@@ -1,0 +1,111 @@
+{
+ "run": "domestic_random",
+ "model": "transformer_multihead",
+ "n_seeds": 3,
+ "selective_prediction": {
+  "ensemble_accuracy_at_coverage": {
+   "100%": 0.8910762701874337,
+   "90%": 0.9118417605449306,
+   "80%": 0.9317712938402594,
+   "70%": 0.9730549006399462,
+   "50%": 0.9997642065550578,
+   "30%": 1.0
+  },
+  "single_model_accuracy": 0.8908405045384887,
+  "ensemble_accuracy": 0.8910762701874337,
+  "aurc_proxy": 0.9704953902390538
+ },
+ "uncertainty": {
+  "mean_entropy_nats": 0.28928709030151367,
+  "mean_mutual_information_nats": 0.005134297534823418,
+  "mi_on_wrong_vs_right": [
+   0.01440960168838501,
+   0.004000499844551086
+  ],
+  "unseen_label_rate_test": 0.0
+ },
+ "sla_breach": {
+  "train_median": {
+   "T_hours": 120.02680555555555,
+   "positive_rate": 0.6005776173285199,
+   "auroc": 0.8457088591815882,
+   "brier": 0.15607217444914784,
+   "auroc_single": 0.8392955837004732,
+   "brier_single": 0.15849994091489822
+  },
+  "train_p90": {
+   "T_hours": 334.6060763888889,
+   "positive_rate": 0.128086642599278,
+   "auroc": 0.702075506011719,
+   "brier": 0.10533337056221803,
+   "auroc_single": 0.6999687809599706,
+   "brier_single": 0.10644997469042781
+  }
+ },
+ "anomaly": {
+  "spearman_score_vs_case_length": 0.1717259043638271,
+  "spearman_vs_markov_score": 0.8809440341512362,
+  "top10": [
+   {
+    "case_id": "declaration 93444",
+    "score": 3.5429210662841797,
+    "length": 3,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING"
+   },
+   {
+    "case_id": "declaration 95149",
+    "score": 2.0921456813812256,
+    "length": 3,
+    "variant": "Declaration SAVED by EMPLOYEE > Request Payment > Payment Handled"
+   },
+   {
+    "case_id": "declaration 96098",
+    "score": 1.8476502895355225,
+    "length": 4,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by PRE_APPROVER > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING"
+   },
+   {
+    "case_id": "declaration 141310",
+    "score": 1.8398473262786865,
+    "length": 4,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration APPROVED by ADMINISTRATION > Declaration FINAL_APPROVED by SUPERVISOR > Payment Handled"
+   },
+   {
+    "case_id": "declaration 94298",
+    "score": 1.6572222709655762,
+    "length": 6,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE"
+   },
+   {
+    "case_id": "declaration 91001",
+    "score": 1.6442651748657227,
+    "length": 6,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE"
+   },
+   {
+    "case_id": "declaration 92038",
+    "score": 1.3556926250457764,
+    "length": 7,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled"
+   },
+   {
+    "case_id": "declaration 86564",
+    "score": 1.340183138847351,
+    "length": 7,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled"
+   },
+   {
+    "case_id": "declaration 93592",
+    "score": 1.2680323123931885,
+    "length": 10,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING > Declaration SUBMITTED by EMPLOYEE > Declaration REJECTED by SUPERVISOR > Declaration REJECTED by EMPLOYEE > Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > "
+   },
+   {
+    "case_id": "declaration 87753",
+    "score": 1.2608574628829956,
+    "length": 7,
+    "variant": "Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Declaration REJECTED by MISSING > Declaration SUBMITTED by EMPLOYEE > Declaration FINAL_APPROVED by SUPERVISOR > Request Payment > Payment Handled"
+   }
+  ]
+ }
+}
