@@ -121,3 +121,15 @@ What the bundle changes / confirms:
 ## 2026-09-14 — Published-protocol reproduction (BPI2013, 5-fold CV)
 
 `results/PUBLISHED_COMPARISON.md`. Fold means: Closed acc GBM 70.7 / GRU 68.1 / Markov 63.1 % vs best published 64.0 %; Incidents acc 76.7 / 76.0 / 59.0 % vs 74.7 %; Incidents remaining MAE 11.2 / 11.7 days vs 12.4; suffix DL Incidents 0.54 / 0.52 vs 0.53. Markov (activity-only) inside the published range on both logs → protocol reproduction sane. The learned models' margin over the published rows comes largely from event attributes, stated in the note; not framed as SOTA. Published fold files excluded from `results/SUMMARY.md` (separate report).
+
+## 2026-09-14 — Self-review as the assigner ("what would an exceptional candidate do?")
+
+Prompted by the reviewer's question whether the task is "pretty easy". Framing: a world-model startup for enterprise traces needs (i) one state that answers many questions, (ii) robustness to vocabulary/process drift, (iii) online updating, (iv) a flywheel from agent traces. Basic submission = LSTM + random split + accuracy + offline classifier. Solid = what I had. Exceptional = prove properties of the *state*. Gaps I found in my own work and the plan (in execution order):
+1. Central claim under-tested → add a causal-Transformer backbone (attention over prefix = KV-cache state) behind identical heads; same forgetting probe. Compare GRU vs Transformer vs stateless GBM.
+2. Chronological split leaks (67% Incidents train cases overlap test window) → `strict` chrono option: truncate train cases at cutoff, mark incomplete.
+3. Robustness asserted not shown → attribute-removal test (all event attrs → UNK at test time), GRU vs GBM.
+4. Online update asserted not shown → streaming test: incremental `step()` state == batch forward; streaming demo.
+5. Uncertainty unused → selective prediction curve, seed-ensemble epistemic uncertainty under shift, SLA-breach probability P(remaining > T) with AUROC/Brier, per-case anomaly score (NLL) with long-case confound check. All from the same state.
+6. Greedy decoding loops on Incidents → sample-medoid decoding.
+7. Transfer negative for a mechanical reason (per-label output rows) → component-factorised, input-tied output head; rerun RfP→Domestic; unseen-label rate on 2017→2018 chrono tests.
+8. Part 2 learner is a throwaway → treat agent traces as event logs (episode=case, app.api=activity with object/action components, error=attribute) and use the Part 1 model class as the learned component (next-API, P(error), P(success), remaining steps). LogReg stays as the cheap baseline learner.
