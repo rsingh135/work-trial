@@ -112,6 +112,23 @@ class ScriptedClient:
         return LLMResponse(f"```python\n{code}\n```", Usage(input_tokens=50, output_tokens=10, latency_s=0.0))
 
 
+class CannedClient:
+    """Replays a fixed list of code actions (default: an AppWorld docs → passwords → complete
+    script). Used to dry-run a real environment adapter without an API key; exercises redaction
+    on genuine password output."""
+    model_id = "canned-v1"
+    DEFAULT = ["print(apis.api_docs.show_app_descriptions())", "print(apis.supervisor.show_account_passwords())",
+               "print(apis.spotify.login(username='nobody', password='wrong'))", "apis.supervisor.complete_task(answer='unknown')"]
+
+    def __init__(self, script: list[str] | None = None):
+        self.script = script or self.DEFAULT
+
+    def complete(self, system, messages, temperature, max_tokens) -> LLMResponse:
+        i = sum(1 for m in messages if m["role"] == "assistant")
+        code = self.script[min(i, len(self.script) - 1)]
+        return LLMResponse(f"```python\n{code}\n```", Usage(input_tokens=0, output_tokens=0))
+
+
 def git_sha() -> str:
     try:
         return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True).strip()

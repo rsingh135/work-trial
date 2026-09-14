@@ -119,6 +119,8 @@ def run(cfg: dict) -> dict:
             metrics = evaluate(model, enc_te, enc_va, encoder, terminal_ids, n_suffix_prefixes=ev.get("n_suffix_prefixes", 500),
                                max_suffix_len=ev.get("max_suffix_len", 50), n_samples=ev.get("n_samples", 5), seed=seed, n_boot=ev.get("n_boot", 300))
             runs.append({"seed": seed, "fit_seconds": fit_s, "params": model.param_count(), "train_log": train_log, "metrics": metrics})
+            if spec["type"] == "gru" and seed == seeds[0]:
+                model.save(out_dir / "gru_seed0.pt")  # for bpm.analyze_failures
             print(f"[{cfg['name']}] {model.name} seed={seed} fit={fit_s:.0f}s  nll={metrics['next_activity']['nll']['mean']:.3f} "
                   f"acc={metrics['next_activity']['accuracy']['mean']:.3f} dtMAE={metrics['next_dt_hours']['mae']['mean']:.1f}h "
                   f"remMAE={metrics['remaining_hours'].get('mae', {}).get('mean', float('nan')):.1f}h "

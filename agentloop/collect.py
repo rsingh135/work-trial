@@ -16,7 +16,7 @@ import random
 import time
 from pathlib import Path
 
-from agentloop.agent.llm_agent import AnthropicClient, LLMAgent, ScriptedClient
+from agentloop.agent.llm_agent import AnthropicClient, CannedClient, LLMAgent, ScriptedClient
 from agentloop.agent.policy import FirstCandidatePolicy, RerankerPolicy
 from agentloop.redaction import RULES_VERSION, Redactor
 from agentloop.schema import Episode, Redaction
@@ -37,6 +37,8 @@ def make_client(kind: str, model_id: str, seed: int = 0, noise: float = 0.3):
         return AnthropicClient(model_id)
     if kind == "scripted":
         return ScriptedClient(noise=noise, seed=seed)
+    if kind == "canned":
+        return CannedClient()
     raise ValueError(kind)
 
 
@@ -93,7 +95,7 @@ def main(argv=None):
     ap.add_argument("--n-tasks", type=int, default=None)
     ap.add_argument("--tasks", nargs="*", default=None, help="explicit task ids (overrides --n-tasks)")
     ap.add_argument("--runs", type=int, default=1)
-    ap.add_argument("--client", default="anthropic", choices=["anthropic", "scripted"])
+    ap.add_argument("--client", default="anthropic", choices=["anthropic", "scripted", "canned"])
     ap.add_argument("--model", default="claude-haiku-4-5")
     ap.add_argument("--policy", default="baseline", choices=["baseline", "reranker"])
     ap.add_argument("--policy-model", default=None)

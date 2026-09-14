@@ -1,0 +1,1 @@
+[domestic_random] markov_k2 seed=0 fit=0s  nll=0.324 acc=0.885 dtMAE=45.9h remMAE=99.8h DL=0.924 ece=0.008

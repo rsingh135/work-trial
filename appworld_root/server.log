@@ -35,3 +35,52 @@ INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
 INFO:     Finished server process [26376]
+INFO:     Started server process [26776]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9123 (Press CTRL+C to quit)
+INFO:     127.0.0.1:59618 - "GET / HTTP/1.1" 200 OK
+/Users/ranveersingh/work_trial/.venv-appworld/lib/python3.11/site-packages/IPython/core/interactiveshell.py:976: UserWarning: Attempting to work in a virtualenv. If you encounter problems, please install IPython inside the virtualenv.
+  warn(
+INFO:     127.0.0.1:59619 - "POST /initialize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59620 - "GET /api_docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59645 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59646 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59647 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59648 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59649 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59650 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59651 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59652 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59653 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59654 - "POST /close HTTP/1.1" 200 OK
+/Users/ranveersingh/work_trial/.venv-appworld/lib/python3.11/site-packages/IPython/core/interactiveshell.py:976: UserWarning: Attempting to work in a virtualenv. If you encounter problems, please install IPython inside the virtualenv.
+  warn(
+INFO:     127.0.0.1:59655 - "POST /initialize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59658 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59659 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59660 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59661 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59662 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59663 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59664 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59665 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59666 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59667 - "POST /close HTTP/1.1" 200 OK
+/Users/ranveersingh/work_trial/.venv-appworld/lib/python3.11/site-packages/IPython/core/interactiveshell.py:976: UserWarning: Attempting to work in a virtualenv. If you encounter problems, please install IPython inside the virtualenv.
+  warn(
+INFO:     127.0.0.1:59668 - "POST /initialize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59672 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59673 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59674 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59675 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59676 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59677 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59678 - "POST /execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59679 - "POST /task_completed HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59680 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59681 - "POST /close HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [26776]

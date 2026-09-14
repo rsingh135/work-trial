@@ -223,6 +223,20 @@ class RecurrentModel(SequenceModel):
     def param_count(self):
         return sum(p.numel() for p in self.net.parameters())
 
+    def save(self, path):
+        torch.save({"cfg": self.cfg, "state_dict": self.net.state_dict()}, path)
+
+    @classmethod
+    def load(cls, path, encoder: Encoder, device: str | None = None) -> "RecurrentModel":
+        ck = torch.load(path, map_location="cpu", weights_only=False)
+        m = cls(**ck["cfg"], device=device)
+        m.encoder = encoder
+        m.net = _Net(encoder, m.cfg["d_model"], n_layers=m.cfg["n_layers"], dropout=m.cfg["dropout"], n_mix=m.cfg["n_mix"]).to(m.device)
+        m.net.load_state_dict(ck["state_dict"])
+        m.net.eval()
+        m._comp_table = torch.as_tensor(_comp_table(encoder), device=m.device)
+        return m
+
     # ------------------------------------------------------------------ inference
     @torch.no_grad()
     def predict_case(self, enc: EncodedCase) -> CasePreds:
