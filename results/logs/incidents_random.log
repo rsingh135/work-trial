@@ -1,26 +1,8 @@
 [incidents_random] markov_k2 seed=0 fit=0s  nll=1.022 acc=0.585 dtMAE=31.4h remMAE=299.1h DL=0.300 ece=0.037
-Traceback (most recent call last):
-  File "<frozen runpy>", line 198, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/Users/ranveersingh/work_trial/bpm/run.py", line 244, in <module>
-    main()
-  File "/Users/ranveersingh/work_trial/bpm/run.py", line 240, in main
-    run(cfg)
-  File "/Users/ranveersingh/work_trial/bpm/run.py", line 127, in run
-    train_log = model.fit(enc_tr, enc_va, encoder)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/bpm/models/gbm.py", line 69, in fit
-    self.clf = HistGradientBoostingClassifier(**clf_kw).fit(X[m], ya[m])
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/base.py", line 1403, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py", line 447, in fit
-    X, known_categories = self._preprocess_X(X, reset=True)
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py", line 299, in _preprocess_X
-    known_categories = self._check_categories()
-                       ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py", line 348, in _check_categories
-    raise ValueError(
-ValueError: Categorical feature at index 3 is expected to have a cardinality <= 255 but actually has a cardinality of 472.
+[incidents_random] gbm seed=0 fit=15s  nll=0.693 acc=0.769 dtMAE=28.3h remMAE=263.4h DL=0.567 ece=0.015
+[incidents_random] gbm seed=1 fit=40s  nll=0.693 acc=0.769 dtMAE=28.4h remMAE=263.7h DL=0.574 ece=0.015
+[incidents_random] gbm seed=2 fit=14s  nll=0.693 acc=0.769 dtMAE=28.5h remMAE=264.3h DL=0.562 ece=0.015
+[incidents_random] gru_multihead seed=0 fit=123s  nll=0.759 acc=0.753 dtMAE=26.9h remMAE=278.7h DL=0.456 ece=0.020
+[incidents_random] gru_multihead seed=1 fit=53s  nll=0.756 acc=0.757 dtMAE=26.7h remMAE=275.8h DL=0.563 ece=0.025
+[incidents_random] gru_multihead seed=2 fit=45s  nll=0.735 acc=0.765 dtMAE=26.6h remMAE=276.1h DL=0.526 ece=0.034
+wrote results/incidents_random.json  (319s)

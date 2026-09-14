@@ -1,71 +1,8 @@
 [open_random] markov_k2 seed=0 fit=0s  nll=1.305 acc=0.465 dtMAE=802.1h remMAE=nanh DL=nan ece=0.048
-Traceback (most recent call last):
-  File "<frozen runpy>", line 198, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/Users/ranveersingh/work_trial/bpm/run.py", line 244, in <module>
-    main()
-  File "/Users/ranveersingh/work_trial/bpm/run.py", line 240, in main
-    run(cfg)
-  File "/Users/ranveersingh/work_trial/bpm/run.py", line 127, in run
-    train_log = model.fit(enc_tr, enc_va, encoder)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/bpm/models/gbm.py", line 79, in fit
-    self.reg_rem = HistGradientBoostingRegressor(loss="absolute_error", **common).fit(X[m], np.log1p(yrem[m]))
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/base.py", line 1403, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py", line 447, in fit
-    X, known_categories = self._preprocess_X(X, reset=True)
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py", line 297, in _preprocess_X
-    X = self._preprocessor.fit_transform(X)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/utils/_set_output.py", line 327, in wrapped
-    data_to_wrap = f(self, X, *args, **kwargs)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/base.py", line 1403, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/compose/_column_transformer.py", line 977, in fit_transform
-    result = self._call_func_on_transformers(
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/compose/_column_transformer.py", line 887, in _call_func_on_transformers
-    return Parallel(n_jobs=self.n_jobs)(jobs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/utils/parallel.py", line 91, in __call__
-    return super().__call__(iterable_with_config_and_warning_filters)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/joblib/parallel.py", line 2012, in __call__
-    return output if self.return_generator else list(output)
-                                                ^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/joblib/parallel.py", line 1940, in _get_sequential_output
-    res = func(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/utils/parallel.py", line 184, in __call__
-    return self.function(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/pipeline.py", line 1566, in _fit_transform_one
-    res = transformer.fit_transform(X, y, **params.get("fit_transform", {}))
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/utils/_set_output.py", line 327, in wrapped
-    data_to_wrap = f(self, X, *args, **kwargs)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/base.py", line 969, in fit_transform
-    return self.fit(X, **fit_params).transform(X)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/base.py", line 1403, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/preprocessing/_encoders.py", line 1517, in fit
-    fit_results = self._fit(
-                  ^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/preprocessing/_encoders.py", line 87, in _fit
-    X_list, n_samples, n_features = self._check_X(
-                                    ^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/preprocessing/_encoders.py", line 54, in _check_X
-    X_temp = check_array(X, dtype=None, ensure_all_finite=ensure_all_finite)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/sklearn/utils/validation.py", line 1113, in check_array
-    raise ValueError(
-ValueError: Found array with 0 sample(s) (shape=(0, 8)) while a minimum of 1 is required.
+[open_random] gbm seed=0 fit=1s  nll=1.295 acc=0.555 dtMAE=741.4h remMAE=nanh DL=nan ece=0.156
+[open_random] gbm seed=1 fit=1s  nll=1.295 acc=0.555 dtMAE=773.2h remMAE=nanh DL=nan ece=0.156
+[open_random] gbm seed=2 fit=1s  nll=1.295 acc=0.555 dtMAE=757.5h remMAE=nanh DL=nan ece=0.156
+[open_random] gru_multihead seed=0 fit=1s  nll=1.151 acc=0.535 dtMAE=794.4h remMAE=nanh DL=nan ece=0.090
+[open_random] gru_multihead seed=1 fit=1s  nll=1.167 acc=0.578 dtMAE=828.5h remMAE=nanh DL=nan ece=0.087
+[open_random] gru_multihead seed=2 fit=1s  nll=1.175 acc=0.551 dtMAE=791.0h remMAE=nanh DL=nan ece=0.085
+wrote results/open_random.json  (8s)

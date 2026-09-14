@@ -1,4 +1,4 @@
 [prepaid_random] markov_k2 seed=0 fit=0s  nll=0.527 acc=0.834 dtMAE=86.0h remMAE=282.7h DL=0.875 ece=0.024
 [prepaid_random] gbm seed=0 fit=10s  nll=0.304 acc=0.909 dtMAE=78.0h remMAE=256.1h DL=0.908 ece=0.026
-[prepaid_random] gru_multihead seed=0 fit=9s  nll=0.334 acc=0.890 dtMAE=81.6h remMAE=274.5h DL=0.923 ece=0.019
-wrote results/prepaid_random.json  (22s)
+[prepaid_random] gru_multihead seed=0 fit=10s  nll=0.328 acc=0.890 dtMAE=80.7h remMAE=271.5h DL=0.916 ece=0.014
+wrote results/prepaid_random.json  (23s)

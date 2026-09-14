@@ -1,8 +1,8 @@
 [domestic_random] markov_k2 seed=0 fit=0s  nll=0.324 acc=0.885 dtMAE=45.9h remMAE=99.8h DL=0.924 ece=0.008
-[domestic_random] gbm seed=0 fit=8s  nll=0.303 acc=0.892 dtMAE=39.6h remMAE=92.5h DL=0.934 ece=0.010
-[domestic_random] gbm seed=1 fit=8s  nll=0.303 acc=0.892 dtMAE=39.5h remMAE=92.4h DL=0.937 ece=0.010
-[domestic_random] gbm seed=2 fit=8s  nll=0.303 acc=0.892 dtMAE=39.7h remMAE=92.3h DL=0.937 ece=0.010
-[domestic_random] gru_multihead seed=0 fit=27s  nll=0.309 acc=0.892 dtMAE=40.1h remMAE=95.5h DL=0.937 ece=0.010
-[domestic_random] gru_multihead seed=1 fit=19s  nll=0.313 acc=0.890 dtMAE=40.3h remMAE=96.8h DL=0.936 ece=0.024
-[domestic_random] gru_multihead seed=2 fit=22s  nll=0.308 acc=0.892 dtMAE=40.2h remMAE=95.3h DL=0.941 ece=0.008
-wrote results/domestic_random.json  (100s)
+[domestic_random] gbm seed=0 fit=9s  nll=0.303 acc=0.892 dtMAE=39.6h remMAE=92.5h DL=0.934 ece=0.010
+[domestic_random] gbm seed=1 fit=9s  nll=0.303 acc=0.892 dtMAE=39.5h remMAE=92.4h DL=0.937 ece=0.010
+[domestic_random] gbm seed=2 fit=9s  nll=0.303 acc=0.892 dtMAE=39.7h remMAE=92.3h DL=0.937 ece=0.010
+[domestic_random] gru_multihead seed=0 fit=31s  nll=0.305 acc=0.891 dtMAE=39.6h remMAE=93.0h DL=0.937 ece=0.008
+[domestic_random] gru_multihead seed=1 fit=29s  nll=0.307 acc=0.892 dtMAE=39.7h remMAE=92.9h DL=0.937 ece=0.010
+[domestic_random] gru_multihead seed=2 fit=160s  nll=0.302 acc=0.892 dtMAE=39.8h remMAE=93.1h DL=0.941 ece=0.008
+wrote results/domestic_random.json  (256s)

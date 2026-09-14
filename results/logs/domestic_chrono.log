@@ -1,8 +1,8 @@
 [domestic_chrono] markov_k2 seed=0 fit=0s  nll=0.290 acc=0.904 dtMAE=43.9h remMAE=110.3h DL=0.931 ece=0.051
-[domestic_chrono] gbm seed=0 fit=8s  nll=0.278 acc=0.905 dtMAE=38.2h remMAE=102.0h DL=0.941 ece=0.040
-[domestic_chrono] gbm seed=1 fit=8s  nll=0.278 acc=0.905 dtMAE=38.0h remMAE=102.1h DL=0.939 ece=0.040
-[domestic_chrono] gbm seed=2 fit=8s  nll=0.278 acc=0.905 dtMAE=38.1h remMAE=102.1h DL=0.932 ece=0.040
-[domestic_chrono] gru_multihead seed=0 fit=24s  nll=0.264 acc=0.914 dtMAE=38.4h remMAE=103.4h DL=0.946 ece=0.050
-[domestic_chrono] gru_multihead seed=1 fit=34s  nll=0.275 acc=0.915 dtMAE=38.3h remMAE=102.9h DL=0.946 ece=0.057
-[domestic_chrono] gru_multihead seed=2 fit=34s  nll=0.270 acc=0.915 dtMAE=38.0h remMAE=103.6h DL=0.937 ece=0.039
-wrote results/domestic_chrono.json  (124s)
+[domestic_chrono] gbm seed=0 fit=17s  nll=0.278 acc=0.905 dtMAE=38.2h remMAE=102.0h DL=0.941 ece=0.040
+[domestic_chrono] gbm seed=1 fit=15s  nll=0.278 acc=0.905 dtMAE=38.0h remMAE=102.1h DL=0.939 ece=0.040
+[domestic_chrono] gbm seed=2 fit=86s  nll=0.278 acc=0.905 dtMAE=38.1h remMAE=102.1h DL=0.932 ece=0.040
+[domestic_chrono] gru_multihead seed=0 fit=221s  nll=0.249 acc=0.912 dtMAE=38.7h remMAE=102.7h DL=0.944 ece=0.038
+[domestic_chrono] gru_multihead seed=1 fit=67s  nll=0.263 acc=0.915 dtMAE=38.2h remMAE=102.6h DL=0.945 ece=0.035
+[domestic_chrono] gru_multihead seed=2 fit=111s  nll=0.268 acc=0.915 dtMAE=37.9h remMAE=101.7h DL=0.937 ece=0.047
+wrote results/domestic_chrono.json  (581s)

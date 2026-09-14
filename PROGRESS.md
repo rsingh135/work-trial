@@ -90,3 +90,16 @@ First batch (all 11 configs, minutes each after the thread fix) surfaced:
 - Fully censored Open Problems has no remaining-time targets → GBM regressor crashed. **Fix:** skip the head; predictions NaN → evaluator reports "no complete cases".
 - **Model-quality bug (the important one).** On PermitLog the remaining-time Gaussian head's validation NLL *diverged* (1.06 → 5.6) while next-activity CE was still improving (0.68 → 0.58); early stopping on the total loss stopped at epoch 7, leaving the GRU at NLL 0.686 vs GBM 0.488. Cause: heteroscedastic Gaussian with a small σ floor collapses on the training tail. **DECISION:** remaining-time head is now a **Laplace** likelihood on log1p seconds (heavy-tailed; point prediction = median, which matches the MAE metric) with scale floor e^-1; MDN σ floor raised to e^-2. Permit GRU: NLL 0.479, DL 0.805, ECE 0.017; training stable to epoch 45 with LR decay. Loss weights unchanged (0.5/0.5).
 Because this changes the GRU everywhere, **all Part 1 numbers are from the rerun with this code** (git sha in each results JSON). Pre-fix observations kept for the record: Domestic random — all three models saturate (NLL 0.30–0.32); Domestic chrono — GRU 0.264 < GBM 0.278 < Markov 0.290; International chrono — GRU 0.287 < GBM 0.298 < Markov 0.522; Closed Problems (1.5k cases) — Markov best (1.03), GRU overfits (1.11).
+
+## 2026-09-14 — Part 1 full results (clean rerun, git sha in each JSON)
+
+Tables: `results/SUMMARY.md`; figures: `results/figures/`; failure analyses: `results/{domestic_random,international_random,incidents_random,permit_random}/failure_analysis.md`. Design-note §1.5 has the narrative. What I take from it:
+- **Where the recurrent state earns its keep: temporal shift.** Incidents random→chrono NLL: GRU +5%, GBM +26%. Domestic chrono: GRU 0.249 vs GBM 0.278. The prefix-feature GBM is tied or better in-distribution on the big logs, and better on attribute-rich Incidents (0.693 vs 0.759).
+- **Small logs**: GRU best on Closed (0.954 vs Markov 1.032, GBM 1.123) and Open (1.151 vs 1.30) — the GBM overfits with ~1k cases.
+- **Calibration**: GRU raw ECE ≤0.02 on every large log without temperature scaling; Δt 80% interval coverage 0.77–0.82.
+- **Transfer is negative**: fine-tune-from-RfP (0.476) < scratch (0.366) on 5% Domestic. Reason: per-label output layer; shared components only on the input side. Next step: component-factorised output head. Kept in the report as a real negative result rather than dropped.
+- **Failure modes**: compounding (93–95% of suffixes stay wrong after the first wrong step); Incidents greedy rollouts loop on `Accepted|In Progress` (35% fail to terminate within 50 steps); recurrent state forgets an early rejection within ~3 events (KL probe 0.2–0.27 → ≤0.01).
+
+**Ablation launched** (`results/ablations/`): Incidents GRU with attribute dropout 0 → does the GBM gap on Incidents come from the p=0.15 attribute masking?
+
+**Not done / consciously left**: uncertainty-weighted losses, Transformer variant, hazard remaining-time head, more transfer pairs. Listed in DESIGN_NOTE §3–4.
