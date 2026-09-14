@@ -1,0 +1,3 @@
+[rfp_transfer_domestic] markov_k2 seed=0 fit=0s  nll=0.344 acc=0.872 dtMAE=47.5h remMAE=119.6h DL=0.913 ece=0.008
+[rfp_transfer_domestic] gru_multihead seed=0 fit=24s  nll=0.297 acc=0.879 dtMAE=40.4h remMAE=115.2h DL=0.916 ece=0.011
+wrote results/rfp_transfer_domestic.json  (37s)

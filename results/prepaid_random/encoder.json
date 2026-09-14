@@ -1,0 +1,144 @@
+{
+ "family": "bpi2020",
+ "event_cat_fields": [
+  "org:role",
+  "org:resource"
+ ],
+ "case_cat_fields": [
+  "OrganizationalEntity",
+  "Cost Type"
+ ],
+ "case_num_fields": [
+  "RequestedAmount",
+  "Permit RequestedBudget"
+ ],
+ "min_count_cat": 5,
+ "min_count_act": 1,
+ "act_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<EOS>": 2,
+  "Request For Payment SUBMITTED by EMPLOYEE": 3,
+  "Payment Handled": 4,
+  "Request Payment": 5,
+  "Permit SUBMITTED by EMPLOYEE": 6,
+  "Request For Payment FINAL_APPROVED by SUPERVISOR": 7,
+  "Request For Payment APPROVED by ADMINISTRATION": 8,
+  "Permit APPROVED by ADMINISTRATION": 9,
+  "Permit FINAL_APPROVED by SUPERVISOR": 10,
+  "Request For Payment APPROVED by BUDGET OWNER": 11,
+  "Permit APPROVED by BUDGET OWNER": 12,
+  "Permit APPROVED by SUPERVISOR": 13,
+  "Permit FINAL_APPROVED by DIRECTOR": 14,
+  "Request For Payment REJECTED by EMPLOYEE": 15,
+  "Request For Payment REJECTED by ADMINISTRATION": 16,
+  "Request For Payment APPROVED by PRE_APPROVER": 17,
+  "Permit APPROVED by PRE_APPROVER": 18,
+  "Permit REJECTED by EMPLOYEE": 19,
+  "Permit REJECTED by SUPERVISOR": 20,
+  "Request For Payment APPROVED by SUPERVISOR": 21,
+  "Request For Payment FINAL_APPROVED by DIRECTOR": 22,
+  "Request For Payment REJECTED by SUPERVISOR": 23,
+  "Permit REJECTED by MISSING": 24,
+  "Request For Payment SAVED by EMPLOYEE": 25,
+  "Permit REJECTED by PRE_APPROVER": 26,
+  "Permit REJECTED by BUDGET OWNER": 27,
+  "Request For Payment REJECTED by PRE_APPROVER": 28,
+  "Permit REJECTED by ADMINISTRATION": 29,
+  "Request For Payment REJECTED by MISSING": 30,
+  "Request For Payment REJECTED by BUDGET OWNER": 31
+ },
+ "comp_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "obj=Request For Payment": 2,
+  "obj=Permit": 3,
+  "act=REJECTED": 4,
+  "act=APPROVED": 5,
+  "actor=SUPERVISOR": 6,
+  "actor=EMPLOYEE": 7,
+  "act=FINAL_APPROVED": 8,
+  "actor=ADMINISTRATION": 9,
+  "actor=BUDGET OWNER": 10,
+  "actor=PRE_APPROVER": 11,
+  "act=<none>": 12,
+  "act=SUBMITTED": 13,
+  "actor=<none>": 14,
+  "actor=DIRECTOR": 15,
+  "actor=MISSING": 16,
+  "act=SAVED": 17,
+  "obj=Payment Handled": 18,
+  "obj=Request Payment": 19
+ },
+ "n_comps": 3,
+ "cat_vocabs": {
+  "org:role": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "EMPLOYEE": 2,
+   "<MISSING>": 3,
+   "SUPERVISOR": 4,
+   "ADMINISTRATION": 5,
+   "BUDGET OWNER": 6,
+   "DIRECTOR": 7,
+   "PRE_APPROVER": 8,
+   "MISSING": 9
+  },
+  "org:resource": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "STAFF MEMBER": 2,
+   "SYSTEM": 3
+  }
+ },
+ "case_cat_vocabs": {
+  "OrganizationalEntity": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "organizational unit 65461": 2,
+   "organizational unit 65463": 3,
+   "organizational unit 65458": 4,
+   "organizational unit 65454": 5,
+   "organizational unit 65469": 6,
+   "organizational unit 65462": 7,
+   "organizational unit 65456": 8,
+   "organizational unit 65468": 9,
+   "organizational unit 65465": 10,
+   "organizational unit 65457": 11,
+   "organizational unit 65475": 12,
+   "organizational unit 65476": 13,
+   "organizational unit 65482": 14,
+   "organizational unit 65472": 15,
+   "organizational unit 65466": 16
+  },
+  "Cost Type": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "0": 2
+  }
+ },
+ "scalers": {
+  "dt": {
+   "mean": 9.391880089510869,
+   "std": 4.362974327388448
+  },
+  "elapsed": {
+   "mean": 10.763771762584263,
+   "std": 5.502276631817934
+  },
+  "pos": {
+   "mean": 1.427180007708199,
+   "std": 0.7081351744704466
+  },
+  "case_num": {
+   "RequestedAmount": {
+    "mean": 6.09460611425673,
+    "std": 1.196571253746612
+   },
+   "Permit RequestedBudget": {
+    "mean": 6.752887602078773,
+    "std": 2.1339777360820293
+   }
+  }
+ }
+}

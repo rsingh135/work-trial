@@ -81,3 +81,12 @@ Symptoms: the full-scale batch sat on `domestic_random` GBM for 8 hours; a concu
 Net effect: full Domestic (10.5k cases) demo config end-to-end in 7 s; a full-scale config with 3 seeds in a few minutes.
 
 **Coherence finding surfaced by the failure-analysis script on the demo:** predicted remaining time is *not monotone* along a case (only ~60% of consecutive positions decrease) because each position is predicted independently from the state. Candidate fix (not implemented): predict remaining time as Δt-head expectation summed over a rollout, or add a monotonicity penalty. Recorded as a limitation.
+
+## 2026-09-14 — First full batch: three more fixes, then a clean rerun
+
+First batch (all 11 configs, minutes each after the thread fix) surfaced:
+- Sampled rollouts: a mixture tail sample gave Δt = e^hundreds → inf timestamp → NaN logits. **Fix:** clamp sampled log-Δt to log1p(10 years).
+- sklearn caps categorical cardinality at 255; Incidents `org:group` has 472 train values. **Fix:** GBM feeds such fields as ordinal ints (documented baseline weakness).
+- Fully censored Open Problems has no remaining-time targets → GBM regressor crashed. **Fix:** skip the head; predictions NaN → evaluator reports "no complete cases".
+- **Model-quality bug (the important one).** On PermitLog the remaining-time Gaussian head's validation NLL *diverged* (1.06 → 5.6) while next-activity CE was still improving (0.68 → 0.58); early stopping on the total loss stopped at epoch 7, leaving the GRU at NLL 0.686 vs GBM 0.488. Cause: heteroscedastic Gaussian with a small σ floor collapses on the training tail. **DECISION:** remaining-time head is now a **Laplace** likelihood on log1p seconds (heavy-tailed; point prediction = median, which matches the MAE metric) with scale floor e^-1; MDN σ floor raised to e^-2. Permit GRU: NLL 0.479, DL 0.805, ECE 0.017; training stable to epoch 45 with LR decay. Loss weights unchanged (0.5/0.5).
+Because this changes the GRU everywhere, **all Part 1 numbers are from the rerun with this code** (git sha in each results JSON). Pre-fix observations kept for the record: Domestic random — all three models saturate (NLL 0.30–0.32); Domestic chrono — GRU 0.264 < GBM 0.278 < Markov 0.290; International chrono — GRU 0.287 < GBM 0.298 < Markov 0.522; Closed Problems (1.5k cases) — Markov best (1.03), GRU overfits (1.11).

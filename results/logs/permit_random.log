@@ -1,1 +1,4 @@
 [permit_random] markov_k2 seed=0 fit=0s  nll=0.818 acc=0.756 dtMAE=151.3h remMAE=500.9h DL=0.711 ece=0.012
+[permit_random] gbm seed=0 fit=35s  nll=0.488 acc=0.841 dtMAE=136.9h remMAE=430.7h DL=0.831 ece=0.028
+[permit_random] gru_multihead seed=0 fit=12s  nll=0.686 acc=0.781 dtMAE=150.1h remMAE=453.9h DL=0.785 ece=0.029
+wrote results/permit_random.json  (65s)

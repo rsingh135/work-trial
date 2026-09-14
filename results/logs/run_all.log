@@ -58,3 +58,17 @@ Traceback (most recent call last):
     raise ValueError(
 ValueError: Found array with 0 sample(s) (shape=(0, 8)) while a minimum of 1 is required.
 === permit_random Mon Sep 14 10:39:14 EDT 2026
+[permit_random] markov_k2 seed=0 fit=0s  nll=0.818 acc=0.756 dtMAE=151.3h remMAE=500.9h DL=0.711 ece=0.012
+[permit_random] gbm seed=0 fit=35s  nll=0.488 acc=0.841 dtMAE=136.9h remMAE=430.7h DL=0.831 ece=0.028
+[permit_random] gru_multihead seed=0 fit=12s  nll=0.686 acc=0.781 dtMAE=150.1h remMAE=453.9h DL=0.785 ece=0.029
+wrote results/permit_random.json  (65s)
+=== prepaid_random Mon Sep 14 10:40:21 EDT 2026
+[prepaid_random] markov_k2 seed=0 fit=0s  nll=0.527 acc=0.834 dtMAE=86.0h remMAE=282.7h DL=0.875 ece=0.024
+[prepaid_random] gbm seed=0 fit=10s  nll=0.304 acc=0.909 dtMAE=78.0h remMAE=256.1h DL=0.908 ece=0.026
+[prepaid_random] gru_multihead seed=0 fit=9s  nll=0.334 acc=0.890 dtMAE=81.6h remMAE=274.5h DL=0.923 ece=0.019
+wrote results/prepaid_random.json  (22s)
+=== rfp_transfer_domestic Mon Sep 14 10:40:45 EDT 2026
+[rfp_transfer_domestic] markov_k2 seed=0 fit=0s  nll=0.344 acc=0.872 dtMAE=47.5h remMAE=119.6h DL=0.913 ece=0.008
+[rfp_transfer_domestic] gru_multihead seed=0 fit=24s  nll=0.297 acc=0.879 dtMAE=40.4h remMAE=115.2h DL=0.916 ece=0.011
+wrote results/rfp_transfer_domestic.json  (37s)
+=== ALL DONE Mon Sep 14 10:41:23 EDT 2026

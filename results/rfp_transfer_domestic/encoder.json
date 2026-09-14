@@ -1,0 +1,159 @@
+{
+ "family": "bpi2020",
+ "event_cat_fields": [
+  "org:role",
+  "org:resource"
+ ],
+ "case_cat_fields": [
+  "OrganizationalEntity",
+  "Cost Type"
+ ],
+ "case_num_fields": [
+  "RequestedAmount"
+ ],
+ "min_count_cat": 5,
+ "min_count_act": 1,
+ "act_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<EOS>": 2,
+  "Request For Payment SUBMITTED by EMPLOYEE": 3,
+  "Request For Payment FINAL_APPROVED by SUPERVISOR": 4,
+  "Payment Handled": 5,
+  "Request Payment": 6,
+  "Request For Payment APPROVED by ADMINISTRATION": 7,
+  "Request For Payment APPROVED by BUDGET OWNER": 8,
+  "Request For Payment REJECTED by EMPLOYEE": 9,
+  "Request For Payment REJECTED by ADMINISTRATION": 10,
+  "Request For Payment APPROVED by PRE_APPROVER": 11,
+  "Request For Payment REJECTED by SUPERVISOR": 12,
+  "Request For Payment SAVED by EMPLOYEE": 13,
+  "Request For Payment REJECTED by MISSING": 14,
+  "Request For Payment REJECTED by PRE_APPROVER": 15,
+  "Request For Payment REJECTED by BUDGET OWNER": 16,
+  "Request For Payment APPROVED by SUPERVISOR": 17,
+  "Request For Payment FINAL_APPROVED by DIRECTOR": 18,
+  "Request For Payment FOR_APPROVAL by SUPERVISOR": 19,
+  "Declaration APPROVED by ADMINISTRATION": 20,
+  "Declaration APPROVED by BUDGET OWNER": 21,
+  "Declaration APPROVED by PRE_APPROVER": 22,
+  "Declaration FINAL_APPROVED by SUPERVISOR": 23,
+  "Declaration FOR_APPROVAL by ADMINISTRATION": 24,
+  "Declaration FOR_APPROVAL by PRE_APPROVER": 25,
+  "Declaration FOR_APPROVAL by SUPERVISOR": 26,
+  "Declaration REJECTED by ADMINISTRATION": 27,
+  "Declaration REJECTED by BUDGET OWNER": 28,
+  "Declaration REJECTED by EMPLOYEE": 29,
+  "Declaration REJECTED by MISSING": 30,
+  "Declaration REJECTED by PRE_APPROVER": 31,
+  "Declaration REJECTED by SUPERVISOR": 32,
+  "Declaration SAVED by EMPLOYEE": 33,
+  "Declaration SUBMITTED by EMPLOYEE": 34
+ },
+ "comp_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "obj=Request For Payment": 2,
+  "act=REJECTED": 3,
+  "act=APPROVED": 4,
+  "actor=SUPERVISOR": 5,
+  "actor=EMPLOYEE": 6,
+  "act=<none>": 7,
+  "act=FINAL_APPROVED": 8,
+  "actor=<none>": 9,
+  "actor=ADMINISTRATION": 10,
+  "actor=BUDGET OWNER": 11,
+  "actor=PRE_APPROVER": 12,
+  "act=FOR_APPROVAL": 13,
+  "act=SAVED": 14,
+  "act=SUBMITTED": 15,
+  "actor=DIRECTOR": 16,
+  "actor=MISSING": 17,
+  "obj=Payment Handled": 18,
+  "obj=Request Payment": 19
+ },
+ "n_comps": 3,
+ "cat_vocabs": {
+  "org:role": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "<MISSING>": 2,
+   "EMPLOYEE": 3,
+   "SUPERVISOR": 4,
+   "ADMINISTRATION": 5,
+   "BUDGET OWNER": 6,
+   "PRE_APPROVER": 7,
+   "MISSING": 8,
+   "DIRECTOR": 9
+  },
+  "org:resource": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "STAFF MEMBER": 2,
+   "SYSTEM": 3
+  }
+ },
+ "case_cat_vocabs": {
+  "OrganizationalEntity": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "organizational unit 65458": 2,
+   "organizational unit 65463": 3,
+   "organizational unit 65461": 4,
+   "organizational unit 65469": 5,
+   "organizational unit 65454": 6,
+   "organizational unit 65465": 7,
+   "organizational unit 65462": 8,
+   "organizational unit 65468": 9,
+   "organizational unit 65456": 10,
+   "organizational unit 65482": 11,
+   "organizational unit 65457": 12,
+   "organizational unit 65477": 13,
+   "organizational unit 65473": 14,
+   "organizational unit 65476": 15,
+   "organizational unit 65475": 16,
+   "organizational unit 65488": 17,
+   "organizational unit 65460": 18,
+   "organizational unit 65472": 19,
+   "organizational unit 65486": 20,
+   "organizational unit 65487": 21,
+   "organizational unit 65489": 22,
+   "organizational unit 65470": 23,
+   "organizational unit 65466": 24,
+   "organizational unit 65467": 25,
+   "organizational unit 65480": 26,
+   "organizational unit 65455": 27,
+   "organizational unit 65474": 28,
+   "organizational unit 65481": 29,
+   "organizational unit 65484": 30,
+   "organizational unit 65464": 31,
+   "organizational unit 65479": 32,
+   "organizational unit 65490": 33
+  },
+  "Cost Type": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "0": 2
+  }
+ },
+ "scalers": {
+  "dt": {
+   "mean": 9.645187601331541,
+   "std": 4.035978005910966
+  },
+  "elapsed": {
+   "mean": 8.653505847330182,
+   "std": 5.6231375091602285
+  },
+  "pos": {
+   "mean": 1.0401320982726845,
+   "std": 0.6235452381102707
+  },
+  "case_num": {
+   "RequestedAmount": {
+    "mean": 4.599810929224197,
+    "std": 1.3739096030445077
+   }
+  }
+ }
+}

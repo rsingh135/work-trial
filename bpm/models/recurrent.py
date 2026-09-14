@@ -12,7 +12,7 @@ Event encoder enc(e_t) = MLP(concat(
 Heads on h_t:
     next activity   softmax over V (includes <EOS>)            → cross-entropy
     Δt to next      K-component Gaussian mixture on log1p(sec) → mixture NLL   (=log-normal mixture in seconds)
-    remaining time  Gaussian on log1p(sec)                     → Gaussian NLL  (complete cases only)
+    remaining time  Laplace on log1p(sec)                      → Laplace NLL   (complete cases only)
 Total loss = CE + w_dt·NLL_dt + w_rem·NLL_rem with w_dt = w_rem = 0.5, fixed before any test run.
 
 Attribute dropout: during training each event's categorical attributes are replaced by UNK with
@@ -89,9 +89,10 @@ class _Net(nn.Module):
         dt = self.head_dt(h)
         logit_pi, mu, log_sig = dt.chunk(3, -1)
         rem = self.head_rem(h)
-        # σ floor (log-space 0.05) keeps the Gaussian NLLs from exploding on outliers
-        return {"act_logits": self.head_act(h), "pi": logit_pi, "mu": mu, "log_sig": log_sig.clamp(-3, 4),
-                "rem_mu": rem[..., 0], "rem_log_sig": rem[..., 1].clamp(-3, 4)}
+        # scale floors keep the heteroscedastic likelihoods from collapsing on the training set and
+        # exploding on validation outliers (observed on PermitLog: rem-NLL 1.1 → 5.6 while CE still improved)
+        return {"act_logits": self.head_act(h), "pi": logit_pi, "mu": mu, "log_sig": log_sig.clamp(-2, 4),
+                "rem_mu": rem[..., 0], "rem_log_sig": rem[..., 1].clamp(-1, 4)}
 
 
 def mdn_nll(pi_logits, mu, log_sig, y):
@@ -162,8 +163,10 @@ class RecurrentModel(SequenceModel):
         nll_dt = mdn_nll(out["pi"][dt_mask], out["mu"][dt_mask], out["log_sig"][dt_mask], batch["y_dt"][dt_mask]).mean() if dt_mask.any() else zero
         rm = batch["rem_mask"]
         if rm.any():
-            mu, ls = out["rem_mu"][rm], out["rem_log_sig"][rm]
-            nll_rem = (0.5 * (LOG2PI + 2 * ls + ((batch["y_rem"][rm] - mu) / ls.exp()) ** 2)).mean()
+            # Laplace NLL on log1p(remaining seconds): heavy-tailed (robust to the long remaining-time tail)
+            # and its point prediction is the median, matching the MAE-based evaluation
+            mu, lb = out["rem_mu"][rm], out["rem_log_sig"][rm]
+            nll_rem = (lb + math.log(2) + (batch["y_rem"][rm] - mu).abs() / lb.exp()).mean()
         else:
             nll_rem = zero
         total = ce + self.cfg["w_dt"] * nll_dt + self.cfg["w_rem"] * nll_rem
