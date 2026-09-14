@@ -42,6 +42,7 @@ from bpm.data.encoding import EOS, PAD, UNK, EncodedCase, Encoder
 from bpm.models.base import CasePreds, SequenceModel
 
 LOG2PI = math.log(2 * math.pi)
+MAX_LOG_DT = math.log1p(10 * 365 * 86400.0)
 
 
 class _Net(nn.Module):
@@ -311,7 +312,9 @@ class RecurrentModel(SequenceModel):
                     mu = y["mu"].cpu().gather(1, k).squeeze(1)
                     sig = y["log_sig"].cpu().gather(1, k).squeeze(1).exp()
                     dt_log = (mu + sig * torch.randn(R, generator=g)).to(self.device)
-                dt = torch.expm1(dt_log.clamp(min=0)).double().cpu()
+                # clamp to [0, log1p(10 years)]: a sampled tail of the mixture can otherwise overflow the
+                # synthetic timestamp (inf → NaN time features → NaN logits)
+                dt = torch.expm1(dt_log.clamp(min=0, max=MAX_LOG_DT)).double().cpu()
                 a_cpu = a.cpu()
                 for i in range(R):
                     if alive[i]:

@@ -1,1 +1,27 @@
 === domestic_random Mon Sep 14 10:29:43 EDT 2026
+[domestic_random] markov_k2 seed=0 fit=0s  nll=0.324 acc=0.885 dtMAE=45.9h remMAE=99.8h DL=0.924 ece=0.008
+[domestic_random] gbm seed=0 fit=8s  nll=0.303 acc=0.892 dtMAE=39.6h remMAE=92.5h DL=0.934 ece=0.010
+[domestic_random] gbm seed=1 fit=8s  nll=0.303 acc=0.892 dtMAE=39.5h remMAE=92.4h DL=0.937 ece=0.010
+[domestic_random] gbm seed=2 fit=8s  nll=0.303 acc=0.892 dtMAE=39.7h remMAE=92.3h DL=0.937 ece=0.010
+[domestic_random] gru_multihead seed=0 fit=27s  nll=0.309 acc=0.892 dtMAE=40.1h remMAE=95.5h DL=0.937 ece=0.010
+[domestic_random] gru_multihead seed=1 fit=19s  nll=0.313 acc=0.890 dtMAE=40.3h remMAE=96.8h DL=0.936 ece=0.024
+[domestic_random] gru_multihead seed=2 fit=22s  nll=0.308 acc=0.892 dtMAE=40.2h remMAE=95.3h DL=0.941 ece=0.008
+wrote results/domestic_random.json  (100s)
+=== domestic_chrono Mon Sep 14 10:31:24 EDT 2026
+[domestic_chrono] markov_k2 seed=0 fit=0s  nll=0.290 acc=0.904 dtMAE=43.9h remMAE=110.3h DL=0.931 ece=0.051
+[domestic_chrono] gbm seed=0 fit=8s  nll=0.278 acc=0.905 dtMAE=38.2h remMAE=102.0h DL=0.941 ece=0.040
+[domestic_chrono] gbm seed=1 fit=8s  nll=0.278 acc=0.905 dtMAE=38.0h remMAE=102.1h DL=0.939 ece=0.040
+[domestic_chrono] gbm seed=2 fit=8s  nll=0.278 acc=0.905 dtMAE=38.1h remMAE=102.1h DL=0.932 ece=0.040
+[domestic_chrono] gru_multihead seed=0 fit=24s  nll=0.264 acc=0.914 dtMAE=38.4h remMAE=103.4h DL=0.946 ece=0.050
+[domestic_chrono] gru_multihead seed=1 fit=34s  nll=0.275 acc=0.915 dtMAE=38.3h remMAE=102.9h DL=0.946 ece=0.057
+[domestic_chrono] gru_multihead seed=2 fit=34s  nll=0.270 acc=0.915 dtMAE=38.0h remMAE=103.6h DL=0.937 ece=0.039
+wrote results/domestic_chrono.json  (124s)
+=== international_random Mon Sep 14 10:33:30 EDT 2026
+[international_random] markov_k2 seed=0 fit=0s  nll=0.583 acc=0.815 dtMAE=158.7h remMAE=420.2h DL=0.828 ece=0.013
+[international_random] gbm seed=0 fit=21s  nll=0.318 acc=0.893 dtMAE=133.4h remMAE=376.9h DL=0.883 ece=0.020
+[international_random] gbm seed=1 fit=21s  nll=0.318 acc=0.893 dtMAE=132.8h remMAE=378.7h DL=0.890 ece=0.020
+[international_random] gbm seed=2 fit=21s  nll=0.318 acc=0.893 dtMAE=133.9h remMAE=378.7h DL=0.889 ece=0.020
+[international_random] gru_multihead seed=0 fit=32s  nll=0.319 acc=0.883 dtMAE=154.0h remMAE=381.8h DL=0.888 ece=0.008
+Traceback (most recent call last):
+RuntimeError: probability tensor contains either `inf`, `nan` or element < 0
+=== international_chrono Mon Sep 14 10:35:54 EDT 2026

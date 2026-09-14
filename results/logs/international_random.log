@@ -1,0 +1,25 @@
+[international_random] markov_k2 seed=0 fit=0s  nll=0.583 acc=0.815 dtMAE=158.7h remMAE=420.2h DL=0.828 ece=0.013
+[international_random] gbm seed=0 fit=21s  nll=0.318 acc=0.893 dtMAE=133.4h remMAE=376.9h DL=0.883 ece=0.020
+[international_random] gbm seed=1 fit=21s  nll=0.318 acc=0.893 dtMAE=132.8h remMAE=378.7h DL=0.890 ece=0.020
+[international_random] gbm seed=2 fit=21s  nll=0.318 acc=0.893 dtMAE=133.9h remMAE=378.7h DL=0.889 ece=0.020
+[international_random] gru_multihead seed=0 fit=32s  nll=0.319 acc=0.883 dtMAE=154.0h remMAE=381.8h DL=0.888 ece=0.008
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/ranveersingh/work_trial/bpm/run.py", line 244, in <module>
+    main()
+  File "/Users/ranveersingh/work_trial/bpm/run.py", line 240, in main
+    run(cfg)
+  File "/Users/ranveersingh/work_trial/bpm/run.py", line 129, in run
+    metrics = evaluate(model, enc_te, enc_va, encoder, terminal_ids, n_suffix_prefixes=ev.get("n_suffix_prefixes", 500),
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ranveersingh/work_trial/bpm/evaluate.py", line 126, in evaluate
+    sampled = model.rollout_many(items, max_suffix_len, mode="sample", n=n_samples, seed=seed + 1) if n_samples > 0 else None
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ranveersingh/work_trial/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ranveersingh/work_trial/bpm/models/recurrent.py", line 309, in rollout_many
+    a = torch.multinomial(F.softmax(logits, -1).cpu(), 1, generator=g).squeeze(1).to(self.device)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: probability tensor contains either `inf`, `nan` or element < 0

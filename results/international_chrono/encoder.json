@@ -1,0 +1,154 @@
+{
+ "family": "bpi2020",
+ "event_cat_fields": [
+  "org:role",
+  "org:resource"
+ ],
+ "case_cat_fields": [
+  "Permit OrganizationalEntity"
+ ],
+ "case_num_fields": [
+  "Amount",
+  "RequestedAmount",
+  "Permit RequestedBudget"
+ ],
+ "min_count_cat": 5,
+ "min_count_act": 1,
+ "act_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<EOS>": 2,
+  "Declaration SUBMITTED by EMPLOYEE": 3,
+  "End trip": 4,
+  "Start trip": 5,
+  "Payment Handled": 6,
+  "Request Payment": 7,
+  "Declaration FINAL_APPROVED by SUPERVISOR": 8,
+  "Permit SUBMITTED by EMPLOYEE": 9,
+  "Permit FINAL_APPROVED by SUPERVISOR": 10,
+  "Declaration APPROVED by ADMINISTRATION": 11,
+  "Permit APPROVED by ADMINISTRATION": 12,
+  "Declaration APPROVED by BUDGET OWNER": 13,
+  "Declaration REJECTED by EMPLOYEE": 14,
+  "Permit APPROVED by BUDGET OWNER": 15,
+  "Declaration REJECTED by ADMINISTRATION": 16,
+  "Declaration APPROVED by PRE_APPROVER": 17,
+  "Permit APPROVED by PRE_APPROVER": 18,
+  "Permit APPROVED by SUPERVISOR": 19,
+  "Permit FINAL_APPROVED by DIRECTOR": 20,
+  "Send Reminder": 21,
+  "Declaration APPROVED by SUPERVISOR": 22,
+  "Declaration FINAL_APPROVED by DIRECTOR": 23,
+  "Permit REJECTED by EMPLOYEE": 24,
+  "Declaration REJECTED by MISSING": 25,
+  "Declaration REJECTED by SUPERVISOR": 26,
+  "Declaration REJECTED by PRE_APPROVER": 27,
+  "Declaration SAVED by EMPLOYEE": 28,
+  "Permit REJECTED by SUPERVISOR": 29,
+  "Permit REJECTED by MISSING": 30,
+  "Permit REJECTED by ADMINISTRATION": 31,
+  "Declaration REJECTED by BUDGET OWNER": 32,
+  "Permit REJECTED by PRE_APPROVER": 33,
+  "Permit REJECTED by BUDGET OWNER": 34,
+  "Declaration REJECTED by DIRECTOR": 35
+ },
+ "comp_vocab": {
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "obj=Declaration": 2,
+  "act=REJECTED": 3,
+  "obj=Permit": 4,
+  "act=APPROVED": 5,
+  "actor=SUPERVISOR": 6,
+  "act=<none>": 7,
+  "actor=<none>": 8,
+  "actor=EMPLOYEE": 9,
+  "act=FINAL_APPROVED": 10,
+  "actor=ADMINISTRATION": 11,
+  "actor=BUDGET OWNER": 12,
+  "actor=PRE_APPROVER": 13,
+  "actor=DIRECTOR": 14,
+  "act=SUBMITTED": 15,
+  "actor=MISSING": 16,
+  "act=SAVED": 17,
+  "obj=End trip": 18,
+  "obj=Payment Handled": 19,
+  "obj=Request Payment": 20,
+  "obj=Send Reminder": 21,
+  "obj=Start trip": 22
+ },
+ "n_comps": 3,
+ "cat_vocabs": {
+  "org:role": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "EMPLOYEE": 2,
+   "<MISSING>": 3,
+   "SUPERVISOR": 4,
+   "ADMINISTRATION": 5,
+   "BUDGET OWNER": 6,
+   "PRE_APPROVER": 7,
+   "DIRECTOR": 8,
+   "MISSING": 9
+  },
+  "org:resource": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "STAFF MEMBER": 2,
+   "SYSTEM": 3
+  }
+ },
+ "case_cat_vocabs": {
+  "Permit OrganizationalEntity": {
+   "<PAD>": 0,
+   "<UNK>": 1,
+   "organizational unit 65458": 2,
+   "organizational unit 65455": 3,
+   "organizational unit 65454": 4,
+   "organizational unit 65456": 5,
+   "organizational unit 65460": 6,
+   "organizational unit 65459": 7,
+   "organizational unit 65464": 8,
+   "organizational unit 65457": 9,
+   "organizational unit 65466": 10,
+   "organizational unit 65469": 11,
+   "organizational unit 65461": 12,
+   "organizational unit 65470": 13,
+   "organizational unit 65467": 14,
+   "organizational unit 65472": 15,
+   "organizational unit 65475": 16,
+   "organizational unit 65480": 17,
+   "organizational unit 65471": 18,
+   "organizational unit 65473": 19,
+   "organizational unit 65465": 20
+  }
+ },
+ "scalers": {
+  "dt": {
+   "mean": 10.450129692473116,
+   "std": 4.140690965713705
+  },
+  "elapsed": {
+   "mean": 12.398179704145067,
+   "std": 5.3870452767229
+  },
+  "pos": {
+   "mean": 1.611511469471694,
+   "std": 0.743897263694472
+  },
+  "case_num": {
+   "Amount": {
+    "mean": 5.910890018461102,
+    "std": 1.6618216494087008
+   },
+   "RequestedAmount": {
+    "mean": 5.910890018461102,
+    "std": 1.6618216494087008
+   },
+   "Permit RequestedBudget": {
+    "mean": 6.716631983911665,
+    "std": 1.1672708319711878
+   }
+  }
+ }
+}

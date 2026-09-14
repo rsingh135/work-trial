@@ -1,0 +1,1 @@
+[international_chrono] markov_k2 seed=0 fit=0s  nll=0.522 acc=0.844 dtMAE=95.7h remMAE=324.1h DL=0.858 ece=0.069
