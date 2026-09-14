@@ -68,12 +68,20 @@ class AnthropicClient:
         self.model_id = model_id
         self._client = anthropic.Anthropic(max_retries=max_retries)
 
+    # Models that still accept sampling parameters (anthropic SDK 1.x removed `temperature` as a named
+    # argument; Opus 5 / Sonnet 5 / Fable reject it with a 400, Haiku 4.5 accepts it via extra_body).
+    SAMPLING_OK = ("claude-haiku-4-5",)
+
     def complete(self, system, messages, temperature, max_tokens) -> LLMResponse:
         t0 = time.time()
+        extra = {"temperature": temperature} if self.model_id.startswith(self.SAMPLING_OK) else {}
+        import os
+        ws = os.environ.get("ANTHROPIC_WORKSPACE_ID")  # required when the API key is org-scoped rather than workspace-scoped
+        kw = {"workspace_id": ws} if ws else {}
         r = self._client.messages.create(
-            model=self.model_id, max_tokens=max_tokens, temperature=temperature,
+            model=self.model_id, max_tokens=max_tokens,
             system=[{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
-            messages=messages,
+            messages=messages, extra_body=extra, **kw,
         )
         u = r.usage
         p = PRICES.get(self.model_id, (0, 0, 0, 0))
