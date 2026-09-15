@@ -1,0 +1,1 @@
+{"status": "not run: Anthropic credit balance exhausted at stage start (all 60 episodes returned a billing error before any LLM call); rerun with scripts/run_part2_appworld_stages.sh after topping up"}

@@ -59,6 +59,14 @@ def _make_inner(kind: str, model_path: str | None, n_candidates: int, score_mode
     raise ValueError(kind)
 
 
+def _fatal_llm_error(ep) -> bool:
+    """A billing or authentication failure on the very first step means every further episode would be empty."""
+    if not ep.steps or not ep.steps[0].error or ep.steps[0].error.type != "llm_error":
+        return False
+    m = ep.steps[0].error.message.lower()
+    return any(k in m for k in ("credit balance", "authentication", "invalid x-api-key", "permission"))
+
+
 def select_tasks(env, split: str, n_tasks: int | None, seed: int, by_scenario: bool = True) -> list[str]:
     """Pick whole scenarios (all task variants) so scenario-goal completion is measurable."""
     ids = env.task_ids(split)
@@ -143,6 +151,8 @@ def main(argv=None):
                     print(f"cost budget {args.cost_budget} reached; stopping")
                     break
                 ep = agent.run_episode(env, t, args.split, run_id=f"{run_id}-r{r}", seed=seed, schema_store=schemas)
+                if _fatal_llm_error(ep):
+                    print(f"FATAL LLM error (billing/auth) — stopping: {ep.steps[0].error.message[:120]}"); break
                 ok = write_episode(ep, redactor, fh_ok, fh_bad, schemas, out)
                 n_ok += ok; n_bad += (not ok)
                 total_cost += ep.totals.cost_usd

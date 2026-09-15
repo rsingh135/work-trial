@@ -1,0 +1,23 @@
+{
+ "table": "| policy | TGC % (\u00b1 run std) | SGC % | invalid-action % | steps | wall s | $ / episode | override % | trace valid |\n|---|---|---|---|---|---|---|---|---|\n| baseline (Haiku, 1 sample) | 3.3 \u00b1 3.3 | 0.0 | 22.4 | 19.1 | 42 | 0.063 | 0 | 1.00 |\n| token scorer \u00d7 success, 3 samples | 6.7 \u00b1 3.3 | 0.0 | 20.2 | 15.6 | 75 | 0.154 | 48 | 1.00 |\n| trace world model, 3 samples | 1.7 \u00b1 1.7 | 0.0 | 21.9 | 16.0 | 79 | 0.152 | 6 | 1.00 |\n| hybrid (trace model \u00d7 token scorer) | 0.0 \u00b1 0.0 | 0.0 | 0.0 | 1.0 | 2 | 0.000 | 0 | 1.00 |",
+ "offline": "Offline, on held-out scenarios: token scorer validity AUROC 0.94 (accuracy 0.92 vs majority 0.70); trace world model next-API top-1 0.27, validity AUROC 0.82, outcome AUROC 0.75.",
+ "total_cost_usd": 24.54,
+ "episodes_le2_steps": {
+  "baseline": [
+   11,
+   60
+  ],
+  "token": [
+   19,
+   60
+  ],
+  "trace": [
+   19,
+   60
+  ],
+  "hybrid": [
+   60,
+   60
+  ]
+ }
+}

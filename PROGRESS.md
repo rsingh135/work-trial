@@ -154,3 +154,12 @@ Prompted by the reviewer's question whether the task is "pretty easy". Framing: 
 - **Transfer with a fair budget**: fine-tune ≈ scratch (0.364 vs 0.366); factorised head: zero-shot 5.75→5.15, fine-tune 0.348. My earlier "negative transfer" was a 15- vs 60-epoch artefact — corrected in the note.
 - **Downstream**: selective prediction strong (Incidents 0.77→0.86 at 80% coverage); SLA AUROC 0.85–0.94 on declarations, weak on Incidents; **seed-ensemble MI does not detect shift** (negative result kept); anomaly score length-confounded on some logs.
 Docs: DESIGN_NOTE §1.5 rewritten from this batch; SUMMARY/figures regenerated.
+
+## 2026-09-14 (evening) — AppWorld with the real LLM (v1)
+
+- SDK 1.x dropped `temperature` as an argument (passed via `extra_body` for Haiku 4.5 only); org-level key needed `ANTHROPIC_WORKSPACE_ID` (read from `.env`, gitignored).
+- Collection 45 train tasks, $2.33; baseline Haiku 7/45. Trace diagnosis: 12/45 episodes start with `complete_task(answer=<undefined>)`; 157 API errors, mostly invented API names; my prompt allowed `import` (forbidden by the sandbox).
+- Held-out (30 dev × 2 runs): baseline 3.3%, token scorer 6.7%, trace world model 1.7% TGC — all within noise; invalid rate 22→20%; token scorer picks bare `complete_task()` first in 19/60 episodes (the real "offline up, end-to-end flat" case). Hybrid stage void: credit balance exhausted at its start (60 empty episodes at $0). Total recorded spend $24.54.
+- A stalled API request froze one stage for 45 min under the SDK's 10-min default timeout × retries → client timeout now 120 s; stages run with periodic faulthandler stack dumps; billing/auth errors now abort a run instead of producing empty episodes.
+- **DECISION (not yet run, needs credits):** v2 = prompt bug fixes (versioned `v2`, v1 hash preserved in all v1 traces), schema gate (reject calls to non-existent APIs), progress gate (no completion before a productive call), each runnable alone as a control; recollect on 90 train tasks; five policies on the same dev tasks. ~$45 at observed rates.
+- Real redacted example traces added to `traces/examples/appworld_haiku_episodes.jsonl` (0 password literals remain).

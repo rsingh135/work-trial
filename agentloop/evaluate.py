@@ -24,6 +24,13 @@ from agentloop.redaction import Redactor
 from agentloop.schema import Episode
 
 
+def _fatal_llm_error(ep) -> bool:
+    if not ep.steps or not ep.steps[0].error or ep.steps[0].error.type != "llm_error":
+        return False
+    m = ep.steps[0].error.message.lower()
+    return any(k in m for k in ("credit balance", "authentication", "invalid x-api-key", "permission"))
+
+
 def summarize(episodes: list[Episode]) -> dict:
     by_run: dict[str, list[Episode]] = {}
     for e in episodes:
@@ -64,6 +71,8 @@ def run_policy(env, tasks, split, policy_kind, policy_model, n_candidates, clien
             agent = LLMAgent(client, policy, max_steps=max_steps, temperature=temperature, prompt_version=prompt_version)
             for t in tasks:
                 ep = agent.run_episode(env, t, split, run_id=f"{run_tag}-r{r}", seed=seed + r, schema_store=schemas)
+                if _fatal_llm_error(ep):
+                    raise SystemExit(f"FATAL LLM error (billing/auth) — stopping: {ep.steps[0].error.message[:120]}")
                 ok = write_episode(ep, redactor, fh_ok, fh_bad, schemas, out)
                 n_ok += ok; n_bad += (not ok)
                 eps.append(ep)
