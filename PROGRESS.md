@@ -178,3 +178,11 @@ Replay-forking was quadratic (3 candidates × replay of t steps at every step �
 2. AppWorld's per-world `max_interactions=60` counts every execute, including the snapshot/restore/candidate executes, so after ~4 agent steps every action failed with "Maximum number of executions (60) reached" — the first oracle run had an 82 % invalid-action rate for that reason alone. Fix: cap lifted to 100k (the harness enforces its own step limit).
 Also fixed: the gate passed a filtered candidate list to the inner policy without filtering the aligned counterfactual list (index error in gate+oracle). Each fix has a test where the mock can express it.
 v2 results so far (prompt v2, 30 dev × 2): baseline 3.3 / gate-only 3.3 / token+progress+gate 6.7 / hybrid+gate 3.3 % TGC; oracle rerunning; v3 queued.
+
+## 2026-09-15 (midday) — Haiku matrix closed; PERSIST-style world-frame; v4 with Opus 5
+
+- **Haiku matrix final** (30 dev × 2 runs, 14 arms over v1/v2/v3): 0–6.7% TGC everywhere, oracle ceiling 5.0% (v2) / 1.7% (v3). v3's fixes worked on train (credential errors 95→4, truncations 33→9, success 9→11/90) and did nothing on dev. Conclusion recorded in the note: the generator is the floor; change the generator.
+- **PERSIST (arXiv:2603.03482) read**: persistent explicit state + rendered observations instead of a raw-frame window; explicit init is their best ablation. Mapped to agents as a **world-frame** (`agentloop/agent/worldframe.py`): apps, known APIs + signatures, token variables, entities fetched, last errors, notes; seeded from the task text via the published schema; rendered every turn; raw history cut to 4 turns. Prompt v4 explains it. Mock and 2-task Opus smoke pass (both tasks solved in 7–8 steps).
+- **Opus 5 client**: no `temperature` (rejected), `output_config.effort=medium`, refusal → llm_error; pricing added.
+- **v4 pipeline** (`scripts/run_part2_v4.sh`, chained after v3, machine held awake): Opus collection on 90 train tasks with world-frame + snapshot forks (budget cap $250) → learners → dev arms: opus_raw (prompt v3), opus_wf (v4), opus_wf+gates+progress picker, opus_wf+oracle. Spend so far $166.
+- Local study site (`studysite/`, gitignored): explainer sections, live result tables, docs, grounded Q&A + quiz on Claude Opus 5 with cached repo context.
