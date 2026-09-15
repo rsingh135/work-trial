@@ -126,7 +126,10 @@ class GatedPolicy:
         if not keep or len(keep) == len(codes):
             idx, scores, meta = self.inner.choose(context, codes)
             return idx, scores, {**meta, "gate_rejected": [i for i, b in enumerate(bad) if b], "gate_fallback": not keep}
-        sub_idx, sub_scores, meta = self.inner.choose(context, [codes[i] for i in keep])
+        sub_ctx = dict(context)
+        if context.get("counterfactuals") is not None:  # keep per-candidate side data aligned with the filtered list
+            sub_ctx["counterfactuals"] = [context["counterfactuals"][i] for i in keep]
+        sub_idx, sub_scores, meta = self.inner.choose(sub_ctx, [codes[i] for i in keep])
         scores = [None] * len(codes)
         for k, sc in zip(keep, sub_scores):
             scores[k] = sc

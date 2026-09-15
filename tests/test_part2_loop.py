@@ -154,3 +154,15 @@ def test_forking_counterfactuals_and_oracle(tmp_path: Path):
            {"error": None, "passes_before": 0, "passes_after": 0, "failures_after": 1, "done": True}]
     idx, scores, meta = pol.choose({"counterfactuals": cfs}, ["a", "b", "c"])
     assert idx == 1 and scores[2] < scores[0]  # premature 'done' ranks below a plain error
+
+
+def test_gate_keeps_counterfactuals_aligned():
+    from agentloop.agent.policy import GatedPolicy, OracleLookaheadPolicy
+    schema = {"apps": {"store": ["get"], "supervisor": ["complete_task"]}}
+    cfs = [{"error": None, "passes_before": 0, "passes_after": 0, "failures_after": 1, "done": False},   # invalid api → gated out
+           {"error": None, "passes_before": 0, "passes_after": 1, "failures_after": 0, "done": True},    # progress
+           {"error": {"type": "api_error", "message": "x"}, "passes_before": 0, "passes_after": 0, "failures_after": 1, "done": False}]
+    pol = GatedPolicy(OracleLookaheadPolicy())
+    idx, scores, meta = pol.choose({"action_schema": schema, "history": [{"code": "v = apis.store.get('k')", "error_type": None}], "counterfactuals": cfs},
+                                   ["print(apis.store.list())", "apis.supervisor.complete_task(answer=v)", "print(apis.store.get('z'))"])
+    assert idx == 1 and meta["gate_rejected"] == [0]
