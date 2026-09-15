@@ -63,6 +63,8 @@ class AppWorldEnv:
         self._proc: subprocess.Popen | None = None
         self._task_id: str | None = None
         self._schema_cache: dict | None = None
+        self._dirty = False  # set after a snapshot rollback: AppWorld's load_state pops its time-freezer stack, so the
+        # server must be restarted before the next /initialize (otherwise 500 "pop from empty list")
         if autostart and not self._alive():
             self._start_server()
 
@@ -85,6 +87,28 @@ class AppWorldEnv:
                 raise RuntimeError(f"appworld server exited early; see {self.root / 'server.log'}")
             time.sleep(1)
         raise RuntimeError("appworld server did not come up in 60s")
+
+    def _restart_server(self):
+        """Kill and relaunch this adapter's server (owned or not) on the same port."""
+        if self._proc and self._proc.poll() is None:
+            self._proc.terminate()
+            try:
+                self._proc.wait(10)
+            except subprocess.TimeoutExpired:
+                self._proc.kill()
+        else:  # server we did not start (leftover): find it by port and terminate it
+            try:
+                pids = subprocess.run(["lsof", "-t", f"-iTCP:{self.port}", "-sTCP:LISTEN"], capture_output=True, text=True).stdout.split()
+                for pid in pids:
+                    subprocess.run(["kill", pid])
+            except Exception:
+                pass
+        for _ in range(30):
+            if not self._alive():
+                break
+            time.sleep(0.5)
+        self._task_id = None
+        self._start_server()
 
     def _post(self, route: str, payload: dict, timeout: float = 300.0) -> Any:
         req = urllib.request.Request(self.url + route, data=json.dumps(payload).encode(), headers={"Content-Type": "application/json"}, method="POST")
@@ -115,6 +139,9 @@ class AppWorldEnv:
         return task_id.split("_")[0]
 
     def reset(self, task_id: str, *, run_tag: str = "", seed: int | None = None) -> Observation:
+        if self._dirty:
+            self._restart_server()
+            self._dirty = False
         out = self._post("/initialize", {"task_id": task_id, "experiment_name": f"harness_{run_tag or 'run'}", "max_interactions": self.max_interactions,
                                           "random_seed": seed if seed is not None else 100, "raise_on_failure": True})
         self._task_id = task_id
@@ -144,6 +171,7 @@ class AppWorldEnv:
         databases, and a namespace snapshot restores the Python shell. Verified equivalent to replay-forking."""
         assert self._task_id
         sid = f"cf{int(time.time() * 1000) % 10_000_000}"
+        self._dirty = True
         self._post("/save_state", {"task_id": self._task_id, "state_id": sid})
         out = []
         for a in actions:
@@ -171,10 +199,11 @@ class AppWorldEnv:
 
     def close(self) -> None:
         if self._task_id:
-            try:
-                self._post("/close", {"task_id": self._task_id})
-            except Exception:
-                pass
+            if not self._dirty:  # after a rollback /close raises inside AppWorld; the restart at reset() replaces it
+                try:
+                    self._post("/close", {"task_id": self._task_id})
+                except Exception:
+                    pass
             self._task_id = None
 
     def shutdown(self) -> None:
