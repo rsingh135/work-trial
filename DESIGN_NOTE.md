@@ -45,7 +45,7 @@ A system emits a **partial history** (a case prefix; an agent trajectory prefix)
 
 **Learners** (the reinsertion seam is `policy.choose(context, candidates)`): a hashed-n-gram logistic scorer over the candidate's code with heads *valid / success / progress / regress*, and the Part 1 model trained on the trajectories (validity = P(api|ok)/(P(ok)+P(err)), plausibility, success by rollout). Rule-based **gates** from the published schema (API exists; no "done" before a productive call) serve as controls. Following FDM-1, labels come from the environment: the checker after every step (dense progress), and every candidate executed in a **forked** copy (database checkpoint + Python-namespace rollback, 0.3 s for three; verified equal to replay) → counterfactual labels for all candidates (5.5 k examples from 90 episodes) and an **oracle** policy that picks the candidate the checker rewards, the ceiling for any learned picker.
 
-**Results, Claude Haiku 4.5, 30 held-out dev tasks × 2 runs** (`results/part2_appworld_v*_*/summary.json`):
+**Results, Claude Haiku 4.5 (v1–v3) and Claude Opus 5 (v4), 30 held-out dev tasks × 2 runs** (`results/part2_appworld_v*_*/summary.json`):
 
 | version | baseline | gates only | learned picker | hybrid | oracle |
 |---|---|---|---|---|---|
@@ -65,7 +65,7 @@ Offline the learners are strong (held-out scenarios: validity AUROC 0.97, progre
 | world-frame + gates + progress picker (3 samples) | 96.7 ± 0.0 | 90.0 | 4.9 | 8.8 | — | 0.399 |
 | world-frame + gates + **oracle lookahead** (3 samples, forked) | **100.0 ± 0.0** | **100.0** | 5.8 | 8.6 | — | 0.393 |
 
-The generator was the whole Haiku story: the same harness, tasks and seeds go from ≤ 6.7 % to 90 % by swapping the model. The persistent state then adds four successes in 60 (it rescues an entire scenario the raw agent fails in all six attempts), cuts the context by a third and the cost per episode by 28 %, at the price of more exploratory errors (9.5 % vs 4.2 % invalid actions). On top of that agent the learned picker keeps completion at 96.7 % while halving invalid actions (9.5 → 4.9 %) and shortening episodes (9.5 → 8.8 steps), for 2.8× the cost; the environment-forking oracle reaches 100 % of tasks and scenarios. Read together with Haiku: selection among candidates is worth exactly the gap between the generator's menu and the checker's optimum — nothing when the menu is empty (Haiku, ceiling 5 %), efficiency when the menu is good (Opus), and the last two scenarios only with the environment in the loop. Zero run-to-run variance in every Opus arm; total recorded API spend for Part 2, all versions: $270.
+The generator was the whole Haiku story: the same harness, tasks and seeds go from ≤ 6.7 % to 90 % by swapping the model. The persistent state then adds four successes in 60 (it rescues an entire scenario the raw agent fails in all six attempts), cuts the context by a third and the cost per episode by 28 %, at the price of more exploratory errors (9.5 % vs 4.2 % invalid actions). On top of that agent the learned picker keeps completion at 96.7 % while halving invalid actions (9.5 → 4.9 %) and shortening episodes (9.5 → 8.8 steps), for 2.8× the cost; the environment-forking oracle reaches 100 % of tasks and scenarios. Read together with Haiku: selection among candidates is worth exactly the gap between the generator's menu and the checker's optimum — nothing when the menu is empty (Haiku, ceiling 5 %), efficiency when the menu is good (Opus), and the last one or two episodes only with the environment in the loop. Caveat on that last step: the picker's two misses are in a scenario the raw agent solves in all six attempts, and the oracle's overrides there only avoided erroring candidates (no candidate changed the checker's count), so the 96.7 → 100 gap is one episode per run and within what two runs can resolve. Completion rates are identical across runs in every Opus arm, though the failing variant differs between runs; total recorded API spend for Part 2, all versions: $270.
 
 ## 3. Limitations
 
@@ -73,7 +73,7 @@ Part 1's proposed model does not beat a well-built tree in-distribution; its adv
 
 ## 4. Next steps, in order
 
-1. Finish v4 and report Opus raw vs world-frame vs picker vs oracle on the same tasks.
+1. More dev runs (5+ seeds) on the Opus arms: the remaining differences are one episode in 30 and two runs cannot separate them; then a second benchmark adapter to test that the world-frame is not AppWorld-shaped.
 2. Survival-style remaining-time head so truncated histories are modelled, not masked.
 3. Argument-aware events for the trace world model; a learned next-state predictor as a fork-free progress estimator.
 4. Shift-sensitive epistemic uncertainty (cross-architecture ensembles or a density model on the state).
