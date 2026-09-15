@@ -128,3 +128,27 @@ def test_schema_and_progress_gates():
     assert idx == 2 and meta["gate_rejected"] == [0, 1] and pol.n_candidates == 3
     idx, _, meta = pol.choose(ctx, ["print(apis.store.list_all())"])  # nothing survives → fallback to inner choice
     assert idx == 0 and meta["gate_fallback"]
+
+
+def test_forking_counterfactuals_and_oracle(tmp_path: Path):
+    """Forked execution labels every candidate; the dataset builder emits counterfactual examples with
+    progress/regress labels; the oracle policy picks the candidate whose fork made progress."""
+    from agentloop.agent.policy import OracleLookaheadPolicy
+    from agentloop.envs.forking import ForkPool
+    env = MockEnv()
+    pool = ForkPool(lambda i: MockEnv(), n_workers=1)
+    agent = LLMAgent(ScriptedClient(noise=0.4, seed=3), FirstCandidatePolicy(n_candidates=3), max_steps=6, fork_pool=pool)
+    ep = agent.run_episode(env, env.task_ids("train")[0], "train", run_id="r0", seed=3)
+    s0 = ep.steps[0]
+    assert len(s0.candidates) == 3 and all(c.counterfactual is not None for c in s0.candidates)
+    assert s0.reward is not None and s0.evaluator_output is not None
+    exs = episode_examples(ep, "f")
+    assert sum(e.source == "counterfactual" for e in exs) == 2 * len(ep.steps)
+    assert all(e.label_progress is not None for e in exs)
+    # oracle: a candidate whose fork reaches the passing state must be preferred over an erroring one
+    pol = OracleLookaheadPolicy()
+    cfs = [{"error": {"type": "api_error", "message": "x"}, "passes_before": 0, "passes_after": 0, "failures_after": 1, "done": False},
+           {"error": None, "passes_before": 0, "passes_after": 1, "failures_after": 0, "done": True},
+           {"error": None, "passes_before": 0, "passes_after": 0, "failures_after": 1, "done": True}]
+    idx, scores, meta = pol.choose({"counterfactuals": cfs}, ["a", "b", "c"])
+    assert idx == 1 and scores[2] < scores[0]  # premature 'done' ranks below a plain error
