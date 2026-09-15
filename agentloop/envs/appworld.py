@@ -53,7 +53,9 @@ class AppWorldEnv:
     benchmark = "appworld"
 
     def __init__(self, root: str = "appworld_root", url: str | None = None, port: int = 9123, venv_python: str = ".venv-appworld/bin/python",
-                 max_interactions: int = 60, autostart: bool = True, max_output_chars: int = 3000):
+                 max_interactions: int = 100_000, autostart: bool = True, max_output_chars: int = 3000):
+        # max_interactions is AppWorld's per-world execute budget; the harness enforces its own step limit and the
+        # snapshot trials spend several executes per candidate, so the env-side cap must not bind.
         self.root = Path(root)
         self.port = port
         self.url = url or f"http://127.0.0.1:{port}"
