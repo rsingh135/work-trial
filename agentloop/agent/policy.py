@@ -19,9 +19,13 @@ from agentloop.agent.features import Featurizer
 
 
 class FirstCandidatePolicy:
+    """Baseline: execute the first sample. ``n_candidates>1`` keeps the baseline *behaviour* (still the first
+    sample) but samples extra candidates so they can be labelled counterfactually in forks."""
     policy_id = "first_candidate"
     version = "1"
-    n_candidates = 1
+
+    def __init__(self, n_candidates: int = 1):
+        self.n_candidates = n_candidates
 
     def choose(self, context: dict, codes: list[str]) -> tuple[int, list[float | None], dict[str, Any]]:
         return 0, [None] * len(codes), {}
@@ -37,7 +41,10 @@ class RerankerPolicy:
             bundle = pickle.load(fh)
         self.clf = bundle["model"]
         self.clf_success = bundle.get("model_success")
-        self.score_mode = score_mode if (self.clf_success is not None or score_mode == "valid") else "valid"
+        self.clf_progress, self.clf_regress = bundle.get("model_progress"), bundle.get("model_regress")
+        if score_mode == "progress" and self.clf_progress is None:
+            score_mode = "product"
+        self.score_mode = score_mode if (self.clf_success is not None or score_mode in ("valid", "progress")) else "valid"
         self.featurizer: Featurizer = bundle["featurizer"]
         self.version = bundle.get("version", "unknown")
         self.n_candidates = n_candidates
@@ -48,6 +55,10 @@ class RerankerPolicy:
         pv = self.clf.predict_proba(X)[:, 1]
         if self.score_mode == "valid":
             return pv
+        if self.score_mode == "progress":
+            pp = self.clf_progress.predict_proba(X)[:, 1]
+            pr = self.clf_regress.predict_proba(X)[:, 1] if self.clf_regress is not None else np.zeros_like(pp)
+            return pv * (0.5 + pp) * (1.0 - pr)
         ps = self.clf_success.predict_proba(X)[:, 1]
         return ps if self.score_mode == "success" else pv * ps
 
@@ -121,3 +132,34 @@ class GatedPolicy:
             scores[k] = sc
         chosen = keep[sub_idx]
         return chosen, scores, {**meta, "gate_rejected": [i for i, b in enumerate(bad) if b], "overrode_first": chosen != 0}
+
+
+class OracleLookaheadPolicy:
+    """Upper bound for any learned scorer: uses the counterfactual outcomes (each candidate executed in a
+    forked environment) and picks the candidate with the best (progress, no error, not a premature 'done').
+    This is the harness analogue of test-time forking; it needs the environment, not a model."""
+    policy_id = "oracle_lookahead"
+    version = "1"
+
+    def __init__(self, n_candidates: int = 3):
+        self.n_candidates = n_candidates
+
+    @staticmethod
+    def _score(cf: dict | None) -> float:
+        if cf is None:
+            return -10.0
+        delta = cf["passes_after"] - cf["passes_before"]
+        s = 2.0 * delta
+        if cf.get("error"):
+            s -= 1.0
+        if cf.get("done") and cf["failures_after"] > 0:
+            s -= 3.0  # declared done while tests still fail: premature completion
+        return s
+
+    def choose(self, context: dict, codes: list[str]):
+        cfs = context.get("counterfactuals")
+        if not cfs:
+            return 0, [None] * len(codes), {"note": "no counterfactuals available"}
+        scores = [self._score(cf) for cf in cfs]
+        best = int(max(range(len(scores)), key=lambda i: (scores[i], -i)))
+        return best, [float(x) for x in scores], {"scores": [float(x) for x in scores], "overrode_first": best != 0}

@@ -1,0 +1,252 @@
+{
+ "args": {
+  "env": "mock",
+  "split": "dev",
+  "n_tasks": null,
+  "tasks": null,
+  "runs": 2,
+  "client": "scripted",
+  "model": "claude-haiku-4-5",
+  "policy_model": null,
+  "validity_model": null,
+  "prompt_version": "v1",
+  "fork_workers": 1,
+  "no_step_eval": false,
+  "gate": false,
+  "policy": "oracle",
+  "n_candidates": 3,
+  "score_mode": "product",
+  "max_steps": 25,
+  "temperature": 0.7,
+  "seed": 100,
+  "noise": 0.35,
+  "skip_baseline": false,
+  "out": "results/part2_mock_oracle"
+ },
+ "tasks": [
+  "mock08_1",
+  "mock08_2",
+  "mock08_3",
+  "mock09_1",
+  "mock09_2",
+  "mock09_3",
+  "mock10_1",
+  "mock10_2",
+  "mock10_3",
+  "mock11_1",
+  "mock11_2",
+  "mock11_3"
+ ],
+ "n_tasks": 12,
+ "baseline": {
+  "n_episodes": 24,
+  "n_runs": 2,
+  "per_run": [
+   {
+    "run_id": "eval-mock-baseline-r0",
+    "n_episodes": 12,
+    "tgc": 0.6666666666666666,
+    "sgc": 0.0,
+    "invalid_action_rate": 0.21951219512195122,
+    "mean_steps": 3.4166666666666665,
+    "mean_wall_s": 0.01203372081120809,
+    "mean_cost_usd": 0.0,
+    "termination": {
+     "completed": 12,
+     "max_steps": 0,
+     "error": 0,
+     "budget": 0
+    },
+    "override_rate": 0.0
+   },
+   {
+    "run_id": "eval-mock-baseline-r1",
+    "n_episodes": 12,
+    "tgc": 0.8333333333333334,
+    "sgc": 0.5,
+    "invalid_action_rate": 0.2857142857142857,
+    "mean_steps": 3.5,
+    "mean_wall_s": 0.012196938196818033,
+    "mean_cost_usd": 0.0,
+    "termination": {
+     "completed": 12,
+     "max_steps": 0,
+     "error": 0,
+     "budget": 0
+    },
+    "override_rate": 0.0
+   }
+  ],
+  "tgc": {
+   "mean": 0.75,
+   "std": 0.08333333333333337,
+   "runs": [
+    0.6666666666666666,
+    0.8333333333333334
+   ]
+  },
+  "sgc": {
+   "mean": 0.25,
+   "std": 0.25,
+   "runs": [
+    0.0,
+    0.5
+   ]
+  },
+  "invalid_action_rate": {
+   "mean": 0.25261324041811845,
+   "std": 0.03310104529616724,
+   "runs": [
+    0.21951219512195122,
+    0.2857142857142857
+   ]
+  },
+  "mean_steps": {
+   "mean": 3.458333333333333,
+   "std": 0.04166666666666674,
+   "runs": [
+    3.4166666666666665,
+    3.5
+   ]
+  },
+  "mean_wall_s": {
+   "mean": 0.012115329504013062,
+   "std": 8.160869280497175e-05,
+   "runs": [
+    0.01203372081120809,
+    0.012196938196818033
+   ]
+  },
+  "mean_cost_usd": {
+   "mean": 0.0,
+   "std": 0.0,
+   "runs": [
+    0.0,
+    0.0
+   ]
+  },
+  "override_rate": {
+   "mean": 0.0,
+   "std": 0.0,
+   "runs": [
+    0.0,
+    0.0
+   ]
+  },
+  "trace_validation": {
+   "valid": 24,
+   "invalid": 0,
+   "rate": 1.0
+  }
+ },
+ "reranker": {
+  "n_episodes": 24,
+  "n_runs": 2,
+  "per_run": [
+   {
+    "run_id": "eval-mock-reranker-r0",
+    "n_episodes": 12,
+    "tgc": 1.0,
+    "sgc": 1.0,
+    "invalid_action_rate": 0.0,
+    "mean_steps": 3.0,
+    "mean_wall_s": 0.012226382891337076,
+    "mean_cost_usd": 0.0,
+    "termination": {
+     "completed": 12,
+     "max_steps": 0,
+     "error": 0,
+     "budget": 0
+    },
+    "override_rate": 0.3888888888888889
+   },
+   {
+    "run_id": "eval-mock-reranker-r1",
+    "n_episodes": 12,
+    "tgc": 1.0,
+    "sgc": 1.0,
+    "invalid_action_rate": 0.027777777777777776,
+    "mean_steps": 3.0,
+    "mean_wall_s": 0.012569308280944824,
+    "mean_cost_usd": 0.0,
+    "termination": {
+     "completed": 12,
+     "max_steps": 0,
+     "error": 0,
+     "budget": 0
+    },
+    "override_rate": 0.3611111111111111
+   }
+  ],
+  "tgc": {
+   "mean": 1.0,
+   "std": 0.0,
+   "runs": [
+    1.0,
+    1.0
+   ]
+  },
+  "sgc": {
+   "mean": 1.0,
+   "std": 0.0,
+   "runs": [
+    1.0,
+    1.0
+   ]
+  },
+  "invalid_action_rate": {
+   "mean": 0.013888888888888888,
+   "std": 0.013888888888888888,
+   "runs": [
+    0.0,
+    0.027777777777777776
+   ]
+  },
+  "mean_steps": {
+   "mean": 3.0,
+   "std": 0.0,
+   "runs": [
+    3.0,
+    3.0
+   ]
+  },
+  "mean_wall_s": {
+   "mean": 0.01239784558614095,
+   "std": 0.000171462694803874,
+   "runs": [
+    0.012226382891337076,
+    0.012569308280944824
+   ]
+  },
+  "mean_cost_usd": {
+   "mean": 0.0,
+   "std": 0.0,
+   "runs": [
+    0.0,
+    0.0
+   ]
+  },
+  "override_rate": {
+   "mean": 0.375,
+   "std": 0.013888888888888895,
+   "runs": [
+    0.3888888888888889,
+    0.3611111111111111
+   ]
+  },
+  "trace_validation": {
+   "valid": 24,
+   "invalid": 0,
+   "rate": 1.0
+  }
+ },
+ "delta": {
+  "tgc": 0.25,
+  "sgc": 0.75,
+  "invalid_action_rate": -0.23872435152922955,
+  "mean_steps": -0.45833333333333304,
+  "mean_wall_s": 0.00028251608212788784,
+  "mean_cost_usd": 0.0
+ },
+ "total_seconds": 0.6057238578796387
+}

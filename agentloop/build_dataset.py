@@ -16,13 +16,15 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+
+import numpy as np
 import json
 import random
 from pathlib import Path
 
 from agentloop.schema import Episode, Provenance, TrainingExample
 
-BUILDER_VERSION = "1"
+BUILDER_VERSION = "2"
 
 
 def episode_examples(ep: Episode, trace_file: str) -> list[TrainingExample]:
@@ -34,14 +36,33 @@ def episode_examples(ep: Episode, trace_file: str) -> list[TrainingExample]:
         code = cand.action.get("code", "")
         ctx = {"instruction": ep.task_instruction, "last_observation": last_obs or "", "last_error": last_err or "", "last_code": last_code or "",
                "step_index": str(s.step_index), "n_prev_errors": str(n_prev_errors)}
+        succ = None if ep.final_eval is None or ep.final_eval.success is None else int(ep.final_eval.success)
+        prog = None if s.reward is None else int(s.reward > 0)
+        ev = s.evaluator_output or {}
+        regr = None if s.reward is None else int(s.reward < 0 or bool(s.success_state and ev.get("failures", 0) > 0))
         eid = hashlib.sha256(f"{ep.episode_id}:{s.step_index}:{s.chosen_index}".encode()).hexdigest()[:16]
         out.append(TrainingExample(
             example_id=eid, group_id=ep.scenario_id or ep.task_id, split=ep.split, context=ctx, action={"type": cand.action.get("type", "none"), "code": code},
-            label_valid=int(s.error is None and bool(code)), label_success=None if ep.final_eval is None or ep.final_eval.success is None else int(ep.final_eval.success),
+            label_valid=int(s.error is None and bool(code)), label_success=succ, label_progress=prog, label_regress=regr, source="executed",
             step_index=s.step_index,
             provenance=Provenance(episode_id=ep.episode_id, step_index=s.step_index, candidate_index=s.chosen_index, schema_version=ep.schema_version,
                                   builder_version=BUILDER_VERSION, trace_file=trace_file),
         ))
+        # counterfactual candidates (executed in forks): same context, their own labels
+        for k, c in enumerate(s.candidates):
+            cf = c.counterfactual
+            if k == s.chosen_index or cf is None:
+                continue
+            ccode = c.action.get("code", "")
+            delta = cf.passes_after - cf.passes_before
+            out.append(TrainingExample(
+                example_id=hashlib.sha256(f"{ep.episode_id}:{s.step_index}:{k}".encode()).hexdigest()[:16], group_id=ep.scenario_id or ep.task_id, split=ep.split,
+                context=ctx, action={"type": c.action.get("type", "none"), "code": ccode},
+                label_valid=int(cf.error is None and bool(ccode)), label_success=None, label_progress=int(delta > 0), label_regress=int(delta < 0 or (cf.done and cf.failures_after > 0)),
+                source="counterfactual", step_index=s.step_index,
+                provenance=Provenance(episode_id=ep.episode_id, step_index=s.step_index, candidate_index=k, schema_version=ep.schema_version,
+                                      builder_version=BUILDER_VERSION, trace_file=trace_file),
+            ))
         last_obs, last_err, last_code = s.tool_result, (s.error.message if s.error else None), code
         if s.error:
             n_prev_errors += 1
@@ -66,7 +87,10 @@ def build(trace_dirs: list[Path], out: Path, heldout_frac: float = 0.25, seed: i
     held = set(groups[:n_held])
     out.mkdir(parents=True, exist_ok=True)
     stats = {"n_episodes": n_ep, "n_examples": len(examples), "n_groups": len(groups), "heldout_groups": sorted(held),
-             "pos_rate": sum(e.label_valid for e in examples) / max(len(examples), 1), "builder_version": BUILDER_VERSION}
+             "pos_rate": sum(e.label_valid for e in examples) / max(len(examples), 1), "builder_version": BUILDER_VERSION,
+             "n_counterfactual": sum(1 for e in examples if e.source == "counterfactual"),
+             "progress_rate": float(np.mean([e.label_progress for e in examples if e.label_progress is not None])) if any(e.label_progress is not None for e in examples) else None,
+             "regress_rate": float(np.mean([e.label_regress for e in examples if e.label_regress is not None])) if any(e.label_regress is not None for e in examples) else None}
     with open(out / "train.jsonl", "w") as ftr, open(out / "heldout.jsonl", "w") as fho:
         for e in examples:
             (fho if e.group_id in held else ftr).write(e.model_dump_json() + "\n")

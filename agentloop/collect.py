@@ -22,14 +22,21 @@ from agentloop.redaction import RULES_VERSION, Redactor
 from agentloop.schema import Episode, Redaction
 
 
-def make_env(name: str, **kw):
+def make_env(name: str, port: int | None = None, **kw):
     if name == "appworld":
         from agentloop.envs.appworld import AppWorldEnv
-        return AppWorldEnv(**kw)
+        return AppWorldEnv(**({"port": port} if port else {}), **kw)
     if name == "mock":
         from agentloop.envs.mock import MockEnv
         return MockEnv()
     raise ValueError(name)
+
+
+def make_fork_pool(name: str, n_workers: int, base_port: int = 9200):
+    if n_workers <= 0:
+        return None
+    from agentloop.envs.forking import ForkPool
+    return ForkPool(lambda i: make_env(name, port=base_port + i), n_workers=n_workers)
 
 
 def make_client(kind: str, model_id: str, seed: int = 0, noise: float = 0.3):
@@ -50,7 +57,10 @@ def make_policy(kind: str, model_path: str | None, n_candidates: int, score_mode
 
 def _make_inner(kind: str, model_path: str | None, n_candidates: int, score_mode: str = "product", validity_model: str | None = None):
     if kind == "baseline":
-        return FirstCandidatePolicy()
+        return FirstCandidatePolicy(n_candidates=n_candidates)
+    if kind == "oracle":
+        from agentloop.agent.policy import OracleLookaheadPolicy
+        return OracleLookaheadPolicy(n_candidates=n_candidates)
     if kind == "reranker":
         return RerankerPolicy(model_path, n_candidates=n_candidates, score_mode=score_mode)
     if kind == "tracemodel":
@@ -114,13 +124,15 @@ def main(argv=None):
     ap.add_argument("--runs", type=int, default=1)
     ap.add_argument("--client", default="anthropic", choices=["anthropic", "scripted", "canned"])
     ap.add_argument("--model", default="claude-haiku-4-5")
-    ap.add_argument("--policy", default="baseline", choices=["baseline", "reranker", "tracemodel"])
+    ap.add_argument("--policy", default="baseline", choices=["baseline", "reranker", "tracemodel", "oracle"])
     ap.add_argument("--policy-model", default=None)
     ap.add_argument("--validity-model", default=None, help="tracemodel only: also multiply by the token-level validity scorer (hybrid)")
     ap.add_argument("--prompt-version", default="v1", choices=["v1", "v2"])
+    ap.add_argument("--fork-workers", type=int, default=0, help="execute every candidate in a forked env copy (counterfactual labels / oracle); 0 = off")
+    ap.add_argument("--no-step-eval", action="store_true", help="skip per-step evaluator calls (dense progress reward)")
     ap.add_argument("--gate", action="store_true", help="wrap the policy with the schema + progress gates (rule-based, from the published action schema)")
     ap.add_argument("--n-candidates", type=int, default=3)
-    ap.add_argument("--score-mode", default="product", choices=["valid", "success", "product", "plausible"])
+    ap.add_argument("--score-mode", default="product", choices=["valid", "success", "product", "plausible", "progress"])
     ap.add_argument("--max-steps", type=int, default=25)
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--seed", type=int, default=0)
@@ -133,8 +145,10 @@ def main(argv=None):
     out = Path(args.out)
     (out / "schemas").mkdir(parents=True, exist_ok=True)
     env = make_env(args.env)
+    pool = make_fork_pool(args.env, args.fork_workers)
     tasks = args.tasks or select_tasks(env, args.split, args.n_tasks, args.seed)
-    policy = make_policy(args.policy, args.policy_model, args.n_candidates, args.score_mode, args.validity_model, args.gate)
+    n_cand = args.n_candidates if (args.policy != "baseline" or args.fork_workers > 0) else 1
+    policy = make_policy(args.policy, args.policy_model, n_cand, args.score_mode, args.validity_model, args.gate)
     run_id = args.run_id or f"{args.env}-{args.split}-{args.policy}-{time.strftime('%Y%m%d%H%M%S')}"
     redactor = Redactor(salt=run_id)
     schemas: dict = {}
@@ -145,7 +159,8 @@ def main(argv=None):
         for r in range(args.runs):
             seed = args.seed + r
             client = make_client(args.client, args.model, seed=seed, noise=args.noise)
-            agent = LLMAgent(client, policy, max_steps=args.max_steps, temperature=args.temperature, prompt_version=args.prompt_version)
+            agent = LLMAgent(client, policy, max_steps=args.max_steps, temperature=args.temperature, prompt_version=args.prompt_version,
+                             fork_pool=pool, step_eval=not args.no_step_eval)
             for t in tasks:
                 if args.cost_budget is not None and total_cost >= args.cost_budget:
                     print(f"cost budget {args.cost_budget} reached; stopping")
@@ -167,6 +182,8 @@ def main(argv=None):
     manifest.update({"n_valid": n_ok, "n_invalid": n_bad, "validation_rate": n_ok / max(n_ok + n_bad, 1), "total_cost_usd": total_cost,
                      "env_version": env.version(), "redaction_rules_version": RULES_VERSION, "n_redactions": redactor.count})
     (out / "manifest.json").write_text(json.dumps(manifest, indent=1, default=str))
+    if pool is not None:
+        pool.shutdown()
     if hasattr(env, "shutdown"):
         env.shutdown()
     print(f"wrote {n_ok} valid / {n_bad} invalid episodes to {out}  total cost ${total_cost:.2f}")

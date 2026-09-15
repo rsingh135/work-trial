@@ -27,7 +27,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-SCHEMA_VERSION = "1.0.0"
+SCHEMA_VERSION = "1.1.0"
 
 
 class TerminationReason(str, Enum):
@@ -52,12 +52,24 @@ class Usage(BaseModel):
     latency_s: float = 0.0
 
 
+class Counterfactual(BaseModel):
+    """Outcome of executing this candidate in a *forked* copy of the environment (replayed prefix):
+    the label every candidate would have received had it been chosen."""
+    error: ErrorInfo | None = None
+    passes_before: int
+    passes_after: int
+    failures_after: int
+    done: bool = False
+    result_head: str = ""  # first 200 chars of the tool result
+
+
 class Candidate(BaseModel):
     action_raw: str  # full LLM output
     action: dict[str, Any]  # structured: {"type": "execute_code", "code": "...", "api_calls": [...]}
     score: float | None = None  # policy score (None when not scored)
     usage: Usage = Field(default_factory=Usage)
     parse_error: str | None = None
+    counterfactual: Counterfactual | None = None
 
 
 class Step(BaseModel):
@@ -121,7 +133,7 @@ class Redaction(BaseModel):
 
 
 class Episode(BaseModel):
-    schema_version: Literal["1.0.0"] = SCHEMA_VERSION
+    schema_version: Literal["1.0.0", "1.1.0"] = SCHEMA_VERSION
     env_id: str  # adapter name, e.g. "appworld"
     benchmark: str  # e.g. "appworld"
     task_id: str
@@ -175,6 +187,9 @@ class TrainingExample(BaseModel):
     action: dict[str, Any]
     label_valid: int  # 1 = executed without error
     label_success: int | None  # episode-level success (None if unknown)
+    label_progress: int | None = None  # 1 = evaluator passes increased after this action (dense, per-step)
+    label_regress: int | None = None  # 1 = passes decreased (collateral damage)
+    source: str = "executed"  # "executed" (the chosen action) or "counterfactual" (a forked candidate)
     step_index: int
     provenance: Provenance
 

@@ -31,7 +31,7 @@ def test_schema_roundtrip_and_required_fields():
                  termination_reason=TerminationReason.max_steps, final_eval=FinalEval(success=False), totals=Totals(steps=2, invalid_actions=1, input_tokens=0, output_tokens=0, cost_usd=0, wall_s=0))
     line = ep.to_jsonl_line()
     back = Episode.from_jsonl_line(line)
-    assert back == ep and back.schema_version == "1.0.0"
+    assert back == ep and back.schema_version == "1.1.0"
     assert back.steps[1].error.type == "api_error"  # failed actions are retained
 
 

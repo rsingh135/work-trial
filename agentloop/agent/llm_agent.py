@@ -16,8 +16,8 @@ from dataclasses import dataclass
 from typing import Any, Protocol
 
 from agentloop.envs.base import Env
-from agentloop.schema import (Candidate, Episode, ErrorInfo, FinalEval, Step, TerminationReason, Totals, Usage, Versions,
-                              content_hash, now)
+from agentloop.schema import (Candidate, Counterfactual, Episode, ErrorInfo, FinalEval, Step, TerminationReason, Totals, Usage,
+                              Versions, content_hash, now)
 
 # USD per million tokens: (input, output, cache_write, cache_read)
 PRICES = {
@@ -161,8 +161,13 @@ def git_sha() -> str:
 
 class LLMAgent:
     def __init__(self, client: LLMClient, policy, max_steps: int = 25, temperature: float = 0.7, max_tokens: int = 1024,
-                 history_turns: int = 12, max_obs_chars: int = 2500, cost_budget_usd: float | None = None, prompt_version: str = "v1"):
+                 history_turns: int = 12, max_obs_chars: int = 2500, cost_budget_usd: float | None = None, prompt_version: str = "v1",
+                 fork_pool=None, step_eval: bool = True):
+        """fork_pool: optional ForkPool; when given, every sampled candidate is executed in a forked copy of the
+        environment before the policy chooses (counterfactual labels; needed by the oracle lookahead policy).
+        step_eval: call env.evaluate() after every step and record the evaluator's pass count (dense progress)."""
         self.client, self.policy = client, policy
+        self.fork_pool, self.step_eval = fork_pool, step_eval
         self.system_prompt = PROMPTS[prompt_version]
         self.max_steps, self.temperature, self.max_tokens = max_steps, temperature, max_tokens
         self.history_turns, self.max_obs_chars = history_turns, max_obs_chars
@@ -196,10 +201,18 @@ class LLMAgent:
         )
         turns: list[tuple[str, str]] = []
         history: list[dict] = []  # structured trajectory so far, for sequence-model policies
+        executed_actions: list[dict] = []  # for replay-forking
         current_obs = obs.text
         last_error, last_code, n_prev_errors, invalid = None, None, 0, 0
         termination = TerminationReason.max_steps
         cost = 0.0
+        passes = None
+        if self.step_eval:
+            try:
+                ev0 = env.evaluate()
+                passes = len(ev0.passes)
+            except Exception:
+                passes = None
         for i in range(self.max_steps):
             msgs = self._messages(obs.text, turns)
             candidates: list[Candidate] = []
@@ -227,6 +240,22 @@ class LLMAgent:
                                      error=ErrorInfo(type="llm_error", message=llm_error or "no candidates"), usage=step_usage))
                 termination = TerminationReason.error
                 break
+            # counterfactual execution of every candidate in a forked copy (label-time / lookahead)
+            if self.fork_pool is not None:
+                cfs = []
+                for code in codes:
+                    if not code:
+                        cfs.append(None); continue
+                    try:
+                        r_cf, ev_cf = self.fork_pool.try_candidate(task_id, executed_actions, {"type": "execute_code", "code": code}, seed=seed)
+                        cfs.append(Counterfactual(error=ErrorInfo(**r_cf.error) if r_cf.error else None, passes_before=passes or 0,
+                                                  passes_after=len(ev_cf.passes), failures_after=len(ev_cf.failures), done=r_cf.done,
+                                                  result_head=r_cf.observation[:200]))
+                    except Exception as e:  # a fork failure must not kill the episode
+                        cfs.append(None)
+                for c, cf in zip(candidates, cfs):
+                    c.counterfactual = cf
+                context["counterfactuals"] = [None if cf is None else cf.model_dump() for cf in cfs]
             chosen, scores, meta = self.policy.choose(context, codes)
             for c, s in zip(candidates, scores):
                 c.score = s
@@ -240,8 +269,21 @@ class LLMAgent:
             if err:
                 invalid += 1
                 n_prev_errors += 1
+            reward, ev_out = None, None
+            if self.step_eval and code:
+                try:
+                    ev_s = env.evaluate()
+                    new_passes = len(ev_s.passes)
+                    reward = float(new_passes - passes) if passes is not None else None
+                    ev_out = {"passes": new_passes, "failures": len(ev_s.failures), "success": ev_s.success}
+                    passes = new_passes
+                except Exception:
+                    pass
             ep.steps.append(Step(step_index=i, timestamp=now(), observation=current_obs, action_schema_ref=schema_ref, candidates=candidates, chosen_index=chosen,
-                                 tool_result=res_obs, error=ErrorInfo(**err) if err else None, success_state=done, usage=step_usage, policy_meta=meta))
+                                 tool_result=res_obs, error=ErrorInfo(**err) if err else None, success_state=done, reward=reward, evaluator_output=ev_out,
+                                 usage=step_usage, policy_meta=meta))
+            if code:
+                executed_actions.append({"type": "execute_code", "code": code})
             turns.append((code or "(no code)", res_obs))
             history.append({"code": code or "", "error_type": err["type"] if err else None, "timestamp": time.time()})
             current_obs, last_error, last_code = res_obs, (err["message"] if err else None), code
