@@ -193,3 +193,7 @@ v2 results so far (prompt v2, 30 dev × 2): baseline 3.3 / gate-only 3.3 / token
 - Opus 5 + world-frame (prompt v4): **96.7% TGC**, 9.5% invalid, 9.5 steps, 2,278 vs 3,296 input tokens/step, $0.142/episode. Rescues scenario 50e1ac9 (raw fails all 6 attempts); loses 2 scattered episodes. Collection: 70/90 train tasks solved.
 - Reading: with a capable generator the candidate menu is good and memory mainly buys cost and the hard scenario; picker + oracle arms (running) will show whether selection adds anything on top of a 97% agent.
 - Repo tidied for submission: concise 4-page `DESIGN_NOTE.md` (full version in `docs/`), simpler README, regenerable artefacts untracked, schema example reduced to app→API names; fresh clone verified (19 tests, demo in 3 s).
+
+## 2026-09-15 (afternoon) — v4 complete
+
+Opus 5, same 30 dev × 2: raw 90.0% → world-frame 96.7% → world-frame + gates + progress picker 96.7% (invalid 9.5→4.9%, steps 9.5→8.8, 2.8× cost) → world-frame + gates + oracle **100% TGC and SGC**. Zero seed variance in all four arms. Total Part 2 spend $270. Reading: the picker's value equals the gap between the generator's menu and the checker's optimum — zero for Haiku (empty menu), efficiency for Opus, and the last scenarios only with the environment in the loop. Docs updated; site tables update live.

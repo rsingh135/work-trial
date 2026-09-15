@@ -52,6 +52,7 @@ A system emits a **partial history** (a case prefix; an agent trajectory prefix)
 | v1 (one label / step) | 3.3 % | — | 6.7 % | 3.3 % | — |
 | v2 (dense labels, forks, gates) | 3.3 % | 3.3 % | 6.7 % | 3.3 % | **5.0 %** |
 | v3 (+ harness fixes) | 1.7 % | 0.0 % | 0.0 % | 3.3 % | 1.7 % |
+| **v4 Opus 5**: raw → world-frame → +picker → +oracle | 90.0 % → 96.7 % | — | 96.7 % | — | 100 % |
 
 Offline the learners are strong (held-out scenarios: validity AUROC 0.97, progress 0.99, regress 1.00); end-to-end nothing moves (differences of 1–2 successes in 60). The oracle explains why: even with the real environment as judge, best-of-3 completes 5 %, because in 1,239 of 1,283 steps *no* sampled candidate advances the checker. The candidate generator, not the picker, is the bottleneck. The offline-vs-online gap the brief asks about appeared twice in the data: a validity-only picker prefers a bare `complete_task()` because it never errors (19/60 episodes end within two steps), and the API-level model cannot see argument mistakes the text model can. Harness bugs found in the traces (truncated replies at my 1,024-token cap, hand-retyped passwords) were fixed in v3 and helped on training tasks (credential errors 95 → 4) but not on dev.
 
@@ -61,10 +62,10 @@ Offline the learners are strong (held-out scenarios: validity AUROC 0.97, progre
 |---|---|---|---|---|---|---|
 | raw history (prompt v3) | 90.0 ± 0.0 | 90.0 | 4.2 | 9.8 | 3,296 | 0.196 |
 | **world-frame (prompt v4)** | **96.7 ± 0.0** | 90.0 | 9.5 | 9.5 | 2,278 | **0.142** |
-| world-frame + gates + progress picker | *running* | | | | | |
-| world-frame + gates + oracle | *running* | | | | | |
+| world-frame + gates + progress picker (3 samples) | 96.7 ± 0.0 | 90.0 | 4.9 | 8.8 | — | 0.399 |
+| world-frame + gates + **oracle lookahead** (3 samples, forked) | **100.0 ± 0.0** | **100.0** | 5.8 | 8.6 | — | 0.393 |
 
-The generator was the whole Haiku story: the same harness, tasks and seeds go from ≤ 6.7 % to 90 % by swapping the model. The persistent state then adds four successes in 60 (it rescues an entire scenario the raw agent fails in all six attempts), cuts the context by a third and the cost per episode by 28 %, at the price of more exploratory errors (9.5 % vs 4.2 % invalid actions). Zero run-to-run variance in both arms.
+The generator was the whole Haiku story: the same harness, tasks and seeds go from ≤ 6.7 % to 90 % by swapping the model. The persistent state then adds four successes in 60 (it rescues an entire scenario the raw agent fails in all six attempts), cuts the context by a third and the cost per episode by 28 %, at the price of more exploratory errors (9.5 % vs 4.2 % invalid actions). On top of that agent the learned picker keeps completion at 96.7 % while halving invalid actions (9.5 → 4.9 %) and shortening episodes (9.5 → 8.8 steps), for 2.8× the cost; the environment-forking oracle reaches 100 % of tasks and scenarios. Read together with Haiku: selection among candidates is worth exactly the gap between the generator's menu and the checker's optimum — nothing when the menu is empty (Haiku, ceiling 5 %), efficiency when the menu is good (Opus), and the last two scenarios only with the environment in the loop. Zero run-to-run variance in every Opus arm; total recorded API spend for Part 2, all versions: $270.
 
 ## 3. Limitations
 
