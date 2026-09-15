@@ -128,6 +128,7 @@ def main(argv=None):
     ap.add_argument("--policy-model", default=None)
     ap.add_argument("--validity-model", default=None, help="tracemodel only: also multiply by the token-level validity scorer (hybrid)")
     ap.add_argument("--prompt-version", default="v1", choices=["v1", "v2", "v3"])
+    ap.add_argument("--max-tokens", type=int, default=1024, help="LLM output cap per turn (v1/v2 experiments used 1024)")
     ap.add_argument("--fork-workers", type=int, default=0, help="execute every candidate in a forked env copy (counterfactual labels / oracle); 0 = off")
     ap.add_argument("--workers", type=int, default=1, help="parallel worker processes (each with its own env server / fork pool)")
     ap.add_argument("--no-step-eval", action="store_true", help="skip per-step evaluator calls (dense progress reward)")
@@ -161,7 +162,7 @@ def main(argv=None):
         spec = dict(env=args.env, fork_workers=args.fork_workers, policy=args.policy, policy_model=args.policy_model, n_candidates=n_cand,
                     score_mode=args.score_mode, validity_model=args.validity_model, gate=args.gate, client=args.client, model=args.model, seed=args.seed,
                     noise=args.noise, max_steps=args.max_steps, temperature=args.temperature, prompt_version=args.prompt_version,
-                    step_eval=not args.no_step_eval, split=args.split, run_tag=run_id)
+                    step_eval=not args.no_step_eval, split=args.split, run_tag=run_id, max_tokens=args.max_tokens)
         jobs = [(r, t) for r in range(args.runs) for t in tasks]
         with open(out / "episodes.jsonl", "a") as fh_ok, open(out / "invalid.jsonl", "a") as fh_bad:
             state = {"ok": 0, "bad": 0, "cost": 0.0}

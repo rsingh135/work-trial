@@ -59,8 +59,8 @@ def test_redaction_rules():
 def test_parse_code():
     assert parse_code("text\n```python\nprint(1)\n```")[0] == "print(1)"
     assert parse_code("no code here") == (None, "no_code_block")
-    assert parse_code("<function_calls><invoke name=\"x\"><parameter>apis.spotify.login()</parameter>")[0] is None
-    assert parse_code("```python\nprint(apis.x.y(")[1] == "truncated_code_block"
+    assert parse_code("<function_calls><invoke name=\"x\"><parameter>apis.spotify.login()</parameter>", strict=True)[0] is None
+    assert parse_code("```python\nprint(apis.x.y(", strict=True)[1] == "truncated_code_block"
 
 
 def test_end_to_end_collect_build_train_reinsert(tmp_path: Path):

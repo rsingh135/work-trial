@@ -63,15 +63,18 @@ SYSTEM_PROMPT = SYSTEM_PROMPT_V1
 _CODE_BLOCK = re.compile(r"```(?:python)?\s*\n(.*?)```", re.DOTALL)
 
 
-def parse_code(text: str) -> tuple[str | None, str | None]:
+def parse_code(text: str, strict: bool = False) -> tuple[str | None, str | None]:
+    """strict=True (prompt v3+): fake tool-call XML and unclosed fences are parse errors instead of being
+    executed as code. Kept opt-in so earlier experiment versions stay reproducible."""
     m = _CODE_BLOCK.findall(text)
     if m:
         return m[-1].strip(), None
     t = text.strip()
-    if "<invoke" in t or "<function_calls" in t or "<parameter" in t:
-        return None, "fake_tool_call_xml"  # the model emitted a tool-call transcript instead of a code block
-    if t.count("```") == 1:
-        return None, "truncated_code_block"  # opened a fence but never closed it (hit max_tokens)
+    if strict:
+        if "<invoke" in t or "<function_calls" in t or "<parameter" in t:
+            return None, "fake_tool_call_xml"
+        if t.count("```") == 1:
+            return None, "truncated_code_block"
     if t and ("apis." in t or t.startswith("print(")):
         return t, "no_fence"
     return None, "no_code_block"
@@ -174,7 +177,7 @@ def git_sha() -> str:
 
 
 class LLMAgent:
-    def __init__(self, client: LLMClient, policy, max_steps: int = 25, temperature: float = 0.7, max_tokens: int = 4096,
+    def __init__(self, client: LLMClient, policy, max_steps: int = 25, temperature: float = 0.7, max_tokens: int = 1024,
                  history_turns: int = 12, max_obs_chars: int = 2500, cost_budget_usd: float | None = None, prompt_version: str = "v1",
                  fork_pool=None, step_eval: bool = True):
         """fork_pool: optional ForkPool; when given, every sampled candidate is executed in a forked copy of the
@@ -183,6 +186,7 @@ class LLMAgent:
         self.client, self.policy = client, policy
         self.fork_pool, self.step_eval = fork_pool, step_eval
         self.system_prompt = PROMPTS[prompt_version]
+        self.strict_parse = prompt_version not in ("v1", "v2")
         self.max_steps, self.temperature, self.max_tokens = max_steps, temperature, max_tokens
         self.history_turns, self.max_obs_chars = history_turns, max_obs_chars
         self.cost_budget = cost_budget_usd
@@ -239,7 +243,7 @@ class LLMAgent:
                 except Exception as e:  # network / API errors are part of the trace, not a crash
                     llm_error = f"{type(e).__name__}: {e}"[:300]
                     break
-                code, perr = parse_code(r.text)
+                code, perr = parse_code(r.text, strict=self.strict_parse)
                 candidates.append(Candidate(action_raw=r.text, action={"type": "execute_code", "code": code or "", "api_calls": []}, usage=r.usage, parse_error=perr if code is None else None))
                 codes.append(code or "")
                 for f in ("input_tokens", "output_tokens", "cache_read_tokens", "cache_write_tokens", "cost_usd", "latency_s"):

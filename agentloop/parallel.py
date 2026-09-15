@@ -36,7 +36,7 @@ def _run_job(r: int, task: str) -> tuple[int, str, str, dict]:
     if r not in _G["clients"]:
         _G["clients"][r] = _G["make_client"](spec["client"], spec["model"], seed=spec["seed"] + r, noise=spec["noise"])
     agent = LLMAgent(_G["clients"][r], _G["policy"], max_steps=spec["max_steps"], temperature=spec["temperature"],
-                     prompt_version=spec["prompt_version"], fork_pool=_G["pool"], step_eval=spec["step_eval"])
+                     prompt_version=spec["prompt_version"], fork_pool=_G["pool"], step_eval=spec["step_eval"], max_tokens=spec.get("max_tokens", 1024))
     ep = agent.run_episode(_G["env"], task, spec["split"], run_id=f"{spec['run_tag']}-r{r}", seed=spec["seed"] + r, schema_store=_G["schemas"])
     return r, task, ep.model_dump_json(), dict(_G["schemas"])
 

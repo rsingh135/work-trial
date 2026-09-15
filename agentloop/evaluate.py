@@ -58,7 +58,7 @@ def summarize(episodes: list[Episode]) -> dict:
     return {"n_episodes": len(episodes), "n_runs": len(per_run), "per_run": per_run, **agg}
 
 
-def run_policy(env, tasks, split, policy_kind, policy_model, n_candidates, client_kind, model_id, runs, seed, max_steps, temperature, out, noise, run_tag, score_mode="product", validity_model=None, gate=False, prompt_version="v1", fork_pool=None, step_eval=True, workers=1, fork_workers=0, env_name="appworld"):
+def run_policy(env, tasks, split, policy_kind, policy_model, n_candidates, client_kind, model_id, runs, seed, max_steps, temperature, out, noise, run_tag, score_mode="product", validity_model=None, gate=False, prompt_version="v1", fork_pool=None, step_eval=True, workers=1, fork_workers=0, env_name="appworld", max_tokens=1024):
     out.mkdir(parents=True, exist_ok=True)
     (out / "schemas").mkdir(exist_ok=True)
     redactor = Redactor(salt=run_tag)
@@ -68,7 +68,7 @@ def run_policy(env, tasks, split, policy_kind, policy_model, n_candidates, clien
         from agentloop.parallel import run_parallel
         spec = dict(env=env_name, fork_workers=fork_workers, policy=policy_kind, policy_model=policy_model, n_candidates=n_candidates, score_mode=score_mode,
                     validity_model=validity_model, gate=gate, client=client_kind, model=model_id, seed=seed, noise=noise, max_steps=max_steps,
-                    temperature=temperature, prompt_version=prompt_version, step_eval=step_eval, split=split, run_tag=run_tag)
+                    temperature=temperature, prompt_version=prompt_version, step_eval=step_eval, split=split, run_tag=run_tag, max_tokens=max_tokens)
         jobs = [(r, t) for r in range(runs) for t in tasks]
         with open(out / "episodes.jsonl", "w") as fh_ok, open(out / "invalid.jsonl", "w") as fh_bad:
             def on_ep(r, t, ep):
@@ -86,7 +86,7 @@ def run_policy(env, tasks, split, policy_kind, policy_model, n_candidates, clien
     with open(out / "episodes.jsonl", "w") as fh_ok, open(out / "invalid.jsonl", "w") as fh_bad:
         for r in range(runs):
             client = make_client(client_kind, model_id, seed=seed + r, noise=noise)
-            agent = LLMAgent(client, policy, max_steps=max_steps, temperature=temperature, prompt_version=prompt_version, fork_pool=fork_pool, step_eval=step_eval)
+            agent = LLMAgent(client, policy, max_steps=max_steps, temperature=temperature, prompt_version=prompt_version, fork_pool=fork_pool, step_eval=step_eval, max_tokens=max_tokens)
             for t in tasks:
                 ep = agent.run_episode(env, t, split, run_id=f"{run_tag}-r{r}", seed=seed + r, schema_store=schemas)
                 if _fatal_llm_error(ep):
@@ -114,6 +114,7 @@ def main(argv=None):
     ap.add_argument("--policy-model", default=None)
     ap.add_argument("--validity-model", default=None, help="tracemodel only: also multiply by the token-level validity scorer (hybrid)")
     ap.add_argument("--prompt-version", default="v1", choices=["v1", "v2", "v3"])
+    ap.add_argument("--max-tokens", type=int, default=1024, help="LLM output cap per turn (v1/v2 experiments used 1024)")
     ap.add_argument("--fork-workers", type=int, default=0, help="execute every candidate in a forked env copy (counterfactual labels / oracle); 0 = off")
     ap.add_argument("--workers", type=int, default=1, help="parallel worker processes (each with its own env server / fork pool)")
     ap.add_argument("--no-step-eval", action="store_true", help="skip per-step evaluator calls (dense progress reward)")
@@ -133,7 +134,7 @@ def main(argv=None):
     tasks = a.tasks or select_tasks(env, a.split, a.n_tasks, a.seed)
     t0 = time.time()
     pool = make_fork_pool(a.env, a.fork_workers) if a.workers <= 1 else None
-    common = dict(env=env, tasks=tasks, split=a.split, client_kind=a.client, model_id=a.model, runs=a.runs, seed=a.seed, max_steps=a.max_steps, temperature=a.temperature, noise=a.noise, prompt_version=a.prompt_version, fork_pool=pool, step_eval=not a.no_step_eval, workers=a.workers, fork_workers=a.fork_workers, env_name=a.env)
+    common = dict(env=env, tasks=tasks, split=a.split, client_kind=a.client, model_id=a.model, runs=a.runs, seed=a.seed, max_steps=a.max_steps, temperature=a.temperature, noise=a.noise, prompt_version=a.prompt_version, fork_pool=pool, step_eval=not a.no_step_eval, workers=a.workers, fork_workers=a.fork_workers, env_name=a.env, max_tokens=a.max_tokens)
     res = {"args": vars(a), "tasks": tasks, "n_tasks": len(tasks)}
     if not a.skip_baseline:
         res["baseline"] = run_policy(policy_kind="baseline", policy_model=None, n_candidates=1, out=out / "baseline", run_tag=f"eval-{a.env}-baseline", **{**common, "fork_pool": None})
