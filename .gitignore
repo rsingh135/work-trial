@@ -29,3 +29,4 @@ results/logs/*.log
 !results/logs/analyses.log
 *.pt
 studysite/
+traces/appworld_canned/

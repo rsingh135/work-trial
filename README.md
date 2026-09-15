@@ -1,73 +1,63 @@
-# Work trial: sequential modelling of process traces + a reusable agent-trace loop
+# Work trial: process-trace world model + agent-trace learning loop
 
-Two connected parts (brief: `instructions.md`, decision log: `PROGRESS.md`, design note: `DESIGN_NOTE.md`):
+Two parts, one idea: keep a compact **state** of a partially observed history and answer several questions from it.
 
-* **Part 1** (`bpm/`): a multi-head recurrent model over business-process event prefixes (BPI 2013 + BPI 2020 XES logs) that predicts the next activity, the time to the next event, the remaining case time, and multi-step suffixes from one shared state, compared against Markov and gradient-boosting baselines under in-distribution, chronological and cross-log shift.
-* **Part 2** (`agentloop/`): a benchmark-agnostic trace → dataset → train → reinsert → evaluate loop, with AppWorld as the first environment adapter and a mock environment for offline testing.
+* **Part 1** (`bpm/`): a multi-head sequence model over business-process event logs (BPI 2013 + 2020) that predicts the next activity, time to next event, remaining time and multi-step suffixes; compared with Markov and gradient-boosted baselines under random, chronological (leaky and strict) and cross-log shift; reproduces the published BPI2013 protocol.
+* **Part 2** (`agentloop/`): a benchmark-agnostic loop that runs an LLM agent, records complete versioned traces, builds training examples, trains small models and puts them back into the agent; AppWorld is the first adapter, a mock world the second.
 
-## Environment
+Read in this order: `DESIGN_NOTE.md` (4 pages) → `results/SUMMARY.md` → `PROGRESS.md` (every decision, dated, with reasons). Plain-language version: `docs/WORLD_MODEL_EXPLAINED.md`. Full-detail appendix: `docs/DESIGN_NOTE_FULL.md`.
+
+## Setup
 
 ```bash
-uv sync --extra dev            # Python 3.12, torch, sklearn, pydantic v2 … (uv.lock is the reproducible spec)
-make appworld-setup            # AppWorld in its own Python 3.11 venv (it pins pydantic<2) + ~200 MB data download
-export ANTHROPIC_API_KEY=...   # only needed for Part 2 runs on AppWorld with a real LLM
+uv sync --extra dev          # Python 3.12; uv.lock pins everything
+make test                    # 19 tests: splits, targets, streaming state, trace schema, redaction, train→reinsert, forking, world-frame
+make appworld-setup          # optional: AppWorld in its own Python 3.11 venv (pins pydantic<2) + ~200 MB data
 ```
+Raw logs are read from `researcher_work_trial_bundle/data/` (checksums in the bundle). AppWorld data, credentials, checkpoints and generated traces are not committed. For real-LLM runs put `ANTHROPIC_API_KEY` (and `ANTHROPIC_WORKSPACE_ID` if the key is org-level) in `.env`.
 
-Raw logs are read from the reference bundle at `researcher_work_trial_bundle/data/{bpi2013,bpi2020}/*.xes.gz` (paths in `bpm/ingest/registry.py`); the bundle data is not committed. Plain-language model explainer: `docs/WORLD_MODEL_EXPLAINED.md`.
+## Part 1
 
-## Part 1 — commands
-
-| What | Command | Output |
+| what | command | writes |
 |---|---|---|
-| Data audit (all 8 logs) | `uv run python -m bpm.ingest.audit` | `results/audit/SUMMARY.md`, per-log JSON |
-| **One-command demo** (sample, baselines + proposed, ~2 min) | `make demo` (= `uv run python -m bpm.run configs/demo.yaml`) | `results/demo.json` |
-| Full-scale run for one config | `uv run python -m bpm.run configs/international_random.yaml` | `results/<name>.json`, `results/<name>/{split,encoder}.json`, `<model>_seed<k>.pt` (checkpoints are not committed; rerun to regenerate them for `analyze_failures`/`downstream`) |
-| All full-scale runs (hours) | `scripts/run_all_part1.sh` | `results/*.json`, logs in `results/logs/` |
-| Aggregate tables + figures | `uv run python -m bpm.report` | `results/SUMMARY.md`, `results/figures/*.png` |
-| Failure analysis for a run | `uv run python -m bpm.analyze_failures results/international_random.json` | `results/international_random/failure_analysis.md` |
-| Downstream uses of the state (selective prediction, ensemble uncertainty, SLA risk, anomaly) | `uv run python -m bpm.downstream results/international_random.json --model gru_multihead` | `results/international_random/downstream.md` |
-| Published-protocol reproduction (5-fold CV, BPI2013) | `scripts/run_published_bpi2013.sh` then `uv run python -m bpm.published_compare` | `results/PUBLISHED_COMPARISON.md` |
-| Tests | `uv run pytest -q` | |
+| data audit, all 8 logs | `make audit` | `results/audit/SUMMARY.md` + per-log JSON |
+| **one-command demo** (~10 s) | `make demo` | `results/demo.json` |
+| one full config | `uv run python -m bpm.run configs/incidents_chrono_strict.yaml` | `results/<name>.json`, `results/<name>/{split,encoder}.json`, checkpoints |
+| all configs (~1 h) | `scripts/run_all_part1.sh` | `results/*.json` |
+| tables + figures | `uv run python -m bpm.report` | `results/SUMMARY.md`, `results/figures/` |
+| published-protocol runs | `scripts/run_published_bpi2013.sh && uv run python -m bpm.published_compare` | `results/PUBLISHED_COMPARISON.md` |
+| failure analysis / downstream uses | `uv run python -m bpm.analyze_failures results/incidents_random.json` · `uv run python -m bpm.downstream results/incidents_random.json` | `results/incidents_random/*.md` |
 
-Config keys are documented at the top of `bpm/run.py`; `--override key=value` patches any of them (e.g. `--override max_cases=500 seeds=[0]`). Model types: `markov`, `gbm`, `gru`, `transformer` (same heads, attention state); `factorised_output: true` adds the component-factorised output head. Split types: `random`, `chronological` (+ `strict: true`), `cv` (published protocol).
+Configs are YAML (`configs/`, generated by `configs/_gen.py`); `--override key=value` patches any key. Models: `markov`, `gbm`, `gru`, `transformer`. Splits: `random`, `chronological` (`strict: true` to truncate training histories at the cutoff), `cv` (published protocol).
 
-Result JSON layout: `config`, `git_sha`, `split` (type, fingerprint, sizes), `data`, then `models.<name>.runs[]` each with `train_log` and `metrics` (`next_activity`, `next_dt_hours`, `remaining_hours`, `suffix`, `uncertainty` incl. reliability bins, `next_activity_by_prefix_len`), plus `seed_summary` and optional `transfer`.
+## Part 2
 
-## Part 2 — commands
-
-| What | Command |
+| what | command |
 |---|---|
-| **Offline end-to-end demo** (mock env + scripted LLM, no key) | `make demo-part2` (= `scripts/demo_part2_offline.sh`) → `results/part2_mock/summary.json` |
-| Collect traces | `uv run python -m agentloop.collect --env appworld --split train --n-tasks 45 --out traces/appworld_train_v1 --cost-budget 10` |
-| Build training examples | `uv run python -m agentloop.build_dataset traces/appworld_train_v1 --out datasets/appworld_v1` |
-| Train the action scorer | `uv run python -m agentloop.train datasets/appworld_v1 --out models/appworld_v1` |
-| Baseline vs. reranked agent on held-out dev tasks | `uv run python -m agentloop.evaluate --env appworld --split dev --n-tasks 30 --runs 2 --policy-model models/appworld_v1/model.pkl --out results/part2_appworld_v1` |
-| Whole AppWorld pipeline | `scripts/run_part2_appworld.sh` (env vars `N_TRAIN_TASKS N_DEV_TASKS RUNS MODEL BUDGET`) |
-| Train the Part 1 sequence model on agent traces (trace world model) | `uv run python -m agentloop.trace_model train traces/appworld_train_v1 --out models/tracemodel_v1` |
-| Reinsert it (alone, or hybrid with the token scorer) | `uv run python -m agentloop.evaluate ... --policy tracemodel --policy-model models/tracemodel_v1 [--validity-model models/appworld_v1/model.pkl]` |
-| Dry run of the AppWorld adapter with canned actions (no key) | `uv run python -m agentloop.collect --env appworld --split train --n-tasks 3 --client canned --out traces/appworld_canned` |
+| **offline end-to-end demo**, no key (~1 min) | `make demo-part2` → `results/part2_mock*/summary.json` |
+| collect traces | `uv run python -m agentloop.collect --env appworld --split train --n-tasks 45 --out traces/train_x --workers 4 --n-candidates 3 --fork-workers 1` |
+| build examples / train learners | `uv run python -m agentloop.build_dataset traces/train_x --out datasets/x` · `uv run python -m agentloop.train datasets/x --out models/x` · `uv run python -m agentloop.trace_model train traces/train_x --out models/tm_x` |
+| baseline vs a policy on held-out dev tasks | `uv run python -m agentloop.evaluate --env appworld --split dev --n-tasks 30 --runs 2 --policy reranker --policy-model models/x/model.pkl --score-mode progress --gate --out results/part2_x` |
+| full pipelines as run | `scripts/run_part2_appworld.sh` (v1), `scripts/run_part2_v2_eval.sh`, `scripts/run_part2_v3.sh`, `scripts/run_part2_v4.sh` (Opus 5 + world-frame) |
 
-Trace layout: `<out>/episodes.jsonl` (one validated, redacted `Episode` per line; schema in `agentloop/schema.py`), `<out>/schemas/<sha256>.json` (action/tool schemas referenced by `action_schema_ref`), `<out>/manifest.json` (config, versions, validation rate, cost), `<out>/invalid.jsonl` (records that failed validation — never dropped silently). Example traces: `traces/examples/`.
+Policies: `baseline`, `reranker` (token scorer; `--score-mode valid|success|product|progress`), `tracemodel` (Part 1 model on traces; `--validity-model` makes it the hybrid), `oracle` (forked lookahead, needs `--fork-workers 1`); `--gate` adds the schema and progress gates; `--memory worldframe` enables the persistent state (with `--prompt-version v4`). Prompt versions v1–v4 are hashed into every trace.
 
-### Redaction rules (`agentloop/redaction.py`, rules v1)
-Values of keys matching `password|passwd|secret|api_key|apikey|access_token|auth_token|token|verification_code|otp` in JSON-like output, keyword arguments of the same names in agent code, and JWT-shaped blobs are replaced by `<REDACTED:<8 hex of salted sha256>>` at serialisation. Supervisor persona fields (name/e-mail/phone) in AppWorld are synthetic and referenced by task instructions, so they are kept; add them to `SECRET_KEYS` for real data. The agent process always sees unredacted values.
+Trace layout per run: `episodes.jsonl` (one validated, redacted `Episode` per line, schema `agentloop/schema.py` 1.1.0), `schemas/<sha256>.json` (action space, referenced per step), `manifest.json`, `invalid.jsonl` (never dropped silently). Examples: `traces/examples/`.
 
-### Adding another benchmark
-Implement `agentloop/envs/base.py::Env` (`task_ids`, `scenario_id`, `reset`, `step`, `action_schema`, `evaluate`, `close`, `version`) and register it in `agentloop/collect.py::make_env`. The collector, dataset builder, trainer, policies and evaluator do not change; the action dict just needs a `type` and, for the current featuriser, a `code` string (or extend `agentloop/agent/features.py`).
+**Redaction** (`agentloop/redaction.py`, v1): values of keys matching `password|passwd|secret|api_key|apikey|access_token|auth_token|token|verification_code|otp`, the same keyword arguments in code, and JWT-shaped blobs become `<REDACTED:8-hex salted sha256>` at write time. Synthetic supervisor persona fields are kept (referenced by task text); add them to `SECRET_KEYS` for real data.
+
+**Adding a benchmark**: implement `agentloop/envs/base.py::Env` (six methods) and register it in `agentloop/collect.py::make_env`. Nothing else changes; the token scorer's featuriser assumes a `code` string.
 
 ## Layout
 
 ```
-bpm/ingest/{xes,registry,audit}.py   streaming XES parser, per-log schema decisions, audit
-bpm/data/{cases,encoding}.py         case objects, case-level splits, train-fit encoder + targets
-bpm/models/{markov,gbm,recurrent}.py baselines + proposed model behind one interface (base.py)
-bpm/{evaluate,metrics,run,report,analyze_failures}.py
-agentloop/{schema,redaction}.py      trace schema v1.0.0, redaction
-agentloop/envs/{base,appworld,mock}.py
-agentloop/agent/{llm_agent,policy,features}.py
-agentloop/{collect,build_dataset,train,evaluate}.py
-agentloop/trace_model.py             agent traces as event logs → Part 1 model as the Part 2 learned component
-configs/  results/  traces/examples/  tests/  scripts/
+bpm/ingest/{xes,registry,audit}    streaming parser, per-log field decisions with reasons, audit
+bpm/data/{cases,encoding}          cases, case-level splits (random / chrono / strict / cv), train-fit encoder + targets
+bpm/models/{markov,gbm,recurrent}  baselines and the GRU / Transformer multi-head model (one interface)
+bpm/{evaluate,metrics,run,report,analyze_failures,downstream,published_compare}
+agentloop/{schema,redaction}       trace schema, redaction
+agentloop/envs/{base,appworld,mock,forking}
+agentloop/agent/{llm_agent,policy,features,worldframe}
+agentloop/{collect,build_dataset,train,trace_model,evaluate,parallel}
+configs/  results/  traces/examples/  tests/  scripts/  docs/
 ```
-
-Limitations and next steps: see `DESIGN_NOTE.md` (last two sections).
