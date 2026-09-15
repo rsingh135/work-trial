@@ -127,7 +127,7 @@ def main(argv=None):
     ap.add_argument("--policy", default="baseline", choices=["baseline", "reranker", "tracemodel", "oracle"])
     ap.add_argument("--policy-model", default=None)
     ap.add_argument("--validity-model", default=None, help="tracemodel only: also multiply by the token-level validity scorer (hybrid)")
-    ap.add_argument("--prompt-version", default="v1", choices=["v1", "v2"])
+    ap.add_argument("--prompt-version", default="v1", choices=["v1", "v2", "v3"])
     ap.add_argument("--fork-workers", type=int, default=0, help="execute every candidate in a forked env copy (counterfactual labels / oracle); 0 = off")
     ap.add_argument("--workers", type=int, default=1, help="parallel worker processes (each with its own env server / fork pool)")
     ap.add_argument("--no-step-eval", action="store_true", help="skip per-step evaluator calls (dense progress reward)")

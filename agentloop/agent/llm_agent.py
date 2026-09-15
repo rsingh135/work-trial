@@ -47,7 +47,17 @@ SYSTEM_PROMPT_V2 = SYSTEM_PROMPT_V1.replace(
     "- Do NOT call `complete_task` in your first turn, and never before you have printed the concrete result you are going to report "
     "(or performed the requested change and seen a success response).\n"
     "- Never ask the user questions; there is no user.")
-PROMPTS = {"v1": SYSTEM_PROMPT_V1, "v2": SYSTEM_PROMPT_V2}
+# v3: v2 + two fixes from the v2 dev traces: 41 "Invalid credentials" came from passwords retyped by hand from the
+# printed list (look them up programmatically instead); long replies hit the output cap (keep turns short).
+SYSTEM_PROMPT_V3 = SYSTEM_PROMPT_V2.replace(
+    "- Most apps need login: `apis.supervisor.show_account_passwords()` gives passwords;",
+    "- Most apps need login. Never retype a password: build a lookup once, `pw = {p['account_name']: p['password'] for p in "
+    "apis.supervisor.show_account_passwords()}`, and log in with `password=pw['<app>']`;").replace(
+    "- Use `print(...)` to see results. Keep each turn small (one or two API calls) so errors are easy to diagnose.",
+    "- Use `print(...)` to see results. Keep each turn small (one or two API calls, well under 40 lines, no long comments) "
+    "so errors are easy to diagnose and your reply is never cut off.")
+assert SYSTEM_PROMPT_V3 != SYSTEM_PROMPT_V2
+PROMPTS = {"v1": SYSTEM_PROMPT_V1, "v2": SYSTEM_PROMPT_V2, "v3": SYSTEM_PROMPT_V3}
 SYSTEM_PROMPT = SYSTEM_PROMPT_V1
 
 _CODE_BLOCK = re.compile(r"```(?:python)?\s*\n(.*?)```", re.DOTALL)
@@ -58,6 +68,10 @@ def parse_code(text: str) -> tuple[str | None, str | None]:
     if m:
         return m[-1].strip(), None
     t = text.strip()
+    if "<invoke" in t or "<function_calls" in t or "<parameter" in t:
+        return None, "fake_tool_call_xml"  # the model emitted a tool-call transcript instead of a code block
+    if t.count("```") == 1:
+        return None, "truncated_code_block"  # opened a fence but never closed it (hit max_tokens)
     if t and ("apis." in t or t.startswith("print(")):
         return t, "no_fence"
     return None, "no_code_block"
@@ -160,7 +174,7 @@ def git_sha() -> str:
 
 
 class LLMAgent:
-    def __init__(self, client: LLMClient, policy, max_steps: int = 25, temperature: float = 0.7, max_tokens: int = 1024,
+    def __init__(self, client: LLMClient, policy, max_steps: int = 25, temperature: float = 0.7, max_tokens: int = 4096,
                  history_turns: int = 12, max_obs_chars: int = 2500, cost_budget_usd: float | None = None, prompt_version: str = "v1",
                  fork_pool=None, step_eval: bool = True):
         """fork_pool: optional ForkPool; when given, every sampled candidate is executed in a forked copy of the
