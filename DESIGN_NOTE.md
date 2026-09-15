@@ -55,7 +55,16 @@ A system emits a **partial history** (a case prefix; an agent trajectory prefix)
 
 Offline the learners are strong (held-out scenarios: validity AUROC 0.97, progress 0.99, regress 1.00); end-to-end nothing moves (differences of 1–2 successes in 60). The oracle explains why: even with the real environment as judge, best-of-3 completes 5 %, because in 1,239 of 1,283 steps *no* sampled candidate advances the checker. The candidate generator, not the picker, is the bottleneck. The offline-vs-online gap the brief asks about appeared twice in the data: a validity-only picker prefers a bare `complete_task()` because it never errors (19/60 episodes end within two steps), and the API-level model cannot see argument mistakes the text model can. Harness bugs found in the traces (truncated replies at my 1,024-token cap, hand-retyped passwords) were fixed in v3 and helped on training tasks (credential errors 95 → 4) but not on dev.
 
-**v4 (in progress): change the generator.** Claude Opus 5, with and without a PERSIST-style **world-frame** (`agentloop/agent/worldframe.py`): a persistent structured state (apps, known APIs with signatures, token variables, entities fetched, last errors, notes) seeded from the task text and the published schema, rendered every turn in place of a long raw-output window. Smoke: two training tasks solved in 7–8 steps where Haiku failed in 17–20. Arms: raw vs world-frame, then world-frame + gates + picker, world-frame + oracle. Numbers land in `results/part2_appworld_v4_*/`.
+**v4: change the generator (Claude Opus 5), with and without a PERSIST-style world-frame.** `agentloop/agent/worldframe.py` keeps a persistent structured state (apps, known APIs with signatures, token variables, entities fetched, last errors, notes) seeded from the task text and the published schema, rendered every turn in place of the long raw-output window (arXiv:2603.03482 applied to tool use). Collection on the 90 train tasks: 70/90 solved (Haiku: 11/90), 9.2 steps, 0.5 invalid actions per episode. Same 30 held-out dev tasks × 2 runs:
+
+| policy (Opus 5) | TGC % | SGC % | invalid % | steps | input tok/step | $ / episode |
+|---|---|---|---|---|---|---|
+| raw history (prompt v3) | 90.0 ± 0.0 | 90.0 | 4.2 | 9.8 | 3,296 | 0.196 |
+| **world-frame (prompt v4)** | **96.7 ± 0.0** | 90.0 | 9.5 | 9.5 | 2,278 | **0.142** |
+| world-frame + gates + progress picker | *running* | | | | | |
+| world-frame + gates + oracle | *running* | | | | | |
+
+The generator was the whole Haiku story: the same harness, tasks and seeds go from ≤ 6.7 % to 90 % by swapping the model. The persistent state then adds four successes in 60 (it rescues an entire scenario the raw agent fails in all six attempts), cuts the context by a third and the cost per episode by 28 %, at the price of more exploratory errors (9.5 % vs 4.2 % invalid actions). Zero run-to-run variance in both arms.
 
 ## 3. Limitations
 

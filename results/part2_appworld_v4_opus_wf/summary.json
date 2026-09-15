@@ -1,0 +1,166 @@
+{
+ "args": {
+  "env": "appworld",
+  "split": "dev",
+  "n_tasks": 30,
+  "tasks": null,
+  "runs": 2,
+  "client": "anthropic",
+  "model": "claude-opus-5",
+  "policy_model": null,
+  "validity_model": null,
+  "prompt_version": "v4",
+  "max_tokens": 4096,
+  "memory": "worldframe",
+  "fork_workers": 0,
+  "workers": 4,
+  "fork_mode": "snapshot",
+  "port_base": 9800,
+  "no_step_eval": false,
+  "gate": false,
+  "policy": "baseline",
+  "n_candidates": 1,
+  "score_mode": "product",
+  "max_steps": 25,
+  "temperature": 0.7,
+  "seed": 100,
+  "noise": 0.3,
+  "skip_baseline": true,
+  "out": "results/part2_appworld_v4_opus_wf"
+ },
+ "tasks": [
+  "4fab96f_1",
+  "4fab96f_2",
+  "4fab96f_3",
+  "fac291d_1",
+  "fac291d_2",
+  "fac291d_3",
+  "57c3486_1",
+  "57c3486_2",
+  "57c3486_3",
+  "37a8675_1",
+  "37a8675_2",
+  "37a8675_3",
+  "383cbac_1",
+  "383cbac_2",
+  "383cbac_3",
+  "68ee2c9_1",
+  "68ee2c9_2",
+  "68ee2c9_3",
+  "0d8a4ee_1",
+  "0d8a4ee_2",
+  "0d8a4ee_3",
+  "530b157_1",
+  "530b157_2",
+  "530b157_3",
+  "23cf851_1",
+  "23cf851_2",
+  "23cf851_3",
+  "50e1ac9_1",
+  "50e1ac9_2",
+  "50e1ac9_3"
+ ],
+ "n_tasks": 30,
+ "reranker": {
+  "n_episodes": 60,
+  "n_runs": 2,
+  "per_run": [
+   {
+    "run_id": "eval-appworld-reranker-r0",
+    "n_episodes": 30,
+    "tgc": 0.9666666666666667,
+    "sgc": 0.9,
+    "invalid_action_rate": 0.09863945578231292,
+    "mean_steps": 9.8,
+    "mean_wall_s": 34.09522419770558,
+    "mean_cost_usd": 0.150468,
+    "termination": {
+     "completed": 29,
+     "max_steps": 0,
+     "error": 1,
+     "budget": 0
+    },
+    "override_rate": 0.0
+   },
+   {
+    "run_id": "eval-appworld-reranker-r1",
+    "n_episodes": 30,
+    "tgc": 0.9666666666666667,
+    "sgc": 0.9,
+    "invalid_action_rate": 0.09157509157509157,
+    "mean_steps": 9.1,
+    "mean_wall_s": 30.283391253153482,
+    "mean_cost_usd": 0.1343355,
+    "termination": {
+     "completed": 30,
+     "max_steps": 0,
+     "error": 0,
+     "budget": 0
+    },
+    "override_rate": 0.0
+   }
+  ],
+  "tgc": {
+   "mean": 0.9666666666666667,
+   "std": 0.0,
+   "runs": [
+    0.9666666666666667,
+    0.9666666666666667
+   ]
+  },
+  "sgc": {
+   "mean": 0.9,
+   "std": 0.0,
+   "runs": [
+    0.9,
+    0.9
+   ]
+  },
+  "invalid_action_rate": {
+   "mean": 0.09510727367870225,
+   "std": 0.0035321821036106774,
+   "runs": [
+    0.09863945578231292,
+    0.09157509157509157
+   ]
+  },
+  "mean_steps": {
+   "mean": 9.45,
+   "std": 0.35000000000000053,
+   "runs": [
+    9.8,
+    9.1
+   ]
+  },
+  "mean_wall_s": {
+   "mean": 32.18930772542953,
+   "std": 1.9059164722760507,
+   "runs": [
+    34.09522419770558,
+    30.283391253153482
+   ]
+  },
+  "mean_cost_usd": {
+   "mean": 0.14240175,
+   "std": 0.008066249999999997,
+   "runs": [
+    0.150468,
+    0.1343355
+   ]
+  },
+  "override_rate": {
+   "mean": 0.0,
+   "std": 0.0,
+   "runs": [
+    0.0,
+    0.0
+   ]
+  },
+  "trace_validation": {
+   "valid": 60,
+   "invalid": 0,
+   "rate": 1.0
+  }
+ },
+ "total_seconds": 496.30346298217773
+}

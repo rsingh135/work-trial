@@ -186,3 +186,10 @@ v2 results so far (prompt v2, 30 dev × 2): baseline 3.3 / gate-only 3.3 / token
 - **Opus 5 client**: no `temperature` (rejected), `output_config.effort=medium`, refusal → llm_error; pricing added.
 - **v4 pipeline** (`scripts/run_part2_v4.sh`, chained after v3, machine held awake): Opus collection on 90 train tasks with world-frame + snapshot forks (budget cap $250) → learners → dev arms: opus_raw (prompt v3), opus_wf (v4), opus_wf+gates+progress picker, opus_wf+oracle. Spend so far $166.
 - Local study site (`studysite/`, gitignored): explainer sections, live result tables, docs, grounded Q&A + quiz on Claude Opus 5 with cached repo context.
+
+## 2026-09-15 (afternoon) — v4 results: the generator was the whole story; world-frame helps at the margin
+
+- Opus 5 raw history, same 30 dev × 2: **90.0% TGC** (Haiku best 6.7%), 4.2% invalid, 9.8 steps, $0.196/episode, zero seed variance.
+- Opus 5 + world-frame (prompt v4): **96.7% TGC**, 9.5% invalid, 9.5 steps, 2,278 vs 3,296 input tokens/step, $0.142/episode. Rescues scenario 50e1ac9 (raw fails all 6 attempts); loses 2 scattered episodes. Collection: 70/90 train tasks solved.
+- Reading: with a capable generator the candidate menu is good and memory mainly buys cost and the hard scenario; picker + oracle arms (running) will show whether selection adds anything on top of a 97% agent.
+- Repo tidied for submission: concise 4-page `DESIGN_NOTE.md` (full version in `docs/`), simpler README, regenerable artefacts untracked, schema example reduced to app→API names; fresh clone verified (19 tests, demo in 3 s).
