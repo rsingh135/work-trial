@@ -129,6 +129,7 @@ def main(argv=None):
     ap.add_argument("--validity-model", default=None, help="tracemodel only: also multiply by the token-level validity scorer (hybrid)")
     ap.add_argument("--prompt-version", default="v1", choices=["v1", "v2"])
     ap.add_argument("--fork-workers", type=int, default=0, help="execute every candidate in a forked env copy (counterfactual labels / oracle); 0 = off")
+    ap.add_argument("--workers", type=int, default=1, help="parallel worker processes (each with its own env server / fork pool)")
     ap.add_argument("--no-step-eval", action="store_true", help="skip per-step evaluator calls (dense progress reward)")
     ap.add_argument("--gate", action="store_true", help="wrap the policy with the schema + progress gates (rule-based, from the published action schema)")
     ap.add_argument("--n-candidates", type=int, default=3)
@@ -155,26 +156,45 @@ def main(argv=None):
     n_ok = n_bad = 0
     total_cost = 0.0
     manifest = {"args": vars(args), "run_id": run_id, "tasks": tasks, "episodes": []}
-    with open(out / "episodes.jsonl", "a") as fh_ok, open(out / "invalid.jsonl", "a") as fh_bad:
-        for r in range(args.runs):
-            seed = args.seed + r
-            client = make_client(args.client, args.model, seed=seed, noise=args.noise)
-            agent = LLMAgent(client, policy, max_steps=args.max_steps, temperature=args.temperature, prompt_version=args.prompt_version,
-                             fork_pool=pool, step_eval=not args.no_step_eval)
-            for t in tasks:
-                if args.cost_budget is not None and total_cost >= args.cost_budget:
-                    print(f"cost budget {args.cost_budget} reached; stopping")
-                    break
-                ep = agent.run_episode(env, t, args.split, run_id=f"{run_id}-r{r}", seed=seed, schema_store=schemas)
-                if _fatal_llm_error(ep):
-                    print(f"FATAL LLM error (billing/auth) — stopping: {ep.steps[0].error.message[:120]}"); break
+    if args.workers > 1:
+        from agentloop.parallel import run_parallel
+        spec = dict(env=args.env, fork_workers=args.fork_workers, policy=args.policy, policy_model=args.policy_model, n_candidates=n_cand,
+                    score_mode=args.score_mode, validity_model=args.validity_model, gate=args.gate, client=args.client, model=args.model, seed=args.seed,
+                    noise=args.noise, max_steps=args.max_steps, temperature=args.temperature, prompt_version=args.prompt_version,
+                    step_eval=not args.no_step_eval, split=args.split, run_tag=run_id)
+        jobs = [(r, t) for r in range(args.runs) for t in tasks]
+        with open(out / "episodes.jsonl", "a") as fh_ok, open(out / "invalid.jsonl", "a") as fh_bad:
+            state = {"ok": 0, "bad": 0, "cost": 0.0}
+            def on_ep(r, t, ep):
                 ok = write_episode(ep, redactor, fh_ok, fh_bad, schemas, out)
-                n_ok += ok; n_bad += (not ok)
-                total_cost += ep.totals.cost_usd
+                state["ok"] += ok; state["bad"] += (not ok); state["cost"] += ep.totals.cost_usd
                 manifest["episodes"].append({"task_id": t, "run": r, "episode_id": ep.episode_id, "success": ep.final_eval.success, "steps": ep.totals.steps,
                                              "invalid_actions": ep.totals.invalid_actions, "cost_usd": ep.totals.cost_usd, "termination": ep.termination_reason.value, "valid_trace": ok})
                 print(f"[{run_id}] run={r} task={t} success={ep.final_eval.success} steps={ep.totals.steps} invalid={ep.totals.invalid_actions} "
-                      f"term={ep.termination_reason.value} cost=${ep.totals.cost_usd:.3f} (total ${total_cost:.2f})", flush=True)
+                      f"term={ep.termination_reason.value} cost=${ep.totals.cost_usd:.3f} (total ${state['cost']:.2f})", flush=True)
+            schemas.update(run_parallel(spec, jobs, args.workers, on_ep))
+            n_ok, n_bad, total_cost = state["ok"], state["bad"], state["cost"]
+    else:
+      with open(out / "episodes.jsonl", "a") as fh_ok, open(out / "invalid.jsonl", "a") as fh_bad:
+          for r in range(args.runs):
+              seed = args.seed + r
+              client = make_client(args.client, args.model, seed=seed, noise=args.noise)
+              agent = LLMAgent(client, policy, max_steps=args.max_steps, temperature=args.temperature, prompt_version=args.prompt_version,
+                               fork_pool=pool, step_eval=not args.no_step_eval)
+              for t in tasks:
+                  if args.cost_budget is not None and total_cost >= args.cost_budget:
+                      print(f"cost budget {args.cost_budget} reached; stopping")
+                      break
+                  ep = agent.run_episode(env, t, args.split, run_id=f"{run_id}-r{r}", seed=seed, schema_store=schemas)
+                  if _fatal_llm_error(ep):
+                      print(f"FATAL LLM error (billing/auth) — stopping: {ep.steps[0].error.message[:120]}"); break
+                  ok = write_episode(ep, redactor, fh_ok, fh_bad, schemas, out)
+                  n_ok += ok; n_bad += (not ok)
+                  total_cost += ep.totals.cost_usd
+                  manifest["episodes"].append({"task_id": t, "run": r, "episode_id": ep.episode_id, "success": ep.final_eval.success, "steps": ep.totals.steps,
+                                               "invalid_actions": ep.totals.invalid_actions, "cost_usd": ep.totals.cost_usd, "termination": ep.termination_reason.value, "valid_trace": ok})
+                  print(f"[{run_id}] run={r} task={t} success={ep.final_eval.success} steps={ep.totals.steps} invalid={ep.totals.invalid_actions} "
+                        f"term={ep.termination_reason.value} cost=${ep.totals.cost_usd:.3f} (total ${total_cost:.2f})", flush=True)
     for h, s in schemas.items():
         p = out / "schemas" / f"{h}.json"
         if not p.exists():
