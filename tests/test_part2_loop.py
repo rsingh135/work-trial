@@ -166,3 +166,20 @@ def test_gate_keeps_counterfactuals_aligned():
     idx, scores, meta = pol.choose({"action_schema": schema, "history": [{"code": "v = apis.store.get('k')", "error_type": None}], "counterfactuals": cfs},
                                    ["print(apis.store.list())", "apis.supervisor.complete_task(answer=v)", "print(apis.store.get('z'))"])
     assert idx == 1 and meta["gate_rejected"] == [0]
+
+
+def test_worldframe_seed_update_render():
+    from agentloop.agent.worldframe import WorldFrame
+    schema = {"apps": {"spotify": ["login", "show_playlist_library", "like_song"], "venmo": ["login", "send_money"]},
+              "api_docs": {"spotify": {"login": {"parameters": [{"name": "username", "required": True}, {"name": "password", "required": True}]}}}}
+    wf = WorldFrame(); wf.seed("What is the most-liked song in my Spotify playlists?", schema)
+    assert wf.seeded == ["spotify"] and wf.apis["spotify"]["login"] == "(username, password)" and "venmo" not in wf.apps
+    wf.update("tok = apis.spotify.login(username='a', password='b')['access_token']", "Execution successful.", None)
+    assert wf.auth["spotify"] == "tok"
+    wf.update("pl = apis.spotify.show_playlist_library(access_token=tok)\nprint(pl)", '[{"playlist_id": 4, "title": "x"}, {"playlist_id": 9, "title": "y"}]', None)
+    assert wf.entities["spotify.show_playlist_library"]["count"] == 2 and wf.entities["spotify.show_playlist_library"]["id_field"] == "playlist_id"
+    wf.update("apis.spotify.get_songs()", "Execution failed", {"type": "api_error", "message": "No APIs with name get_songs"})
+    assert "spotify.get_songs" in wf.errors
+    wf.update('note("playlist 4 is the big one")', "Execution successful.", None)
+    r = wf.render()
+    assert "token var = tok" in r and "get_songs" in r and "playlist 4 is the big one" in r and "World state" in r

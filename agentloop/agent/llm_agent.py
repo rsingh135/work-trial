@@ -8,6 +8,7 @@ protocol so a scripted client can drive the loop in tests / the no-API-key demo.
 from __future__ import annotations
 
 import hashlib
+import os
 import re
 import subprocess
 import time
@@ -23,7 +24,8 @@ from agentloop.schema import (Candidate, Counterfactual, Episode, ErrorInfo, Fin
 PRICES = {
     "claude-haiku-4-5": (1.0, 5.0, 1.25, 0.10),
     "claude-haiku-4-5-20251001": (1.0, 5.0, 1.25, 0.10),
-    "claude-sonnet-5": (3.0, 15.0, 3.75, 0.30),
+    "claude-sonnet-5": (2.0, 10.0, 2.50, 0.20),
+    "claude-opus-5": (5.0, 25.0, 6.25, 0.50),
 }
 
 SYSTEM_PROMPT_V1 = """You are an autonomous assistant completing tasks for your supervisor inside a sandboxed "app world".
@@ -57,7 +59,10 @@ SYSTEM_PROMPT_V3 = SYSTEM_PROMPT_V2.replace(
     "- Use `print(...)` to see results. Keep each turn small (one or two API calls, well under 40 lines, no long comments) "
     "so errors are easy to diagnose and your reply is never cut off.")
 assert SYSTEM_PROMPT_V3 != SYSTEM_PROMPT_V2
-PROMPTS = {"v1": SYSTEM_PROMPT_V1, "v2": SYSTEM_PROMPT_V2, "v3": SYSTEM_PROMPT_V3}
+# v4: v3 + the persistent world state block (PERSIST-style memory) rendered into the first user turn.
+SYSTEM_PROMPT_V4 = SYSTEM_PROMPT_V3 + """
+- A "World state" block is maintained for you and shown every turn: apps involved, API names that actually exist (with signatures once you read their doc), which variable holds each app's access token, what records you already fetched, recent errors, and your notes. Trust it over your memory: call only listed APIs, reuse the token variables, do not re-fetch records already seen, and never repeat a listed error. To remember a fact for later turns, put a line note("...") in your code."""
+PROMPTS = {"v1": SYSTEM_PROMPT_V1, "v2": SYSTEM_PROMPT_V2, "v3": SYSTEM_PROMPT_V3, "v4": SYSTEM_PROMPT_V4}
 SYSTEM_PROMPT = SYSTEM_PROMPT_V1
 
 _CODE_BLOCK = re.compile(r"```(?:python)?\s*\n(.*?)```", re.DOTALL)
@@ -103,18 +108,22 @@ class AnthropicClient:
     # Models that still accept sampling parameters (anthropic SDK 1.x removed `temperature` as a named
     # argument; Opus 5 / Sonnet 5 / Fable reject it with a 400, Haiku 4.5 accepts it via extra_body).
     SAMPLING_OK = ("claude-haiku-4-5",)
+    EFFORT = os.environ.get("AGENT_EFFORT", "medium")  # reasoning effort for models that support it (Opus 5 / Sonnet 5)
 
     def complete(self, system, messages, temperature, max_tokens) -> LLMResponse:
         t0 = time.time()
         extra = {"temperature": temperature} if self.model_id.startswith(self.SAMPLING_OK) else {}
-        import os
         ws = os.environ.get("ANTHROPIC_WORKSPACE_ID")  # required when the API key is org-scoped rather than workspace-scoped
         kw = {"workspace_id": ws} if ws else {}
+        if not self.model_id.startswith(self.SAMPLING_OK):
+            kw["output_config"] = {"effort": self.EFFORT}  # Opus 5 rejects temperature; diversity comes from its own sampling
         r = self._client.messages.create(
             model=self.model_id, max_tokens=max_tokens,
             system=[{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
             messages=messages, extra_body=extra, **kw,
         )
+        if getattr(r, "stop_reason", None) == "refusal":
+            raise RuntimeError("refusal: " + str(getattr(r, "stop_details", "")))
         u = r.usage
         p = PRICES.get(self.model_id, (0, 0, 0, 0))
         cr, cw = getattr(u, "cache_read_input_tokens", 0) or 0, getattr(u, "cache_creation_input_tokens", 0) or 0
@@ -179,12 +188,13 @@ def git_sha() -> str:
 class LLMAgent:
     def __init__(self, client: LLMClient, policy, max_steps: int = 25, temperature: float = 0.7, max_tokens: int = 1024,
                  history_turns: int = 12, max_obs_chars: int = 2500, cost_budget_usd: float | None = None, prompt_version: str = "v1",
-                 fork_pool=None, step_eval: bool = True, fork_mode: str = "replay"):
+                 fork_pool=None, step_eval: bool = True, fork_mode: str = "replay", memory: str = "raw", history_turns_wf: int = 4):
         """fork_pool: optional ForkPool; when given, every sampled candidate is executed in a forked copy of the
         environment before the policy chooses (counterfactual labels; needed by the oracle lookahead policy).
         step_eval: call env.evaluate() after every step and record the evaluator's pass count (dense progress)."""
         self.client, self.policy = client, policy
         self.fork_pool, self.step_eval, self.fork_mode = fork_pool, step_eval, fork_mode
+        self.memory, self.history_turns_wf = memory, history_turns_wf  # "raw" (window of tool outputs) | "worldframe" (persistent state + short window)
         self.system_prompt = PROMPTS[prompt_version]
         self.strict_parse = prompt_version not in ("v1", "v2")
         self.max_steps, self.temperature, self.max_tokens = max_steps, temperature, max_tokens
@@ -192,9 +202,10 @@ class LLMAgent:
         self.cost_budget = cost_budget_usd
         self.prompt_hash = hashlib.sha256(self.system_prompt.encode()).hexdigest()[:12]
 
-    def _messages(self, task_text: str, turns: list[tuple[str, str]]) -> list[dict[str, str]]:
-        msgs = [{"role": "user", "content": task_text}]
-        kept = turns[-self.history_turns:]
+    def _messages(self, task_text: str, turns: list[tuple[str, str]], world: str | None = None) -> list[dict[str, str]]:
+        head = task_text if world is None else f"{task_text}\n\n{world}"
+        msgs = [{"role": "user", "content": head}]
+        kept = turns[-(self.history_turns_wf if world is not None else self.history_turns):]
         dropped = len(turns) - len(kept)
         if dropped:
             msgs[0]["content"] += f"\n\n[{dropped} earlier turns omitted; variables defined there still exist.]"
@@ -220,6 +231,12 @@ class LLMAgent:
         turns: list[tuple[str, str]] = []
         history: list[dict] = []  # structured trajectory so far, for sequence-model policies
         executed_actions: list[dict] = []  # for replay-forking
+        wf = None
+        if self.memory == "worldframe":
+            from agentloop.agent.worldframe import WorldFrame
+            wf = WorldFrame()
+            wf.seed(ep.task_instruction, schema)
+            ep.task_meta = {**ep.task_meta, "worldframe_seeded_apps": wf.seeded}
         current_obs = obs.text
         last_error, last_code, n_prev_errors, invalid = None, None, 0, 0
         termination = TerminationReason.max_steps
@@ -232,7 +249,7 @@ class LLMAgent:
             except Exception:
                 passes = None
         for i in range(self.max_steps):
-            msgs = self._messages(obs.text, turns)
+            msgs = self._messages(obs.text, turns, wf.render() if wf is not None else None)
             candidates: list[Candidate] = []
             codes: list[str] = []
             step_usage = Usage()
@@ -313,6 +330,9 @@ class LLMAgent:
                                  usage=step_usage, policy_meta=meta))
             if code:
                 executed_actions.append({"type": "execute_code", "code": code})
+                if wf is not None:
+                    wf.update(code, res_obs, err)
+                    ep.steps[-1].policy_meta = {**ep.steps[-1].policy_meta, "worldframe": wf.to_dict()}
             turns.append((code or "(no code)", res_obs))
             history.append({"code": code or "", "error_type": err["type"] if err else None, "timestamp": time.time()})
             current_obs, last_error, last_code = res_obs, (err["message"] if err else None), code
