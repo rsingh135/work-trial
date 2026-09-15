@@ -197,3 +197,7 @@ v2 results so far (prompt v2, 30 dev × 2): baseline 3.3 / gate-only 3.3 / token
 ## 2026-09-15 (afternoon) — v4 complete
 
 Opus 5, same 30 dev × 2: raw 90.0% → world-frame 96.7% → world-frame + gates + progress picker 96.7% (invalid 9.5→4.9%, steps 9.5→8.8, 2.8× cost) → world-frame + gates + oracle **100% TGC and SGC**. Zero seed variance in all four arms. Total Part 2 spend $270. Reading: the picker's value equals the gap between the generator's menu and the checker's optimum — zero for Haiku (empty menu), efficiency for Opus, and the last scenarios only with the environment in the loop. Docs updated; site tables update live.
+
+## 2026-09-15 (evening) — pre-release redaction audit
+
+Scanned every committed trace (1,625 episodes, 89 MB) for secret-shaped strings. Rules v1 missed three shapes: assignments with a prefixed name (`venmo_password = '…'`, `\b` fails on `_`), strings truncated by the token limit (no closing quote), and hallucinated two-segment JWTs. Also the dict-key rule re-hashed already-redacted values on a second pass. Rules v2 fix all four, are idempotent (tested), and every committed trace was re-redacted in place (986 additional redactions, 0 validation failures, second pass a no-op). All values involved are AppWorld's synthetic persona credentials, so the exposure was nil, but the README's claim is now true of the files.

@@ -44,7 +44,7 @@ Policies: `baseline`, `reranker` (token scorer; `--score-mode valid|success|prod
 
 Trace layout per run: `episodes.jsonl` (one validated, redacted `Episode` per line, schema `agentloop/schema.py` 1.1.0), `schemas/<sha256>.json` (action space, referenced per step), `manifest.json`, `invalid.jsonl` (never dropped silently). Examples: `traces/examples/`.
 
-**Redaction** (`agentloop/redaction.py`, v1): values of keys matching `password|passwd|secret|api_key|apikey|access_token|auth_token|token|verification_code|otp`, the same keyword arguments in code, and JWT-shaped blobs become `<REDACTED:8-hex salted sha256>` at write time. Synthetic supervisor persona fields are kept (referenced by task text); add them to `SECRET_KEYS` for real data.
+**Redaction** (`agentloop/redaction.py`, rules v2): values of keys matching `password|passwd|secret|api_key|apikey|access_token|auth_token|token|verification_code|otp` (quoted or bare), any code assignment or keyword argument whose name contains one of those words (`venmo_password = '…'`, including strings cut off by the token limit), and JWT-shaped blobs (two or more `eyJ…` segments) become `<REDACTED:8-hex salted sha256>` at write time; redaction is idempotent. v1 missed the prefixed-name, truncated-string and two-segment cases; all committed traces were re-redacted under v2 before release (each episode's `redaction` field records the rules version). Synthetic supervisor persona fields (name, e-mail, phone) are kept because the task text references them; add them to `SECRET_KEYS` for real data.
 
 **Adding a benchmark**: implement `agentloop/envs/base.py::Env` (six methods) and register it in `agentloop/collect.py::make_env`. Nothing else changes; the token scorer's featuriser assumes a `code` string.
 

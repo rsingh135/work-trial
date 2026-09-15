@@ -54,6 +54,12 @@ def test_redaction_rules():
     assert "a@b.com" in out  # non-secret values untouched
     d = r.obj({"steps": [{"tool_result": "password: 'x'", "meta": {"api_key": "K123"}}]})
     assert d["steps"][0]["meta"]["api_key"].startswith("<REDACTED:")
+    # v2: prefixed names, strings truncated by the token limit, two-segment JWTs (all seen in real traces)
+    s2 = "venmo_password = 'b8E]-&R'\nr = apis.venmo.get(access_token='5e6c7b8f-3a2d\nprint(1)\nt=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZWRfd2lsc29uIn0\""
+    o2 = Redactor(salt="s").text(s2)
+    assert "b8E]-&R" not in o2 and "5e6c7b8f" not in o2 and "eyJhbGci" not in o2 and "print(1)" in o2
+    assert Redactor(salt="t").text(o2) == o2  # idempotent: already-redacted values are not re-hashed
+    assert Redactor(salt="t").obj(d) == d
 
 
 def test_parse_code():
