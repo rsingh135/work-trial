@@ -179,12 +179,12 @@ def git_sha() -> str:
 class LLMAgent:
     def __init__(self, client: LLMClient, policy, max_steps: int = 25, temperature: float = 0.7, max_tokens: int = 1024,
                  history_turns: int = 12, max_obs_chars: int = 2500, cost_budget_usd: float | None = None, prompt_version: str = "v1",
-                 fork_pool=None, step_eval: bool = True):
+                 fork_pool=None, step_eval: bool = True, fork_mode: str = "replay"):
         """fork_pool: optional ForkPool; when given, every sampled candidate is executed in a forked copy of the
         environment before the policy chooses (counterfactual labels; needed by the oracle lookahead policy).
         step_eval: call env.evaluate() after every step and record the evaluator's pass count (dense progress)."""
         self.client, self.policy = client, policy
-        self.fork_pool, self.step_eval = fork_pool, step_eval
+        self.fork_pool, self.step_eval, self.fork_mode = fork_pool, step_eval, fork_mode
         self.system_prompt = PROMPTS[prompt_version]
         self.strict_parse = prompt_version not in ("v1", "v2")
         self.max_steps, self.temperature, self.max_tokens = max_steps, temperature, max_tokens
@@ -259,13 +259,24 @@ class LLMAgent:
                 termination = TerminationReason.error
                 break
             # counterfactual execution of every candidate in a forked copy (label-time / lookahead)
-            if self.fork_pool is not None:
+            if self.fork_pool is not None or (self.fork_mode == "snapshot" and hasattr(env, "try_candidates")):
                 cfs = []
-                for code in codes:
+                trials = None
+                if self.fork_mode == "snapshot" and hasattr(env, "try_candidates"):
+                    try:
+                        trials = env.try_candidates([{"type": "execute_code", "code": c} if c else None for c in codes])
+                    except Exception:
+                        trials = None
+                for k, code in enumerate(codes):
                     if not code:
                         cfs.append(None); continue
                     try:
-                        r_cf, ev_cf = self.fork_pool.try_candidate(task_id, executed_actions, {"type": "execute_code", "code": code}, seed=seed)
+                        if trials is not None:
+                            if trials[k] is None:
+                                cfs.append(None); continue
+                            r_cf, ev_cf = trials[k]
+                        else:
+                            r_cf, ev_cf = self.fork_pool.try_candidate(task_id, executed_actions, {"type": "execute_code", "code": code}, seed=seed)
                         cfs.append(Counterfactual(error=ErrorInfo(**r_cf.error) if r_cf.error else None, passes_before=passes or 0,
                                                   passes_after=len(ev_cf.passes), failures_after=len(ev_cf.failures), done=r_cf.done,
                                                   result_head=r_cf.observation[:200]))

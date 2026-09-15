@@ -70,6 +70,17 @@ class MockEnv:
             return StepResult("Execution successful.", None, True)
         return StepResult("Execution failed. Traceback:\nNameError: unknown api", {"type": "runtime_error", "message": "NameError: unknown api"}, False)
 
+    def try_candidates(self, actions):
+        out = []
+        for a in actions:
+            if not a or not a.get("code"):
+                out.append(None); continue
+            snap = (dict(self._store), self._answer, self._done, self._steps)
+            r = self.step(a); ev = self.evaluate()
+            out.append((r, ev))
+            self._store, self._answer, self._done, self._steps = dict(snap[0]), snap[1], snap[2], snap[3]
+        return out
+
     def action_schema(self) -> dict[str, Any]:
         return {"action_language": "execute_code", "apps": {"store": ["get", "keys"], "supervisor": ["complete_task"]}}
 

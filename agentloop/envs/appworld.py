@@ -134,6 +134,29 @@ class AppWorldEnv:
         obs = out if len(out) <= self.max_output_chars else out[: self.max_output_chars] + f"\n...[truncated {len(out) - self.max_output_chars} chars]"
         return StepResult(observation=obs, error=err, done=done, info={"raw_len": len(out), "api_calls": extract_api_calls(action["code"])})
 
+    # -------------------------------------------------------------- snapshot forking (O(1) per candidate)
+    _NS_SNAP = "__ns_snap = {k: v for k, v in globals().items() if not k.startswith('__')}"
+    _NS_RESTORE = ("for __k in [k for k in globals() if not k.startswith('__') and k not in __ns_snap]: del globals()[__k]\n"
+                   "globals().update(__ns_snap)")
+
+    def try_candidates(self, actions: list[dict[str, Any]]) -> list[tuple[StepResult, EvalResult] | None]:
+        """Execute each candidate from the *current* state and roll back: AppWorld's checkpoint restores the app
+        databases, and a namespace snapshot restores the Python shell. Verified equivalent to replay-forking."""
+        assert self._task_id
+        sid = f"cf{int(time.time() * 1000) % 10_000_000}"
+        self._post("/save_state", {"task_id": self._task_id, "state_id": sid})
+        out = []
+        for a in actions:
+            if not a or not a.get("code"):
+                out.append(None); continue
+            self._post("/execute", {"task_id": self._task_id, "code": self._NS_SNAP})
+            r = self.step(a)
+            ev = self.evaluate()
+            out.append((r, ev))
+            self._post("/load_state", {"task_id": self._task_id, "state_id": sid})
+            self._post("/execute", {"task_id": self._task_id, "code": self._NS_RESTORE})
+        return out
+
     def action_schema(self) -> dict[str, Any]:
         if self._schema_cache is None:
             docs = self._get("/api_docs")

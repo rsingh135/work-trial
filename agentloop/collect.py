@@ -131,6 +131,8 @@ def main(argv=None):
     ap.add_argument("--max-tokens", type=int, default=1024, help="LLM output cap per turn (v1/v2 experiments used 1024)")
     ap.add_argument("--fork-workers", type=int, default=0, help="execute every candidate in a forked env copy (counterfactual labels / oracle); 0 = off")
     ap.add_argument("--workers", type=int, default=1, help="parallel worker processes (each with its own env server / fork pool)")
+    ap.add_argument("--fork-mode", default="snapshot", choices=["snapshot", "replay"], help="snapshot: try candidates on the main world with DB+namespace rollback (O(1)); replay: separate fork servers replaying the prefix")
+    ap.add_argument("--port-base", type=int, default=9300, help="first port for worker env servers (give concurrent pipelines disjoint ranges)")
     ap.add_argument("--no-step-eval", action="store_true", help="skip per-step evaluator calls (dense progress reward)")
     ap.add_argument("--gate", action="store_true", help="wrap the policy with the schema + progress gates (rule-based, from the published action schema)")
     ap.add_argument("--n-candidates", type=int, default=3)
@@ -147,7 +149,8 @@ def main(argv=None):
     out = Path(args.out)
     (out / "schemas").mkdir(parents=True, exist_ok=True)
     env = make_env(args.env)
-    pool = make_fork_pool(args.env, args.fork_workers)
+    pool = make_fork_pool(args.env, args.fork_workers) if args.fork_mode == "replay" else None
+    fork_on = args.fork_workers > 0
     tasks = args.tasks or select_tasks(env, args.split, args.n_tasks, args.seed)
     n_cand = args.n_candidates if (args.policy != "baseline" or args.fork_workers > 0) else 1
     policy = make_policy(args.policy, args.policy_model, n_cand, args.score_mode, args.validity_model, args.gate)
@@ -162,7 +165,7 @@ def main(argv=None):
         spec = dict(env=args.env, fork_workers=args.fork_workers, policy=args.policy, policy_model=args.policy_model, n_candidates=n_cand,
                     score_mode=args.score_mode, validity_model=args.validity_model, gate=args.gate, client=args.client, model=args.model, seed=args.seed,
                     noise=args.noise, max_steps=args.max_steps, temperature=args.temperature, prompt_version=args.prompt_version,
-                    step_eval=not args.no_step_eval, split=args.split, run_tag=run_id, max_tokens=args.max_tokens)
+                    step_eval=not args.no_step_eval, split=args.split, run_tag=run_id, max_tokens=args.max_tokens, fork_mode=args.fork_mode, port_base=args.port_base)
         jobs = [(r, t) for r in range(args.runs) for t in tasks]
         with open(out / "episodes.jsonl", "a") as fh_ok, open(out / "invalid.jsonl", "a") as fh_bad:
             state = {"ok": 0, "bad": 0, "cost": 0.0}

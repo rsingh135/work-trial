@@ -19,10 +19,22 @@ _G: dict[str, Any] = {}
 def _init(spec: dict[str, Any], wid_queue) -> None:
     os.environ.setdefault("OMP_NUM_THREADS", "2")
     from agentloop.collect import make_client, make_env, make_fork_pool, make_policy
+    import atexit
     wid = wid_queue.get()
-    port = BASE_PORT + PORT_STRIDE * wid
+    port = spec.get("port_base", BASE_PORT) + PORT_STRIDE * wid
     _G["env"] = make_env(spec["env"], port=port)
-    _G["pool"] = make_fork_pool(spec["env"], spec["fork_workers"], base_port=port + 1)
+    _G["pool"] = make_fork_pool(spec["env"], spec["fork_workers"], base_port=port + 1) if spec.get("fork_mode", "snapshot") == "replay" else None
+    _G["fork_on"] = spec["fork_workers"] > 0
+
+    def _cleanup():  # workers exit without the parent's shutdown path; orphaned servers would keep the ports busy
+        try:
+            if _G.get("pool") is not None:
+                _G["pool"].shutdown()
+            if hasattr(_G.get("env"), "shutdown"):
+                _G["env"].shutdown()
+        except Exception:
+            pass
+    atexit.register(_cleanup)
     _G["policy"] = make_policy(spec["policy"], spec["policy_model"], spec["n_candidates"], spec["score_mode"], spec["validity_model"], spec["gate"])
     _G["clients"] = {}
     _G["spec"] = spec
@@ -36,7 +48,8 @@ def _run_job(r: int, task: str) -> tuple[int, str, str, dict]:
     if r not in _G["clients"]:
         _G["clients"][r] = _G["make_client"](spec["client"], spec["model"], seed=spec["seed"] + r, noise=spec["noise"])
     agent = LLMAgent(_G["clients"][r], _G["policy"], max_steps=spec["max_steps"], temperature=spec["temperature"],
-                     prompt_version=spec["prompt_version"], fork_pool=_G["pool"], step_eval=spec["step_eval"], max_tokens=spec.get("max_tokens", 1024))
+                     prompt_version=spec["prompt_version"], fork_pool=_G["pool"], step_eval=spec["step_eval"], max_tokens=spec.get("max_tokens", 1024),
+                     fork_mode=spec.get("fork_mode", "snapshot") if _G["fork_on"] else "replay")
     ep = agent.run_episode(_G["env"], task, spec["split"], run_id=f"{spec['run_tag']}-r{r}", seed=spec["seed"] + r, schema_store=_G["schemas"])
     return r, task, ep.model_dump_json(), dict(_G["schemas"])
 
