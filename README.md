@@ -5,7 +5,7 @@ Two parts, one idea: keep a compact **state** of a partially observed history an
 * **Part 1** (`bpm/`): a multi-head sequence model over business-process event logs (BPI 2013 + 2020) that predicts the next activity, time to next event, remaining time and multi-step suffixes; compared with Markov and gradient-boosted baselines under random, chronological (leaky and strict) and cross-log shift; reproduces the published BPI2013 protocol.
 * **Part 2** (`agentloop/`): a benchmark-agnostic loop that runs an LLM agent, records complete versioned traces, builds training examples, trains small models and puts them back into the agent; AppWorld is the first adapter, a mock world the second.
 
-Read in this order: `DESIGN_NOTE.md` (4 pages) → `results/SUMMARY.md` → `PROGRESS.md` (every decision, dated, with reasons). Plain-language version: `docs/WORLD_MODEL_EXPLAINED.md`. Full-detail appendix: `docs/DESIGN_NOTE_FULL.md`.
+Read in this order: **`docs/report.html`** (self-contained results page: open it in a browser) → `DESIGN_NOTE.md` (4 pages) → `results/SUMMARY.md` → `PROGRESS.md` (every decision, dated, with reasons). Plain-language version: `docs/WORLD_MODEL_EXPLAINED.md`. Full-detail appendix: `docs/DESIGN_NOTE_FULL.md`.
 
 ## Setup
 
